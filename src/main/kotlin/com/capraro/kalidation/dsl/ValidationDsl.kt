@@ -15,7 +15,7 @@ import kotlin.reflect.KProperty1
 fun validationSpec(block: ValidationSpec.() -> Unit): ValidationSpec {
     val validationSpec = ValidationSpec()
     block(validationSpec)
-    HibernateValidatorFactory(validationSpec).build()
+    validationSpec.validator = HibernateValidatorFactory(validationSpec).build()
     return validationSpec
 }
 

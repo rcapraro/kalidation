@@ -1,5 +1,10 @@
 package com.capraro.kalidation.spec
 
+import arrow.data.Invalid
+import arrow.data.Valid
+import arrow.data.Validated
+import javax.validation.ConstraintViolation
+import javax.validation.Validator
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 
@@ -13,7 +18,18 @@ import kotlin.reflect.KProperty1
  * Validation Spec class.
  * This 'root' class contains a list of [Constraint].
  */
-data class ValidationSpec(val constraints: MutableList<Constraint<out Any>> = mutableListOf())
+data class ValidationSpec(val constraints: MutableList<Constraint<out Any>> = mutableListOf()) {
+    internal lateinit var validator: Validator
+
+    fun validate(constrainedClass: Any): Validated<Set<ConstraintViolation<Any>>, Boolean> {
+        val set = validator.validate(constrainedClass)
+        return if (set.size == 0) {
+            Valid(true)
+        } else {
+            Invalid(set)
+        }
+    }
+}
 
 /**
  * Class constraints.

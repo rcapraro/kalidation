@@ -4,7 +4,6 @@ import com.capraro.kalidation.constraints.min
 import com.capraro.kalidation.dsl.constraints
 import com.capraro.kalidation.dsl.property
 import com.capraro.kalidation.dsl.validationSpec
-import com.capraro.kalidation.implementation.HibernateValidatorFactory
 import org.junit.jupiter.api.Test
 import java.math.BigDecimal
 
@@ -25,11 +24,9 @@ class NumberValidationTest {
                 }
             }
         }
-        val validator = HibernateValidatorFactory(spec).build()
-        val test = NumberTestClass(3, BigDecimal("400.60"))
 
-        val violations = validator.validate(test)
-        println(violations)
+        val test = NumberTestClass(3, BigDecimal("400.60"))
+        println(spec.validate(test))
 
     }
 }

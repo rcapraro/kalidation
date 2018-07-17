@@ -74,7 +74,7 @@ class HibernateValidatorFactory(private val spec: ValidationSpec) {
         }
     }
 
-    fun build(): Validator {
+    internal fun build(): Validator {
         val constraintMapping = createConstraintMapping(spec)
         val config = Validation.byProvider(HibernateValidator::class.java).configure()
         config.addMapping(constraintMapping)

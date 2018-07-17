@@ -2,55 +2,67 @@ import com.capraro.kalidation.constraints.*
 import com.capraro.kalidation.dsl.constraints
 import com.capraro.kalidation.dsl.property
 import com.capraro.kalidation.dsl.validationSpec
-import com.capraro.kalidation.implementation.HibernateValidatorFactory
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.tuple
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.fail
 
-private class TestClass1(val sField: String, val iField: Int, val bField: Boolean)
-private class TestClass2(val sField: String, val iField: Int?, val bField: Boolean)
+private class StringAndBooleanTestClass(val sField: String, val iField: Int, val bField: Boolean)
 
 class StringValidationTest {
 
     @Test
     fun `test validation of String fields`() {
         val spec = validationSpec {
-            constraints<TestClass1> {
-                property(TestClass1::sField) {
+            constraints<StringAndBooleanTestClass> {
+                property(StringAndBooleanTestClass::sField) {
                     notBlank()
                     notEmpty()
                     notNull()
-                }
-                property(TestClass1::bField) {
-                    assertFalse()
-                }
-            }
-            constraints<TestClass2> {
-                property(TestClass2::sField) {
-                    size(3, 5)
-                    notBlank()
                     inValues("toto", "titi")
-                }
-                property(TestClass2::iField) {
-                    notNull()
+                    size(3, 5)
                 }
             }
         }
-        val validator = HibernateValidatorFactory(spec).build()
-        val dslTest1 = TestClass1("", 3, true)
-        val dslTest2 = TestClass2("hello world", null, false)
+        val dslTest = StringAndBooleanTestClass("", 3, true)
 
-        val violations1 = validator.validate(dslTest1)
-        assert(violations1.isNotEmpty())
-        println(violations1)
-        assertThat(violations1)
-                .extracting("propertyPath.currentLeafNode.name", "constraintDescriptor.annotationDescriptor.type.name")
-                .containsOnly(tuple("sField", "javax.validation.constraints.NotEmpty"),
-                        tuple("sField", "javax.validation.constraints.NotBlank"),
-                        tuple("bField", "javax.validation.constraints.AssertFalse"))
+        val validated = spec.validate(dslTest)
 
-        val violations2 = validator.validate(dslTest2)
-        assert(violations2.isNotEmpty())
-        println(violations2)
+        assert(validated.isInvalid)
+
+        validated.fold(
+                {
+                    assertThat(it).extracting("propertyPath.currentLeafNode.name", "constraintDescriptor.annotationDescriptor.type.name")
+                            .containsOnly(tuple("sField", "javax.validation.constraints.NotEmpty"),
+                                    tuple("sField", "javax.validation.constraints.NotBlank"),
+                                    tuple("sField", "com.capraro.kalidation.constraints.annotation.Values"),
+                                    tuple("sField", "javax.validation.constraints.Size"))
+                },
+                { fail("The validation should not be valid") }
+        )
+    }
+
+    @Test
+    fun `test validation of Boolean fields`() {
+        val spec = validationSpec {
+            constraints<StringAndBooleanTestClass> {
+                property(StringAndBooleanTestClass::bField) {
+                    assertFalse()
+                }
+            }
+        }
+        val dslTest = StringAndBooleanTestClass("", 3, true)
+
+        val validated = spec.validate(dslTest)
+
+        assert(validated.isInvalid)
+
+        validated.fold(
+                {
+                    assertThat(it).extracting("propertyPath.currentLeafNode.name", "constraintDescriptor.annotationDescriptor.type.name")
+                            .containsOnly(tuple("bField", "javax.validation.constraints.AssertFalse"))
+                },
+                { fail("The validation should not be valid") }
+        )
     }
 }
