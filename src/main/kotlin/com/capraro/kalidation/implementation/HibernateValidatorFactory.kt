@@ -61,6 +61,8 @@ class HibernateValidatorFactory(private val spec: ValidationSpec) {
             is StringNotEmpty -> ConstraintRuleTranslator<StringNotEmpty> { NotEmptyDef() }.translate(rule)
             is StringSize -> ConstraintRuleTranslator<StringSize> { SizeDef().min(it.min).max(it.max) }.translate(rule)
             is InValues -> ConstraintRuleTranslator<InValues> { ValuesDef().values(it.values.toTypedArray()) }.translate(rule)
+            is Email -> ConstraintRuleTranslator<Email> { EmailDef() }.translate(rule)
+            is Regexp -> ConstraintRuleTranslator<Regexp> { PatternDef().regexp(it.regexp) }.translate(rule)
             is Min -> ConstraintRuleTranslator<Min> { MinDef().value(it.value.toLong()) }.translate(rule)
             is Max -> ConstraintRuleTranslator<Max> { MaxDef().value(it.value) }.translate(rule)
             is DecimalMin -> ConstraintRuleTranslator<DecimalMin> { DecimalMinDef().value(it.value).inclusive(it.inclusive) }.translate(rule)

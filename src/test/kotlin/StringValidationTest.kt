@@ -7,7 +7,7 @@ import org.assertj.core.api.Assertions.tuple
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
 
-private class StringAndBooleanTestClass(val sField: String, val iField: Int, val bField: Boolean)
+private class StringAndBooleanTestClass(val stringField: String, val emailField: String, val booleanField: Boolean)
 
 class StringValidationTest {
 
@@ -15,16 +15,21 @@ class StringValidationTest {
     fun `test validation of String fields`() {
         val spec = validationSpec {
             constraints<StringAndBooleanTestClass> {
-                property(StringAndBooleanTestClass::sField) {
+                property(StringAndBooleanTestClass::stringField) {
                     notBlank()
                     notEmpty()
                     notNull()
-                    inValues("toto", "titi")
+                    inValues("GREEN", "WHITE", "RED")
                     size(3, 5)
+                }
+                property(StringAndBooleanTestClass::emailField) {
+                    email()
+                    regexp("[A-Za-z0-9]+")
+                    regexp("[a-z#\\.]*")
                 }
             }
         }
-        val dslTest = StringAndBooleanTestClass("", 3, true)
+        val dslTest = StringAndBooleanTestClass("", "richard.capraro#mail.com", true)
 
         val validated = spec.validate(dslTest)
 
@@ -33,10 +38,12 @@ class StringValidationTest {
         validated.fold(
                 {
                     assertThat(it).extracting("propertyPath.currentLeafNode.name", "constraintDescriptor.annotationDescriptor.type.name")
-                            .containsOnly(tuple("sField", "javax.validation.constraints.NotEmpty"),
-                                    tuple("sField", "javax.validation.constraints.NotBlank"),
-                                    tuple("sField", "com.capraro.kalidation.constraints.annotation.Values"),
-                                    tuple("sField", "javax.validation.constraints.Size"))
+                            .containsExactlyInAnyOrder(tuple("stringField", "javax.validation.constraints.NotEmpty"),
+                                    tuple("stringField", "javax.validation.constraints.NotBlank"),
+                                    tuple("stringField", "com.capraro.kalidation.constraints.annotation.Values"),
+                                    tuple("stringField", "javax.validation.constraints.Size"),
+                                    tuple("emailField", "javax.validation.constraints.Email"),
+                                    tuple("emailField", "javax.validation.constraints.Pattern"))
                 },
                 { fail("The validation should not be valid") }
         )
@@ -46,12 +53,12 @@ class StringValidationTest {
     fun `test validation of Boolean fields`() {
         val spec = validationSpec {
             constraints<StringAndBooleanTestClass> {
-                property(StringAndBooleanTestClass::bField) {
+                property(StringAndBooleanTestClass::booleanField) {
                     assertFalse()
                 }
             }
         }
-        val dslTest = StringAndBooleanTestClass("", 3, true)
+        val dslTest = StringAndBooleanTestClass("", "", true)
 
         val validated = spec.validate(dslTest)
 
@@ -60,7 +67,7 @@ class StringValidationTest {
         validated.fold(
                 {
                     assertThat(it).extracting("propertyPath.currentLeafNode.name", "constraintDescriptor.annotationDescriptor.type.name")
-                            .containsOnly(tuple("bField", "javax.validation.constraints.AssertFalse"))
+                            .containsExactlyInAnyOrder(tuple("booleanField", "javax.validation.constraints.AssertFalse"))
                 },
                 { fail("The validation should not be valid") }
         )
