@@ -1,6 +1,6 @@
 *Kalidation = A Kotlin validation DSL*
 
-![Alt text](Kalidation-logo.png?raw=true "Kalidation")
+![Kalidation](Kalidation-logo.png?raw=true)
 
 **Objective**
 
