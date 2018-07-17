@@ -42,7 +42,7 @@ val spec = validationSpec {
             }
         }
         
-val dslTest = StringAndBooleanTestClass("BLUE", "foobar")
+val dslTest = MyClass("BLUE", "foobar", LocalDateTime.parse("2017-12-03T10:15:30"))
 
 val validated = spec.validate(dslTest)     
 
