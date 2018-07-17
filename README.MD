@@ -49,7 +49,7 @@ val validated = spec.validate(dslTest)
    
   ```
 
-In this example, validated is a Arrow Validated object, which we can transform through Arrow built0in functions: `when`, `fold`, `getOrElse`, `map`, etc.
+In this example, validated is a Arrow `Validated` object, which we can transform through Arrow built-in functions: `when`, `fold`, `getOrElse`, `map`, etc.
 
 See [Arrow Validated](https://arrow-kt.io/docs/datatypes/validated/#validated) for more documentation.
  
