@@ -37,13 +37,13 @@ class StringValidationTest {
 
         validated.fold(
                 {
-                    assertThat(it).extracting("propertyPath.currentLeafNode.name", "constraintDescriptor.annotationDescriptor.type.name")
-                            .containsExactlyInAnyOrder(tuple("stringField", "javax.validation.constraints.NotEmpty"),
-                                    tuple("stringField", "javax.validation.constraints.NotBlank"),
-                                    tuple("stringField", "com.capraro.kalidation.constraints.annotation.Values"),
-                                    tuple("stringField", "javax.validation.constraints.Size"),
-                                    tuple("emailField", "javax.validation.constraints.Email"),
-                                    tuple("emailField", "javax.validation.constraints.Pattern"))
+                    assertThat(it).extracting("fieldName", "messageTemplate")
+                            .containsExactlyInAnyOrder(tuple("stringField", "{javax.validation.constraints.NotBlank.message}"),
+                                    tuple("stringField", "{javax.validation.constraints.NotEmpty.message}"),
+                                    tuple("stringField", "{javax.validation.constraints.Values.message}"),
+                                    tuple("stringField", "{javax.validation.constraints.Size.message}"),
+                                    tuple("emailField", "{javax.validation.constraints.Email.message}"),
+                                    tuple("emailField", "{javax.validation.constraints.Pattern.message}"))
                 },
                 { fail("The validation should not be valid") }
         )
