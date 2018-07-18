@@ -11,7 +11,7 @@ import kotlin.reflect.KClass
         AnnotationTarget.PROPERTY
 )
 @Retention(AnnotationRetention.RUNTIME)
-annotation class Values(val message: String = "{org.hibernate.validator.constraints.Values.message}",
+annotation class Values(val message: String = "{javax.validation.constraints.Values.message}",
                         val groups: Array<KClass<out Any>> = [],
                         val payload: Array<KClass<out Any>> = [],
                         val values: Array<String>)

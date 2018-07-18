@@ -72,6 +72,7 @@ class HibernateValidatorFactory(private val spec: ValidationSpec) {
             is FutureOrPresent -> ConstraintRuleTranslator<FutureOrPresent> { FutureOrPresentDef() }.translate(rule)
             is Past -> ConstraintRuleTranslator<Past> { PastDef() }.translate(rule)
             is PastOrPresent -> ConstraintRuleTranslator<PastOrPresent> { PastOrPresentDef() }.translate(rule)
+            is IterableSize -> ConstraintRuleTranslator<IterableSize> { SizeDef().min(it.min).max(it.max) }.translate(rule)
             else -> throw IllegalStateException("No Translator for the constraint ${rule.javaClass.canonicalName}")
         }
     }

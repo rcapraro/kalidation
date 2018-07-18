@@ -3,7 +3,7 @@ package com.capraro.kalidation.spec
 import arrow.data.Invalid
 import arrow.data.Valid
 import arrow.data.Validated
-import javax.validation.ConstraintViolation
+import com.capraro.kalidation.output.ValidationOutput
 import javax.validation.Validator
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
@@ -21,12 +21,22 @@ import kotlin.reflect.KProperty1
 data class ValidationSpec(val constraints: MutableList<Constraint<out Any>> = mutableListOf()) {
     internal lateinit var validator: Validator
 
-    fun validate(constrainedClass: Any): Validated<Set<ConstraintViolation<Any>>, Boolean> {
-        val set = validator.validate(constrainedClass)
-        return if (set.size == 0) {
+    fun validate(constrainedClass: Any): Validated<Set<ValidationOutput>, Boolean> {
+        val toSet = validator.validate(constrainedClass)
+                .map {
+                    ValidationOutput(
+                            fieldName = it.propertyPath.joinToString(".") { it.name },
+                            message = it.message,
+                            messageTemplate = it.messageTemplate)
+                }
+                .toSet()
+
+        println(toSet)
+
+        return if (toSet.isEmpty()) {
             Valid(true)
         } else {
-            Invalid(set)
+            Invalid(toSet)
         }
     }
 }
