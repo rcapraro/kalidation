@@ -8,7 +8,7 @@ Creation of a validation DSL which allows this kind of fluent code:
 
 ```kotlin
 val spec = validationSpec {
-     com.capraro.kalidation.constraints<Foo> {
+       constraints<Foo> {
          field(Foo::bar) {
              notBlank()
              inValues("GREEN", "WHITE", "RED")
@@ -19,7 +19,7 @@ val spec = validationSpec {
          }
      }
  }
- ```
+```
  
 This DSL allows decoupling from any validation framework and annotations in your domain classes, and as such, respect the [Clean Architecture](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html).
   
@@ -49,9 +49,7 @@ val spec = validationSpec {
 val dslTest = MyClass("BLUE", "foobar", LocalDateTime.parse("2017-12-03T10:15:30"))
 
 val validated = spec.validate(dslTest)     
-
-   
-  ```
+```
 
 In this example, validated is a Arrow `Validated` object, which we can transform through Arrow built-in functions: `when`, `fold`, `getOrElse`, `map`, etc.
 
@@ -60,4 +58,6 @@ See [Arrow Validated](https://arrow-kt.io/docs/datatypes/validated/#validated) f
  **Implemented rules**
  
  // Work in progress
+ 
+ 
  
