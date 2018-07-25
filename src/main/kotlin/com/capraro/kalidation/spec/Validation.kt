@@ -3,6 +3,7 @@ package com.capraro.kalidation.spec
 import arrow.data.Invalid
 import arrow.data.Valid
 import arrow.data.Validated
+import com.capraro.kalidation.constraints.rule.ConstraintRule
 import com.capraro.kalidation.output.ValidationOutput
 import javax.validation.Validator
 import kotlin.reflect.KClass
@@ -31,8 +32,6 @@ data class ValidationSpec(val constraints: MutableList<Constraint<out Any>> = mu
                 }
                 .toSet()
 
-        println(toSet)
-
         return if (toSet.isEmpty()) {
             Valid(true)
         } else {
@@ -55,9 +54,4 @@ data class Constraint<T : Any>(val constrainedClass: KClass<T>,
  * @see ConstraintRule
  */
 data class PropertyConstraint<T : Any, P : Any?>(val constrainedProperty: KProperty1<T, P>,
-                                                 val constraintRules: MutableList<ConstraintRule<*>> = mutableListOf())
-
-/**
- * Interface for all the [ConstraintRule] implementations.
- */
-interface ConstraintRule<P : Any>
+                                                 val constraintRules: MutableList<ConstraintRule> = mutableListOf())

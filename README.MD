@@ -20,9 +20,13 @@ val spec = validationSpec {
      }
  }
  ```
-
-This DSL allows decoupling from any validation framework and annotations in your domain classes, and as such, respect the [Clean Architecture](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html).
  
+This DSL allows decoupling from any validation framework and annotations in your domain classes, and as such, respect the [Clean Architecture](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html).
+  
+**Inspiration**
+
+https://blog.sourced-bvba.be/article/2018/01/13/kotlin-validation/
+
  **Usage**
  
  ```kotlin

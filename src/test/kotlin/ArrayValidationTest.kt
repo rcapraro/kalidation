@@ -9,22 +9,22 @@ import org.assertj.core.api.Assertions.tuple
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
 
-private class IterableClass(val listField: List<String>)
+private class ArrayClass(val arrayField: Array<String>)
 
-class IterableValidationTest {
+class ArrayValidationTest {
 
     @Test
-    fun `test validation of Iterable fields`() {
+    fun `test validation of Array fields`() {
         val spec = validationSpec {
-            constraints<IterableClass> {
-                property(IterableClass::listField) {
+            constraints<ArrayClass> {
+                property(ArrayClass::arrayField) {
                     notNull()
                     size(3, 5)
                     notEmpty()
                 }
             }
         }
-        val dslTest = IterableClass(listOf("one", "two"))
+        val dslTest = ArrayClass(arrayOf("one", "two"))
 
         val validated = spec.validate(dslTest)
 
@@ -33,7 +33,7 @@ class IterableValidationTest {
         validated.fold(
                 {
                     Assertions.assertThat(it).extracting("fieldName", "messageTemplate")
-                            .containsExactly(tuple("listField", "{javax.validation.constraints.Size.message}"))
+                            .containsExactly(tuple("arrayField", "{javax.validation.constraints.Size.message}"))
                 },
                 { fail("The validation should not be valid") }
         )
