@@ -1,10 +1,13 @@
-import com.capraro.kalidation.constraints.future
-import com.capraro.kalidation.constraints.futureOrPresent
+import com.capraro.kalidation.constraints.function.future
+import com.capraro.kalidation.constraints.function.futureOrPresent
+import com.capraro.kalidation.constraints.function.past
+import com.capraro.kalidation.constraints.function.pastOrPresent
 import com.capraro.kalidation.dsl.constraints
 import com.capraro.kalidation.dsl.property
 import com.capraro.kalidation.dsl.validationSpec
-import com.capraro.kalidation.implementation.HibernateValidatorFactory
+import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.fail
 import java.time.LocalDateTime
 import java.time.ZonedDateTime
 
@@ -17,19 +20,35 @@ class TemporalValidationTest {
         val spec = validationSpec {
             constraints<TemporalTestClass> {
                 property(TemporalTestClass::ldField) {
-                    future()
+                    past()
+                    pastOrPresent()
                 }
                 property(TemporalTestClass::zdField) {
+                    future()
                     futureOrPresent()
                 }
             }
         }
-        val validator = HibernateValidatorFactory(spec).build()
-        val test = TemporalTestClass(LocalDateTime.parse("2017-12-03T10:15:30"),
-                ZonedDateTime.parse("2017-12-03T10:15:30+01:00[Europe/Paris]"))
+        val dslTest = TemporalTestClass(
+                LocalDateTime.now().plusDays(1),
+                ZonedDateTime.now().minusDays(1)
+        )
 
-        val violations = validator.validate(test)
-        println(violations)
+        val validated = spec.validate(dslTest)
+
+        assert(validated.isInvalid)
+
+        validated.fold(
+                {
+                    Assertions.assertThat(it).extracting("fieldName", "messageTemplate")
+                            .containsExactlyInAnyOrder(
+                                    Assertions.tuple("zdField", "{javax.validation.constraints.Future.message}"),
+                                    Assertions.tuple("zdField", "{javax.validation.constraints.FutureOrPresent.message}"),
+                                    Assertions.tuple("ldField", "{javax.validation.constraints.Past.message}"),
+                                    Assertions.tuple("ldField", "{javax.validation.constraints.PastOrPresent.message}"))
+                },
+                { fail("The validation should not be valid") }
+        )
 
     }
 }
