@@ -55,7 +55,7 @@ In this example, `validated` is a Arrow `Validated` object, which we can transfo
 
 See [Arrow Validated](https://arrow-kt.io/docs/datatypes/validated/#validated) for more documentation.
  
-**Implemented validation**
+**Implemented validation functions**
  
 ***All classes***
 
