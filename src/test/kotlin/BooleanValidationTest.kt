@@ -1,4 +1,5 @@
 import com.capraro.kalidation.constraints.function.assertFalse
+import com.capraro.kalidation.constraints.function.assertTrue
 import com.capraro.kalidation.dsl.constraints
 import com.capraro.kalidation.dsl.property
 import com.capraro.kalidation.dsl.validationSpec
@@ -12,7 +13,7 @@ private class BooleanTestClass(val booleanField: Boolean)
 class BooleanValidationTest {
 
     @Test
-    fun `test validation of Boolean fields`() {
+    fun `test validation of Boolean false fields`() {
         val spec = validationSpec {
             constraints<BooleanTestClass> {
                 property(BooleanTestClass::booleanField) {
@@ -30,6 +31,30 @@ class BooleanValidationTest {
                 {
                     assertThat(it).extracting("fieldName", "messageTemplate")
                             .containsExactlyInAnyOrder(tuple("booleanField", "{javax.validation.constraints.AssertFalse.message}"))
+                },
+                { fail("The validation should not be valid") }
+        )
+    }
+
+    @Test
+    fun `test validation of Boolean true fields`() {
+        val spec = validationSpec {
+            constraints<BooleanTestClass> {
+                property(BooleanTestClass::booleanField) {
+                    assertTrue()
+                }
+            }
+        }
+        val dslTest = BooleanTestClass(false)
+
+        val validated = spec.validate(dslTest)
+
+        assert(validated.isInvalid)
+
+        validated.fold(
+                {
+                    assertThat(it).extracting("fieldName", "messageTemplate")
+                            .containsExactlyInAnyOrder(tuple("booleanField", "{javax.validation.constraints.AssertTrue.message}"))
                 },
                 { fail("The validation should not be valid") }
         )
