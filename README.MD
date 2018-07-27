@@ -51,13 +51,63 @@ val dslTest = MyClass("BLUE", "foobar", LocalDateTime.parse("2017-12-03T10:15:30
 val validated = spec.validate(dslTest)     
 ```
 
-In this example, validated is a Arrow `Validated` object, which we can transform through Arrow built-in functions: `when`, `fold`, `getOrElse`, `map`, etc.
+In this example, `validated` is a Arrow `Validated` object, which we can transform through Arrow built-in functions: `when`, `fold`, `getOrElse`, `map`, etc.
 
 See [Arrow Validated](https://arrow-kt.io/docs/datatypes/validated/#validated) for more documentation.
  
- **Implemented rules**
+**Implemented validation**
  
- // Work in progress
+***All classes***
+
+ * notNull()
+ * isNull()
  
+***Array***
  
+  * size(val min: Int, val max: Int)
+  * notEmpty()
  
+***Iterable (Collection, List, Set, etc.)***
+  
+  * size(val min: Int, val max: Int)
+  * notEmpty()
+  
+***Boolean***
+  
+  * assertTrue()
+  * assertFalsey()
+ 
+***CharSequence (String, StringBuilder, StringBuffer, etc.)***
+  
+  * notBlank()
+  * notEmpty() 
+  * size(val min: Int, val max: Int) 
+  * regexp(val regexp: String)
+  * email()
+  * phoneNumber(val regionCode: String)
+  * inValues(val values: List<String>)
+  * min(val value: Long)
+  * max(val value: Long)
+  * decimalMin(val value: String, val inclusive: Boolean)
+  * decimalMax(val value: String, val inclusive: Boolean)
+  * digits (val integer: Int, val fraction: Int)    
+     
+ 
+***Number (Integer, Float, Long, BigDecimal, BigInteger, etc.)***
+  
+  * negativeOrZero()
+  * positiveOrZero() 
+  * negative()
+  * positive()   
+  * min(val value: Long)
+  * max(val value: Long)
+  * decimalMin(val value: String, val inclusive: Boolean)
+  * decimalMax(val value: String, val inclusive: Boolean)    
+  * digits (val integer: Int, val fraction: Int)   
+  
+**Temporal (LocalDate, LocalDateTime, ZonedDateTime, etc.)**
+      
+  * future()
+  * past() 
+  * futureOrPresent()
+  * pastOrPresent()
