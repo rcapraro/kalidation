@@ -4,7 +4,6 @@ import arrow.data.Invalid
 import arrow.data.Valid
 import arrow.data.Validated
 import com.capraro.kalidation.constraints.rule.ConstraintRule
-import com.capraro.kalidation.output.ValidationOutput
 import javax.validation.Validator
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
@@ -22,20 +21,19 @@ import kotlin.reflect.KProperty1
 data class ValidationSpec(val constraints: MutableList<Constraint<out Any>> = mutableListOf()) {
     internal lateinit var validator: Validator
 
-    fun validate(constrainedClass: Any): Validated<Set<ValidationOutput>, Boolean> {
-        val toSet = validator.validate(constrainedClass)
+    fun validate(constrainedClass: Any): Validated<Set<ValidationResult>, Boolean> {
+        val validationSet = validator.validate(constrainedClass)
                 .map {
-                    ValidationOutput(
+                    ValidationResult(
                             fieldName = it.propertyPath.joinToString(".") { it.name },
-                            message = it.message,
-                            messageTemplate = it.messageTemplate)
+                            message = it.message)
                 }
                 .toSet()
 
-        return if (toSet.isEmpty()) {
+        return if (validationSet.isEmpty()) {
             Valid(true)
         } else {
-            Invalid(toSet)
+            Invalid(validationSet)
         }
     }
 }
@@ -55,3 +53,5 @@ data class Constraint<T : Any>(val constrainedClass: KClass<T>,
  */
 data class PropertyConstraint<T : Any, P : Any?>(val constrainedProperty: KProperty1<T, P>,
                                                  val constraintRules: MutableList<ConstraintRule> = mutableListOf())
+
+data class ValidationResult(val fieldName: String, val message: String)

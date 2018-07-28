@@ -3,7 +3,6 @@ import com.capraro.kalidation.dsl.constraints
 import com.capraro.kalidation.dsl.property
 import com.capraro.kalidation.dsl.validationSpec
 import org.assertj.core.api.Assertions
-import org.assertj.core.api.Assertions.tuple
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
 import java.math.BigDecimal
@@ -40,15 +39,15 @@ class NumberValidationTest {
 
         validated.fold(
                 {
-                    Assertions.assertThat(it).extracting("fieldName", "messageTemplate")
+                    Assertions.assertThat(it).extracting("fieldName")
                             .containsExactlyInAnyOrder(
-                                    tuple("bdField", "{javax.validation.constraints.DecimalMin.message}"),
-                                    tuple("bdField", "{javax.validation.constraints.DecimalMax.message}"),
-                                    tuple("bdField", "{javax.validation.constraints.Digits.message}"),
-                                    tuple("iField", "{javax.validation.constraints.Min.message}"),
-                                    tuple("iField", "{javax.validation.constraints.Max.message}"),
-                                    tuple("iField", "{javax.validation.constraints.Negative.message}"),
-                                    tuple("iField", "{javax.validation.constraints.NegativeOrZero.message}")
+                                    "bdField",
+                                    "bdField",
+                                    "bdField",
+                                    "iField",
+                                    "iField",
+                                    "iField",
+                                    "iField"
                             )
                 },
                 { fail("The validation should not be valid") }

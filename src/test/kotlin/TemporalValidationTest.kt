@@ -40,12 +40,12 @@ class TemporalValidationTest {
 
         validated.fold(
                 {
-                    Assertions.assertThat(it).extracting("fieldName", "messageTemplate")
+                    Assertions.assertThat(it).extracting("fieldName")
                             .containsExactlyInAnyOrder(
-                                    Assertions.tuple("zdField", "{javax.validation.constraints.Future.message}"),
-                                    Assertions.tuple("zdField", "{javax.validation.constraints.FutureOrPresent.message}"),
-                                    Assertions.tuple("ldField", "{javax.validation.constraints.Past.message}"),
-                                    Assertions.tuple("ldField", "{javax.validation.constraints.PastOrPresent.message}"))
+                                    "zdField",
+                                    "zdField",
+                                    "ldField",
+                                    "ldField")
                 },
                 { fail("The validation should not be valid") }
         )
