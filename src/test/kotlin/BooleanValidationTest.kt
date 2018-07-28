@@ -4,7 +4,6 @@ import com.capraro.kalidation.dsl.constraints
 import com.capraro.kalidation.dsl.property
 import com.capraro.kalidation.dsl.validationSpec
 import org.assertj.core.api.Assertions.assertThat
-import org.assertj.core.api.Assertions.tuple
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
 
@@ -29,8 +28,8 @@ class BooleanValidationTest {
 
         validated.fold(
                 {
-                    assertThat(it).extracting("fieldName", "messageTemplate")
-                            .containsExactlyInAnyOrder(tuple("booleanField", "{javax.validation.constraints.AssertFalse.message}"))
+                    assertThat(it).extracting("fieldName")
+                            .containsExactly("booleanField")
                 },
                 { fail("The validation should not be valid") }
         )
@@ -53,8 +52,8 @@ class BooleanValidationTest {
 
         validated.fold(
                 {
-                    assertThat(it).extracting("fieldName", "messageTemplate")
-                            .containsExactlyInAnyOrder(tuple("booleanField", "{javax.validation.constraints.AssertTrue.message}"))
+                    assertThat(it).extracting("fieldName")
+                            .containsExactly("booleanField")
                 },
                 { fail("The validation should not be valid") }
         )
