@@ -51,7 +51,7 @@ val myClass = MyClass("BLUE", "foobar", LocalDateTime.parse("2017-12-03T10:15:30
 val validated = spec.validate(myClass)     
 ```
 
-In this example, `validated` is a Arrow `Validated` object, which we can transform through Arrow built-in functions: `when`, `fold`, `getOrElse`, `map`, etc.
+In this example, `validated` is an [Arrow](https://arrow-kt.io) `Validated` object, which we can transform through Arrow built-in functions: `when`, `fold`, `getOrElse`, `map`, etc.
 
 See [Arrow Validated](https://arrow-kt.io/docs/datatypes/validated/#validated) for more documentation.
  
