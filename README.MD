@@ -131,7 +131,7 @@ The `ValidationResult` object contains the name of the field in error, and the i
   * decimalMax(val value: String, val inclusive: Boolean)    
   * digits (val integer: Int, val fraction: Int)   
   
-**Temporal (LocalDate, LocalDateTime, ZonedDateTime, etc.)**
+***Temporal (LocalDate, LocalDateTime, ZonedDateTime, etc.)***
       
   * future()
   * past() 
