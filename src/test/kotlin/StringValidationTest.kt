@@ -3,7 +3,6 @@ import com.capraro.kalidation.dsl.constraints
 import com.capraro.kalidation.dsl.property
 import com.capraro.kalidation.dsl.validationSpec
 import org.assertj.core.api.Assertions.assertThat
-import org.assertj.core.api.Assertions.tuple
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
 
@@ -46,15 +45,14 @@ class StringValidationTest {
 
         validated.fold(
                 {
-                    assertThat(it).extracting("fieldName", "messageTemplate")
+                    assertThat(it).extracting("fieldName")
                             .containsExactlyInAnyOrder(
-                                    tuple("field1", "{javax.validation.constraints.NotBlank.message}"),
-                                    tuple("field1", "{javax.validation.constraints.NotEmpty.message}"),
-                                    tuple("field1", "{javax.validation.constraints.Values.message}"),
-                                    tuple("field1", "{javax.validation.constraints.Size.message}"),
-                                    tuple("field2", "{javax.validation.constraints.Email.message}"),
-                                    tuple("field2", "{javax.validation.constraints.Pattern.message}"),
-                                    tuple("field3", "{javax.validation.constraints.PhoneNumber.message}"))
+                                    "field1",
+                                    "field1",
+                                    "field1",
+                                    "field2",
+                                    "field2",
+                                    "field3")
                 },
                 { fail("The validation should not be valid") }
         )
@@ -88,13 +86,13 @@ class StringValidationTest {
 
         validated.fold(
                 {
-                    assertThat(it).extracting("fieldName", "messageTemplate")
+                    assertThat(it).extracting("fieldName")
                             .containsExactlyInAnyOrder(
-                                    tuple("field1", "{javax.validation.constraints.Min.message}"),
-                                    tuple("field1", "{javax.validation.constraints.Max.message}"),
-                                    tuple("field2", "{javax.validation.constraints.DecimalMin.message}"),
-                                    tuple("field2", "{javax.validation.constraints.DecimalMax.message}"),
-                                    tuple("field3", "{javax.validation.constraints.Digits.message}"))
+                                    "field1",
+                                    "field1",
+                                    "field2",
+                                    "field2",
+                                    "field3")
                 },
                 { fail("The validation should not be valid") }
         )

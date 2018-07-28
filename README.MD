@@ -46,14 +46,40 @@ val spec = validationSpec {
             }
         }
         
-val dslTest = MyClass("BLUE", "foobar", LocalDateTime.parse("2017-12-03T10:15:30"))
+val myClass = MyClass("BLUE", "foobar", LocalDateTime.parse("2017-12-03T10:15:30"))
 
-val validated = spec.validate(dslTest)     
+val validated = spec.validate(myClass)     
 ```
 
 In this example, `validated` is a Arrow `Validated` object, which we can transform through Arrow built-in functions: `when`, `fold`, `getOrElse`, `map`, etc.
 
 See [Arrow Validated](https://arrow-kt.io/docs/datatypes/validated/#validated) for more documentation.
+ 
+_Example with `fold`_:
+ ```kotlin
+val validated = spec.validate(myClass)    
+validated.fold(
+                { throw ValidationException(it) },
+                { return it }
+               )
+```
+
+_Example with `when`_:
+ ```kotlin
+val validated = spec.validate(myClass)    
+when (validated) {
+    is Valid -> return validated.a
+    is Invalid -> throw ValidationException(validated.e)
+}
+```
+ 
+_Structure of the validation result_:
+
+The validation result structure is a `Set` of `ValidationResult` instances.
+ ```kotlin
+ data class ValidationResult(val fieldName: String, val message: String)
+```
+The `ValidationResult` object contains the name of the field in error, and the i18n corresponding message.
  
 **Implemented validation functions**
  
@@ -105,7 +131,7 @@ See [Arrow Validated](https://arrow-kt.io/docs/datatypes/validated/#validated) f
   * decimalMax(val value: String, val inclusive: Boolean)    
   * digits (val integer: Int, val fraction: Int)   
   
-**Temporal (LocalDate, LocalDateTime, ZonedDateTime, etc.)**
+***Temporal (LocalDate, LocalDateTime, ZonedDateTime, etc.)***
       
   * future()
   * past() 
