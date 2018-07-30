@@ -21,7 +21,7 @@ val spec = validationSpec {
  }
 ```
  
-This DSL allows decoupling from any validation framework and annotations in your domain classes, and as such, respect the [Clean Architecture](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html).
+This DSL decouples your domain classes from any validation framework and annotations and, as such, respect the [Clean Architecture](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html).
   
 **Inspiration**
 
