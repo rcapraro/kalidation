@@ -101,7 +101,7 @@ The `ValidationResult` object contains the name of the field in error, and the i
 ***Boolean***
   
   * assertTrue()
-  * assertFalsey()
+  * assertFalse()
  
 ***CharSequence (String, StringBuilder, StringBuffer, etc.)***
   
