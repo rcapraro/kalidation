@@ -8,10 +8,12 @@ plugins {
     java
     id("com.adarshr.test-logger") version "1.3.1"
     jacoco
+    `maven-publish`
+    id("com.jfrog.bintray") version "1.8.4"
 }
 
-group = "com.rcapraro"
-version = "1.0-SNAPSHOT"
+group = "com.capraro"
+version = "1.0"
 
 repositories {
     mavenCentral()
@@ -45,4 +47,12 @@ tasks {
     "test"(Test::class) {
         useJUnitPlatform()
     }
+}
+
+fun findProperty(s: String) = project.findProperty(s) as String?
+
+bintray {
+    user = findProperty("bintrayUser")
+    key = findProperty("bintrayApiKey")
+    publish = true
 }
