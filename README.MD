@@ -2,6 +2,8 @@
 
 *Kalidation = A Kotlin validation DSL*
 
+[![Build Status](https://travis-ci.org/rcapraro/kalidation.svg?branch=master)](https://travis-ci.org/rcapraro/kalidation)
+
 **Objective**
 
 Creation of a validation DSL which allows this kind of fluent code:
