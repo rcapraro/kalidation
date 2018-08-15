@@ -7,7 +7,7 @@ before_install:
 stages:
 - name: build
 - name: release
-  # only publish releases from "release" branch and not in pull requests
+  # only publish releases from "master" branch and not in pull requests
   if: branch = master AND type IN (push)
 
 jobs:
