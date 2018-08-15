@@ -3,8 +3,3 @@ jdk:
 - oraclejdk8
 before_install:
 - chmod +x gradlew
-deploy:
-  provider: script
-  script: ./gradlew bintrayUpload -PbintrayUser=$BINTRAY_USER -PbintrayApiKey=$BINTRAY_KEY
-  on:
-    branch: master
