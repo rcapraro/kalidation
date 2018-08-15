@@ -120,9 +120,9 @@ publishing {
             version project.version
             pom.withXml {
                 def root = asNode()
-                root.appendNode('description', 'Parse textual Diffs with Java')
-                root.appendNode('name', 'DiffParser')
-                root.appendNode('url', 'https://github.com/thombergs/diffparser')
+                root.appendNode('description', 'JSR380 Validation DSL in Kotlin')
+                root.appendNode('name', 'Kalidation')
+                root.appendNode('url', 'https://github.com/rcapraro/kalidation.git')
                 root.children().last() + pomConfig
             }
         }
@@ -134,8 +134,8 @@ bintray {
     key = System.getProperty("bintray.key")
     publications = ['mavenPublication']
     pkg {
-        repo = 'Kalidation'
-        name = 'releases'
+        repo = 'maven-releases'
+        name = 'kalidation'
         userOrg = user
         licenses = ['MIT']
         labels = ['kotlin', 'dsl', 'jsr380']
