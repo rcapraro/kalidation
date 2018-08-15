@@ -50,6 +50,7 @@ class StringValidationTest {
                                     "field1",
                                     "field1",
                                     "field1",
+                                    "field1",
                                     "field2",
                                     "field2",
                                     "field3")
