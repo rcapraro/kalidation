@@ -18,7 +18,6 @@ class StringValidationTest {
             constraints<StringTestClass> {
                 property(StringTestClass::field1) {
                     notBlank()
-                    notEmpty()
                     notNull()
                     inValues("GREEN", "WHITE", "RED")
                     size(3, 5)
@@ -35,7 +34,7 @@ class StringValidationTest {
                 }
             }
         }
-        val dslTest = StringTestClass("",
+        val dslTest = StringTestClass(" ",
                 "richard.capraro#mail.com",
                 "(378) 400-1234")
 
@@ -45,9 +44,9 @@ class StringValidationTest {
 
         validated.fold(
                 {
+                    println(it)
                     assertThat(it).extracting("fieldName")
                             .containsExactlyInAnyOrder(
-                                    "field1",
                                     "field1",
                                     "field1",
                                     "field1",
