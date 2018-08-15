@@ -3,3 +3,7 @@ jdk:
 - oraclejdk8
 before_install:
 - chmod +x gradlew
+script: ./gradlew clean build
+deploy:
+  provider: script
+  script: ./gradlew bintrayUpload -Dbintray.user=$BINTRAY_USER -Dbintray.key=$BINTRAY_KEY -Dbuild.number=$TRAVIS_BUILD_NUMBER
