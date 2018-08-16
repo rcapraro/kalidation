@@ -6,7 +6,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
 
-private class StringTestClass(val field1: String,
+private class StringTestClass(val field1: String?,
                               val field2: String,
                               val field3: String)
 
