@@ -32,50 +32,50 @@ import com.capraro.kalidation.spec.PropertyConstraint
  * @author Richard Capraro
  * @since 0.0.1
  */
-fun PropertyConstraint<out Any, out CharSequence>.notBlank() {
+fun PropertyConstraint<out Any, out CharSequence?>.notBlank() {
     constraintRules.add(NotBlank())
 }
 
-fun PropertyConstraint<out Any, out CharSequence>.notEmpty() {
+fun PropertyConstraint<out Any, out CharSequence?>.notEmpty() {
     constraintRules.add(CsNotEmpty())
 }
 
-fun PropertyConstraint<out Any, out CharSequence>.size(min: Int = 0, max: Int = Int.MAX_VALUE) {
+fun PropertyConstraint<out Any, out CharSequence?>.size(min: Int = 0, max: Int = Int.MAX_VALUE) {
     constraintRules.add(CsSize(min, max))
 }
 
-fun PropertyConstraint<out Any, out CharSequence>.regexp(regexp: String) {
+fun PropertyConstraint<out Any, out CharSequence?>.regexp(regexp: String) {
     constraintRules.add(Regexp(regexp))
 }
 
-fun PropertyConstraint<out Any, out CharSequence>.email() {
+fun PropertyConstraint<out Any, out CharSequence?>.email() {
     constraintRules.add(Email())
 }
 
-fun PropertyConstraint<out Any, out CharSequence>.phoneNumber(regionCode: String) {
+fun PropertyConstraint<out Any, out CharSequence?>.phoneNumber(regionCode: String) {
     constraintRules.add(PhoneNumber(regionCode))
 }
 
-fun PropertyConstraint<out Any, out CharSequence>.inValues(vararg values: String) {
+fun PropertyConstraint<out Any, out CharSequence?>.inValues(vararg values: String) {
     constraintRules.add(InValues(values.asList()))
 }
 
-fun PropertyConstraint<out Any, out CharSequence>.min(value: Long) {
+fun PropertyConstraint<out Any, out CharSequence?>.min(value: Long) {
     constraintRules.add(CsMin(value))
 }
 
-fun PropertyConstraint<out Any, out CharSequence>.max(value: Long) {
+fun PropertyConstraint<out Any, out CharSequence?>.max(value: Long) {
     constraintRules.add(CsMax(value))
 }
 
-fun PropertyConstraint<out Any, out CharSequence>.decimalMin(value: String, inclusive: Boolean) {
+fun PropertyConstraint<out Any, out CharSequence?>.decimalMin(value: String, inclusive: Boolean) {
     constraintRules.add(CsDecimalMin(value, inclusive))
 }
 
-fun PropertyConstraint<out Any, out CharSequence>.decimalMax(value: String, inclusive: Boolean) {
+fun PropertyConstraint<out Any, out CharSequence?>.decimalMax(value: String, inclusive: Boolean) {
     constraintRules.add(CsDecimalMax(value, inclusive))
 }
 
-fun PropertyConstraint<out Any, out CharSequence>.digits(value: Int, fraction: Int) {
+fun PropertyConstraint<out Any, out CharSequence?>.digits(value: Int, fraction: Int) {
     constraintRules.add(CsDigits(value, fraction))
 }
