@@ -121,6 +121,7 @@ bintray {
             desc = "build ${buildNumber}"
             released = new Date()
         }
+        override = true
         publish = true
     }
 }
