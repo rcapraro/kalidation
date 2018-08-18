@@ -4,6 +4,7 @@ plugins {
     id "com.jfrog.bintray" version "1.8.4"
     id "maven-publish"
     id "jacoco"
+    id "org.jetbrains.dokka" version "0.9.17"
 }
 
 group = "com.capraro"
@@ -66,6 +67,11 @@ test {
     useJUnitPlatform()
 }
 
+dokka {
+    outputFormat = 'html'
+    outputDirectory = "$buildDir/javadoc"
+}
+
 def pomConfig = {
     licenses {
         license {
@@ -87,6 +93,15 @@ def pomConfig = {
     }
 }
 
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives sourcesJar
+}
+
 publishing {
     publications {
         mavenPublication(MavenPublication) {
@@ -94,6 +109,9 @@ publishing {
             groupId 'com.capraro'
             artifactId 'kalidation'
             version project.version
+            artifact sourcesJar {
+                classifier "sources"
+            }
             pom.withXml {
                 def root = asNode()
                 root.appendNode('description', 'JSR380 Validation DSL in Kotlin')
