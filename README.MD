@@ -44,8 +44,16 @@ val spec = validationSpec {
                 }
                 property(MyClass::field3) {
                     future()
-                }                
+                }
+                property(MyClass::innerClass) {
+                    valid()
+                }                     
             }
+            constraints<InnerClass> {
+                property(InnerClass::amount) {
+                    negativeOrZero()
+                }                  
+            }            
         }
         
 val myClass = MyClass("BLUE", "foobar", LocalDateTime.parse("2017-12-03T10:15:30"))
@@ -89,6 +97,7 @@ The `ValidationResult` object contains the name of the field in error, and the i
 
  * notNull()
  * isNull()
+ * valid(), used for cascading validation (on an inner class)
  
 ***Array***
  
