@@ -35,6 +35,7 @@ sealed class ConstraintRule
 
 class NotNull : ConstraintRule()
 class Null : ConstraintRule()
+class Valid: ConstraintRule()
 
 //Array
 

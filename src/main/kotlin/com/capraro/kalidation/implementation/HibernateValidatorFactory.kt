@@ -56,8 +56,12 @@ class HibernateValidatorFactory(private val spec: ValidationSpec) {
                 val typeMapping = constraintMapping.type(it.constrainedClass.java)
                 it.propertyConstraints.forEach {
                     val propertyMapping = typeMapping.property(it.constrainedProperty.name, ElementType.FIELD)
-                    it.constraintRules.forEach { rule: ConstraintRule ->
-                        propertyMapping.constraint(translateConstraintDef(rule))
+                    it.constraintRules.forEach {
+                        rule: ConstraintRule ->
+                        val constraint = propertyMapping.constraint(translateConstraintDef(rule))
+                        when(rule) {
+                            is Valid -> constraint.valid()
+                        }
                     }
                 }
             }
@@ -66,6 +70,10 @@ class HibernateValidatorFactory(private val spec: ValidationSpec) {
     }
 
     private fun translateConstraintDef(rule: ConstraintRule): ConstraintDef<*, *> = when (rule) {
+
+        //hack: Valid is notNull
+        is Valid -> ConstraintRuleTranslator<Valid> { NotNullDef() }.translate(rule)
+
         is NotNull -> ConstraintRuleTranslator<NotNull> { NotNullDef() }.translate(rule)
         is Null -> ConstraintRuleTranslator<Null> { NullDef() }.translate(rule)
 
