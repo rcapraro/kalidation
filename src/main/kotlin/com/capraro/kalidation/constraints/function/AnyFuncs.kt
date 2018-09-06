@@ -26,6 +26,7 @@ package com.capraro.kalidation.constraints.function
 
 import com.capraro.kalidation.constraints.rule.NotNull
 import com.capraro.kalidation.constraints.rule.Null
+import com.capraro.kalidation.constraints.rule.Valid
 import com.capraro.kalidation.spec.PropertyConstraint
 
 /**
@@ -39,4 +40,8 @@ fun PropertyConstraint<out Any, out Any?>.notNull() {
 
 fun PropertyConstraint<out Any, out Any?>.isNull() {
     constraintRules.add(Null())
+}
+
+fun PropertyConstraint<out Any, out Any?>.valid() {
+    constraintRules.add(Valid())
 }
