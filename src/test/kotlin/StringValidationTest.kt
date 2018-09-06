@@ -44,7 +44,6 @@ class StringValidationTest {
 
         validated.fold(
                 {
-                    println(it)
                     assertThat(it).extracting("fieldName")
                             .containsExactlyInAnyOrder(
                                     "field1",
