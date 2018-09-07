@@ -37,7 +37,7 @@ import javax.validation.ConstraintValidatorContext
  */
 class PhoneNumberValidator : ConstraintValidator<PhoneNumber, CharSequence> {
 
-    val phoneNumberUtil = PhoneNumberUtil.getInstance()
+    private val phoneNumberUtil = PhoneNumberUtil.getInstance()
 
     private lateinit var regionCode: String
 
