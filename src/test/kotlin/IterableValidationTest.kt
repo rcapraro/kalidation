@@ -41,7 +41,7 @@ class IterableValidationTest {
     }
 
     @Test
-    fun `test validation of Iterable fields is not subset of oher list`() {
+    fun `test validation of Iterable fields is not subset of other list`() {
         val spec = validationSpec {
             constraints<IterableClass> {
                 property(IterableClass::listField) {
@@ -66,7 +66,7 @@ class IterableValidationTest {
     }
 
     @Test
-    fun `test validation of Iterable fields is partial subset of oher list`() {
+    fun `test validation of Iterable fields is partial subset of other list`() {
         val spec = validationSpec {
             constraints<IterableClass> {
                 property(IterableClass::listField) {
