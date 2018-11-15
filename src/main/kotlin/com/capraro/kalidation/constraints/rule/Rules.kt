@@ -46,6 +46,7 @@ class ArrayNotEmpty : ConstraintRule()
 
 class IterableSize(val min: Int, val max: Int) : ConstraintRule()
 class IterableNotEmpty : ConstraintRule()
+data class SubSetOf(val subset: List<String>) : ConstraintRule()
 
 //Boolean
 

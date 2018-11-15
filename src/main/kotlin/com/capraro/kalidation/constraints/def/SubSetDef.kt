@@ -22,27 +22,21 @@
  * THE SOFTWARE.
  */
 
-package com.capraro.kalidation.constraints.function;
+package com.capraro.kalidation.constraints.def
 
-import com.capraro.kalidation.constraints.rule.IterableNotEmpty
-import com.capraro.kalidation.constraints.rule.IterableSize
-import com.capraro.kalidation.constraints.rule.SubSetOf
-import com.capraro.kalidation.spec.PropertyConstraint
+import com.capraro.kalidation.constraints.annotation.SubSet
+import org.hibernate.validator.cfg.ConstraintDef
 
 /**
- * [Iterable] Validation Functions.
- * @author Richard Capraro
+ * Subset validation definition
+ * @author Vetrano Romain
  * @since 0.0.1
  */
-fun PropertyConstraint<out Any, out Iterable<*>?>.size(min: Int = 0, max: Int = Int.MAX_VALUE) {
-    constraintRules.add(IterableSize(min, max))
-}
+class SubSetDef : ConstraintDef<SubSetDef, SubSet>(SubSet::class.java) {
 
-fun PropertyConstraint<out Any, out Iterable<*>?>.notEmpty() {
-    constraintRules.add(IterableNotEmpty())
-}
+    fun subset(values: Array<out String>): SubSetDef {
+        addParameter("subset", values)
+        return this
+    }
 
-fun PropertyConstraint<out Any, out Iterable<*>?>.subSetOf(vararg values: String) {
-    constraintRules.add(SubSetOf(values.asList()))
 }
-
