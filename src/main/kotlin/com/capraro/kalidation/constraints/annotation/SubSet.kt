@@ -38,4 +38,4 @@ import kotlin.reflect.KClass
 annotation class SubSet(val message: String = "{javax.validation.constraints.SubSet.message}",
                         val groups: Array<KClass<out Any>> = [],
                         val payload: Array<KClass<out Any>> = [],
-                        val subset: Array<String>)
+                        val completeValues: Array<String>)

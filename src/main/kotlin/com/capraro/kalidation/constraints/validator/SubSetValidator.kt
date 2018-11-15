@@ -30,21 +30,13 @@ import javax.validation.ConstraintValidatorContext
 
 class SubSetValidator : ConstraintValidator<SubSet, Iterable<*>> {
 
-    private var subset = listOf<String>()
+    private var completeValues = listOf<String>()
 
     override fun initialize(constraintAnnotation: SubSet) {
-        subset = constraintAnnotation.subset.toList()
+        completeValues = constraintAnnotation.completeValues.toList()
     }
 
     override fun isValid(values: Iterable<*>?, context: ConstraintValidatorContext?): Boolean {
-        if (values == null) {
-            return true
-        }
-        values.forEach { value ->
-            if(!subset.contains(value)) {
-                return false
-            }
-        }
-        return true
+        return values?.let { completeValues.containsAll(it.toList()) } ?: true
     }
 }
