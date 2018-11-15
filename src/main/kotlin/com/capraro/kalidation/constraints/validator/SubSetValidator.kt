@@ -22,27 +22,29 @@
  * THE SOFTWARE.
  */
 
-package com.capraro.kalidation.constraints.function;
+package com.capraro.kalidation.constraints.validator
 
-import com.capraro.kalidation.constraints.rule.IterableNotEmpty
-import com.capraro.kalidation.constraints.rule.IterableSize
-import com.capraro.kalidation.constraints.rule.SubSetOf
-import com.capraro.kalidation.spec.PropertyConstraint
+import com.capraro.kalidation.constraints.annotation.SubSet
+import javax.validation.ConstraintValidator
+import javax.validation.ConstraintValidatorContext
 
-/**
- * [Iterable] Validation Functions.
- * @author Richard Capraro
- * @since 0.0.1
- */
-fun PropertyConstraint<out Any, out Iterable<*>?>.size(min: Int = 0, max: Int = Int.MAX_VALUE) {
-    constraintRules.add(IterableSize(min, max))
+class SubSetValidator : ConstraintValidator<SubSet, Iterable<*>> {
+
+    private var subset = listOf<String>()
+
+    override fun initialize(constraintAnnotation: SubSet) {
+        subset = constraintAnnotation.subset.toList()
+    }
+
+    override fun isValid(values: Iterable<*>?, context: ConstraintValidatorContext?): Boolean {
+        if (values == null) {
+            return true
+        }
+        values.forEach { value ->
+            if(!subset.contains(value)) {
+                return false
+            }
+        }
+        return true
+    }
 }
-
-fun PropertyConstraint<out Any, out Iterable<*>?>.notEmpty() {
-    constraintRules.add(IterableNotEmpty())
-}
-
-fun PropertyConstraint<out Any, out Iterable<*>?>.subSetOf(vararg values: String) {
-    constraintRules.add(SubSetOf(values.asList()))
-}
-

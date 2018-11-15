@@ -25,6 +25,7 @@
 package com.capraro.kalidation.implementation
 
 import com.capraro.kalidation.constraints.def.PhoneNumberDef
+import com.capraro.kalidation.constraints.def.SubSetDef
 import com.capraro.kalidation.constraints.def.ValuesDef
 import com.capraro.kalidation.constraints.rule.*
 import com.capraro.kalidation.spec.ValidationSpec
@@ -113,6 +114,7 @@ class HibernateValidatorFactory(private val spec: ValidationSpec) {
         is FutureOrPresent -> ConstraintRuleTranslator<FutureOrPresent> { FutureOrPresentDef() }.translate(rule)
         is Past -> ConstraintRuleTranslator<Past> { PastDef() }.translate(rule)
         is PastOrPresent -> ConstraintRuleTranslator<PastOrPresent> { PastOrPresentDef() }.translate(rule)
+        is SubSetOf -> ConstraintRuleTranslator<SubSetOf> { SubSetDef().subset(it.subset.toTypedArray()) }.translate(rule)
     }
 
     internal fun build(): Validator {
