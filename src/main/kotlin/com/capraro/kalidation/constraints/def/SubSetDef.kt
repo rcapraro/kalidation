@@ -34,8 +34,8 @@ import org.hibernate.validator.cfg.ConstraintDef
  */
 class SubSetDef : ConstraintDef<SubSetDef, SubSet>(SubSet::class.java) {
 
-    fun subset(values: Array<out String>): SubSetDef {
-        addParameter("subset", values)
+    fun completeValues(values: Array<out String>): SubSetDef {
+        addParameter("completeValues", values)
         return this
     }
 

@@ -42,7 +42,7 @@ fun PropertyConstraint<out Any, out Iterable<*>?>.notEmpty() {
     constraintRules.add(IterableNotEmpty())
 }
 
-fun PropertyConstraint<out Any, out Iterable<*>?>.subSetOf(vararg values: String) {
-    constraintRules.add(SubSetOf(values.asList()))
+fun PropertyConstraint<out Any, out Iterable<*>?>.subSetOf(vararg completeValues: String) {
+    constraintRules.add(SubSetOf(completeValues.asList()))
 }
 
