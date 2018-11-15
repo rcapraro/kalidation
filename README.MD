@@ -108,6 +108,7 @@ The `ValidationResult` object contains the name of the field in error, and the i
   
   * size(val min: Int, val max: Int)
   * notEmpty()
+  * subSetOf(val completeValues: List<String>)
   
 ***Boolean***
   

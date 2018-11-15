@@ -114,7 +114,7 @@ class HibernateValidatorFactory(private val spec: ValidationSpec) {
         is FutureOrPresent -> ConstraintRuleTranslator<FutureOrPresent> { FutureOrPresentDef() }.translate(rule)
         is Past -> ConstraintRuleTranslator<Past> { PastDef() }.translate(rule)
         is PastOrPresent -> ConstraintRuleTranslator<PastOrPresent> { PastOrPresentDef() }.translate(rule)
-        is SubSetOf -> ConstraintRuleTranslator<SubSetOf> { SubSetDef().subset(it.subset.toTypedArray()) }.translate(rule)
+        is SubSetOf -> ConstraintRuleTranslator<SubSetOf> { SubSetDef().completeValues(it.completeValues.toTypedArray()) }.translate(rule)
     }
 
     internal fun build(): Validator {
