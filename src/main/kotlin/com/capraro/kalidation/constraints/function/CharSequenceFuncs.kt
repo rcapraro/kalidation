@@ -79,3 +79,7 @@ fun PropertyConstraint<out Any, out CharSequence?>.decimalMax(value: String, inc
 fun PropertyConstraint<out Any, out CharSequence?>.digits(value: Int, fraction: Int) {
     constraintRules.add(CsDigits(value, fraction))
 }
+
+fun PropertyConstraint<out Any, out CharSequence?>.dateValid() {
+    constraintRules.add(CsDateValid())
+}

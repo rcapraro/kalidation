@@ -128,7 +128,8 @@ The `ValidationResult` object contains the name of the field in error, and the i
   * max(val value: Long)
   * decimalMin(val value: String, val inclusive: Boolean)
   * decimalMax(val value: String, val inclusive: Boolean)
-  * digits (val integer: Int, val fraction: Int)    
+  * digits (val integer: Int, val fraction: Int)
+  * dateValid()
      
  
 ***Number (Integer, Float, Long, BigDecimal, BigInteger, etc.)***
