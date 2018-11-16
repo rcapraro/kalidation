@@ -96,5 +96,69 @@ class StringValidationTest {
                 { fail("The validation should not be valid") }
         )
     }
+
+    @Test
+    fun `Positive test format date is ZonedDateTime`() {
+        val spec = validationSpec {
+            constraints<StringTestClass> {
+                property(StringTestClass::field1) {
+                    dateValid()
+                }
+            }
+        }
+
+        val dslTest = StringTestClass("2018-06-15T17:32:28.000Z", "EmptyNotUsedForTest", "EmptyNotUsedForTest")
+        val validated = spec.validate(dslTest)
+
+        assert(validated.isValid)
+    }
+
+    @Test
+    fun `Positive test format date is null`() {
+        val spec = validationSpec {
+            constraints<StringTestClass> {
+                property(StringTestClass::field1) {
+                    dateValid()
+                }
+            }
+        }
+
+        val dslTest = StringTestClass(null, "EmptyNotUsedForTest", "EmptyNotUsedForTest")
+        val validated = spec.validate(dslTest)
+
+        assert(validated.isValid)
+    }
+
+    @Test
+    fun `Negative test format date is empty`() {
+        val spec = validationSpec {
+            constraints<StringTestClass> {
+                property(StringTestClass::field1) {
+                    dateValid()
+                }
+            }
+        }
+
+        val dslTest = StringTestClass("", "EmptyNotUsedForTest", "EmptyNotUsedForTest")
+        val validated = spec.validate(dslTest)
+
+        assert(validated.isInvalid)
+    }
+
+    @Test
+    fun `Negative test format date is not ZonedDateTime`() {
+        val spec = validationSpec {
+            constraints<StringTestClass> {
+                property(StringTestClass::field1) {
+                    dateValid()
+                }
+            }
+        }
+
+        val dslTest = StringTestClass("NotZonedDateTime", "EmptyNotUsedForTest", "EmptyNotUsedForTest")
+        val validated = spec.validate(dslTest)
+
+        assert(validated.isInvalid)
+    }
 }
 
