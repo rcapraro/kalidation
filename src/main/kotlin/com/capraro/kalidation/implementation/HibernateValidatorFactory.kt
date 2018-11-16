@@ -24,6 +24,7 @@
 
 package com.capraro.kalidation.implementation
 
+import com.capraro.kalidation.constraints.def.DateDef
 import com.capraro.kalidation.constraints.def.PhoneNumberDef
 import com.capraro.kalidation.constraints.def.SubSetDef
 import com.capraro.kalidation.constraints.def.ValuesDef
@@ -115,6 +116,7 @@ class HibernateValidatorFactory(private val spec: ValidationSpec) {
         is Past -> ConstraintRuleTranslator<Past> { PastDef() }.translate(rule)
         is PastOrPresent -> ConstraintRuleTranslator<PastOrPresent> { PastOrPresentDef() }.translate(rule)
         is SubSetOf -> ConstraintRuleTranslator<SubSetOf> { SubSetDef().completeValues(it.completeValues.toTypedArray()) }.translate(rule)
+        is CsDateValid -> ConstraintRuleTranslator<CsDateValid> { DateDef().date() }.translate(rule)
     }
 
     internal fun build(): Validator {
