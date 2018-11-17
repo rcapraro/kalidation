@@ -155,3 +155,5 @@ The `ValidationResult` object contains the name of the field in error, and the i
   * past() 
   * futureOrPresent()
   * pastOrPresent()
+  
+> For all methods, an optional *message: String?* parameter can be used to override the Hibernate validator resource bundle message.  

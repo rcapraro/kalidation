@@ -4,6 +4,7 @@ import com.capraro.kalidation.dsl.constraints
 import com.capraro.kalidation.dsl.property
 import com.capraro.kalidation.dsl.validationSpec
 import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.tuple
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
 
@@ -17,11 +18,13 @@ class ScriptValidationTest {
 
     @Test
     fun `test validation by javascript script should fail`() {
+
+        val customMessage = "Oops It's not valid"
+
         val spec = validationSpec {
             constraints<MyClass> {
                 property(MyClass::field) {
-                    notNull()
-                    validByScript("javascript", "field.innerField1.size > field.innerField2.size", "field")
+                    validByScript("javascript", "it.innerField1.size > it.innerField2.size", "it", message = customMessage)
                 }
             }
         }
@@ -30,11 +33,9 @@ class ScriptValidationTest {
 
         val validated = spec.validate(dslTest)
 
-        println(validated)
-
         validated.fold(
                 {
-                    Assertions.assertThat(it).extracting("fieldName").containsExactly("field")
+                    Assertions.assertThat(it).extracting("fieldName", "message").contains(tuple("field", customMessage))
                 },
                 { fail("The validation should not be valid") }
         )
@@ -57,7 +58,6 @@ class ScriptValidationTest {
         val validated = spec.validate(dslTest)
 
         assert(validated.isValid)
-
     }
 
     @Test
@@ -76,7 +76,6 @@ class ScriptValidationTest {
         val validated = spec.validate(dslTest)
 
         assert(validated.isValid)
-
     }
 
     @Test
@@ -94,15 +93,12 @@ class ScriptValidationTest {
 
         val validated = spec.validate(dslTest)
 
-        println(validated)
-
         validated.fold(
                 {
                     Assertions.assertThat(it).extracting("fieldName").containsExactly("field")
                 },
                 { fail("The validation should not be valid") }
         )
-
     }
 
     @Test
@@ -121,7 +117,6 @@ class ScriptValidationTest {
         val validated = spec.validate(dslTest)
 
         assert(validated.isValid)
-
     }
 
     @Test
@@ -138,8 +133,6 @@ class ScriptValidationTest {
         val dslTest = MyClass(MyInnerClass("foo", "foobar"))
 
         val validated = spec.validate(dslTest)
-
-        println(validated)
 
         validated.fold(
                 {
@@ -166,7 +159,6 @@ class ScriptValidationTest {
         val validated = spec.validate(dslTest)
 
         assert(validated.isValid)
-
     }
 
 }

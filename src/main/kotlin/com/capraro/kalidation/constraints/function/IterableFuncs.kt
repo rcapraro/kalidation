@@ -34,15 +34,15 @@ import com.capraro.kalidation.spec.PropertyConstraint
  * @author Richard Capraro
  * @since 0.0.1
  */
-fun PropertyConstraint<out Any, out Iterable<*>?>.size(min: Int = 0, max: Int = Int.MAX_VALUE) {
-    constraintRules.add(IterableSize(min, max))
+fun PropertyConstraint<out Any, out Iterable<*>?>.size(min: Int = 0, max: Int = Int.MAX_VALUE, message: String? = null) {
+    constraintRules.add(IterableSize(min, max, message))
 }
 
-fun PropertyConstraint<out Any, out Iterable<*>?>.notEmpty() {
-    constraintRules.add(IterableNotEmpty())
+fun PropertyConstraint<out Any, out Iterable<*>?>.notEmpty(message: String? = null) {
+    constraintRules.add(IterableNotEmpty(message))
 }
 
-fun PropertyConstraint<out Any, out Iterable<*>?>.subSetOf(vararg completeValues: String) {
-    constraintRules.add(SubSetOf(completeValues.asList()))
+fun PropertyConstraint<out Any, out Iterable<*>?>.subSetOf(vararg completeValues: String, message: String? = null) {
+    constraintRules.add(SubSetOf(completeValues.asList(), message))
 }
 
