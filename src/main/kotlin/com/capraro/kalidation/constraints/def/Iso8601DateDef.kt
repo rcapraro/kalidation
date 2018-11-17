@@ -24,18 +24,12 @@
 
 package com.capraro.kalidation.constraints.def
 
-import com.capraro.kalidation.constraints.annotation.Date
+import com.capraro.kalidation.constraints.annotation.Iso8601Date
 import org.hibernate.validator.cfg.ConstraintDef
 
 /**
- * Subset validation definition
+ * Iso8601 date validation definition
  * @author Gwenael Cholet
- * @since 0.0.1
+ * @since 1.0.3
  */
-class DateDef : ConstraintDef<DateDef, Date>(Date::class.java) {
-
-    fun date(): DateDef {
-        return this
-    }
-
-}
+class Iso8601DateDef : ConstraintDef<Iso8601DateDef, Iso8601Date>(Iso8601Date::class.java)

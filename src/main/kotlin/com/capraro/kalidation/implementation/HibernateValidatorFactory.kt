@@ -24,7 +24,7 @@
 
 package com.capraro.kalidation.implementation
 
-import com.capraro.kalidation.constraints.def.DateDef
+import com.capraro.kalidation.constraints.def.Iso8601DateDef
 import com.capraro.kalidation.constraints.def.PhoneNumberDef
 import com.capraro.kalidation.constraints.def.SubSetDef
 import com.capraro.kalidation.constraints.def.ValuesDef
@@ -58,10 +58,9 @@ class HibernateValidatorFactory(private val spec: ValidationSpec) {
                 val typeMapping = constraintMapping.type(it.constrainedClass.java)
                 it.propertyConstraints.forEach {
                     val propertyMapping = typeMapping.property(it.constrainedProperty.name, ElementType.FIELD)
-                    it.constraintRules.forEach {
-                        rule: ConstraintRule ->
+                    it.constraintRules.forEach { rule: ConstraintRule ->
                         val constraint = propertyMapping.constraint(translateConstraintDef(rule))
-                        when(rule) {
+                        when (rule) {
                             is Valid -> constraint.valid()
                         }
                     }
@@ -75,6 +74,7 @@ class HibernateValidatorFactory(private val spec: ValidationSpec) {
 
         //hack: Valid is notNull
         is Valid -> ConstraintRuleTranslator<Valid> { NotNullDef() }.translate(rule)
+        is ValidByScript -> ConstraintRuleTranslator<ValidByScript> { ScriptAssertDef().lang(it.lang).script(it.script).alias(it.alias).reportOn(it.reportOn) }.translate(rule)
 
         is NotNull -> ConstraintRuleTranslator<NotNull> { NotNullDef() }.translate(rule)
         is Null -> ConstraintRuleTranslator<Null> { NullDef() }.translate(rule)
@@ -100,6 +100,7 @@ class HibernateValidatorFactory(private val spec: ValidationSpec) {
         is CsDecimalMin -> ConstraintRuleTranslator<CsDecimalMin> { DecimalMinDef().value(it.value).inclusive(it.inclusive) }.translate(rule)
         is CsDecimalMax -> ConstraintRuleTranslator<CsDecimalMax> { DecimalMaxDef().value(it.value).inclusive(it.inclusive) }.translate(rule)
         is CsDigits -> ConstraintRuleTranslator<CsDigits> { DigitsDef().integer(it.integer).fraction(it.fraction) }.translate(rule)
+        is Iso8601Date -> ConstraintRuleTranslator<Iso8601Date> { Iso8601DateDef() }.translate(rule)
 
         is NegativeOrZero -> ConstraintRuleTranslator<NegativeOrZero> { NegativeOrZeroDef() }.translate(rule)
         is PositiveOrZero -> ConstraintRuleTranslator<PositiveOrZero> { PositiveOrZeroDef() }.translate(rule)
@@ -116,7 +117,6 @@ class HibernateValidatorFactory(private val spec: ValidationSpec) {
         is Past -> ConstraintRuleTranslator<Past> { PastDef() }.translate(rule)
         is PastOrPresent -> ConstraintRuleTranslator<PastOrPresent> { PastOrPresentDef() }.translate(rule)
         is SubSetOf -> ConstraintRuleTranslator<SubSetOf> { SubSetDef().completeValues(it.completeValues.toTypedArray()) }.translate(rule)
-        is CsDateValid -> ConstraintRuleTranslator<CsDateValid> { DateDef().date() }.translate(rule)
     }
 
     internal fun build(): Validator {

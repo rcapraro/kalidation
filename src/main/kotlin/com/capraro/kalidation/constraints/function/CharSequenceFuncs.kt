@@ -80,6 +80,6 @@ fun PropertyConstraint<out Any, out CharSequence?>.digits(value: Int, fraction: 
     constraintRules.add(CsDigits(value, fraction))
 }
 
-fun PropertyConstraint<out Any, out CharSequence?>.dateValid() {
-    constraintRules.add(CsDateValid())
+fun PropertyConstraint<out Any, out CharSequence?>.iso8601Date() {
+    constraintRules.add(Iso8601Date())
 }

@@ -108,7 +108,7 @@ class IterableValidationTest {
     }
 
     @Test
-    fun `test validation of Iterable fields empty is subset of other list empty`() {
+    fun `test validation of empty Iterable fields is subset of other empty list`() {
         val spec = validationSpec {
             constraints<IterableClass> {
                 property(IterableClass::listField) {

@@ -27,10 +27,11 @@ package com.capraro.kalidation.constraints.function
 import com.capraro.kalidation.constraints.rule.NotNull
 import com.capraro.kalidation.constraints.rule.Null
 import com.capraro.kalidation.constraints.rule.Valid
+import com.capraro.kalidation.constraints.rule.ValidByScript
 import com.capraro.kalidation.spec.PropertyConstraint
 
 /**
- * Validation Functions on any classes.
+ * Validation Functions on [Any] classes.
  * @author Richard Capraro
  * @since 0.0.1
  */
@@ -44,4 +45,8 @@ fun PropertyConstraint<out Any, out Any?>.isNull() {
 
 fun PropertyConstraint<out Any, out Any?>.valid() {
     constraintRules.add(Valid())
+}
+
+fun PropertyConstraint<out Any, out Any?>.validByScript(lang: String, script: String, alias: String = "_this", reportOn: String = "") {
+    constraintRules.add(ValidByScript(lang, script, alias, reportOn))
 }
