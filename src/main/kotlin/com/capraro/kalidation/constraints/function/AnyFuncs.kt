@@ -35,18 +35,18 @@ import com.capraro.kalidation.spec.PropertyConstraint
  * @author Richard Capraro
  * @since 0.0.1
  */
-fun PropertyConstraint<out Any, out Any?>.notNull() {
-    constraintRules.add(NotNull())
+fun PropertyConstraint<out Any, out Any?>.notNull(message: String? = null) {
+    constraintRules.add(NotNull(message))
 }
 
-fun PropertyConstraint<out Any, out Any?>.isNull() {
-    constraintRules.add(Null())
+fun PropertyConstraint<out Any, out Any?>.isNull(message: String? = null) {
+    constraintRules.add(Null(message))
 }
 
-fun PropertyConstraint<out Any, out Any?>.valid() {
-    constraintRules.add(Valid())
+fun PropertyConstraint<out Any, out Any?>.valid(message: String? = null) {
+    constraintRules.add(Valid(message))
 }
 
-fun PropertyConstraint<out Any, out Any?>.validByScript(lang: String, script: String, alias: String = "_this", reportOn: String = "") {
-    constraintRules.add(ValidByScript(lang, script, alias, reportOn))
+fun PropertyConstraint<out Any, out Any?>.validByScript(lang: String, script: String, alias: String = "_this", reportOn: String = "", message: String? = null) {
+    constraintRules.add(ValidByScript(lang, script, alias, reportOn, message))
 }

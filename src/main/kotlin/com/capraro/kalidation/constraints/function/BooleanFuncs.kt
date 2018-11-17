@@ -33,10 +33,10 @@ import com.capraro.kalidation.spec.PropertyConstraint
  * @author Richard Capraro
  * @since 0.0.1
  */
-fun PropertyConstraint<out Any, out Boolean?>.assertTrue() {
-    constraintRules.add(AssertTrue())
+fun PropertyConstraint<out Any, out Boolean?>.assertTrue(message: String? = null) {
+    constraintRules.add(AssertTrue(message))
 }
 
-fun PropertyConstraint<out Any, out Boolean?>.assertFalse() {
-    constraintRules.add(AssertFalse())
+fun PropertyConstraint<out Any, out Boolean?>.assertFalse(message: String? = null) {
+    constraintRules.add(AssertFalse(message))
 }
