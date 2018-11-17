@@ -37,9 +37,6 @@ class ValuesValidator : ConstraintValidator<Values, CharSequence> {
     }
 
     override fun isValid(value: CharSequence?, context: ConstraintValidatorContext): Boolean {
-        if (value == null) {
-            return true
-        }
-        return values.contains(value)
+        return value?.let { values.contains(value) } ?: true
     }
 }
