@@ -45,15 +45,12 @@ class PhoneNumberValidator : ConstraintValidator<PhoneNumber, CharSequence> {
         regionCode = constraintAnnotation.regionCode
     }
 
-    override fun isValid(value: CharSequence?, context: ConstraintValidatorContext): Boolean {
-        if (value == null) {
-            return true
-        }
+    override fun isValid(value: CharSequence?, context: ConstraintValidatorContext): Boolean = value?.let {
 
         return try {
             phoneNumberUtil.isValidNumber(phoneNumberUtil.parse(value, regionCode))
         } catch (e: NumberParseException) {
             false
         }
-    }
+    } ?: true
 }

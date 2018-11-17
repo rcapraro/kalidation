@@ -38,12 +38,12 @@ import javax.validation.ConstraintValidatorContext
 class Iso8601DateValidator : ConstraintValidator<Iso8601Date, String> {
 
     override fun isValid(value: String?, context: ConstraintValidatorContext?): Boolean = value?.let { date ->
-        try {
+        return try {
             ZonedDateTime.parse(date)
+            true
         } catch (e: DateTimeParseException) {
-            return false
+            false
         }
-        true
     } ?: true
 
 }
