@@ -29,7 +29,7 @@ import com.capraro.kalidation.constraints.rule.AssertTrue
 import com.capraro.kalidation.spec.PropertyConstraint
 
 /**
- * Boolean Validation Functions.
+ * [Boolean] Validation Functions.
  * @author Richard Capraro
  * @since 0.0.1
  */

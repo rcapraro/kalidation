@@ -24,19 +24,26 @@
 
 package com.capraro.kalidation.constraints.validator
 
-import com.capraro.kalidation.constraints.annotation.Date
+import com.capraro.kalidation.constraints.annotation.Iso8601Date
 import java.time.ZonedDateTime
 import java.time.format.DateTimeParseException
 import javax.validation.ConstraintValidator
 import javax.validation.ConstraintValidatorContext
 
-class DateValidator : ConstraintValidator<Date, String> {
+/**
+ * Iso8601DateValidator validator.
+ * @author Gwenael Cholet
+ * @since 1.0.3
+ */
+class Iso8601DateValidator : ConstraintValidator<Iso8601Date, String> {
 
-    override fun isValid(value: String?, context: ConstraintValidatorContext?): Boolean {
-        return value?.let {date ->
-            try { ZonedDateTime.parse(date) } catch (e: DateTimeParseException) { return false }
-            true
-        } ?: true
-    }
+    override fun isValid(value: String?, context: ConstraintValidatorContext?): Boolean = value?.let { date ->
+        try {
+            ZonedDateTime.parse(date)
+        } catch (e: DateTimeParseException) {
+            return false
+        }
+        true
+    } ?: true
 
 }

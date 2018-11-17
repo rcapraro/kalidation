@@ -98,11 +98,11 @@ class StringValidationTest {
     }
 
     @Test
-    fun `Positive test format date is ZonedDateTime`() {
+    fun `test validation of String with ISO8601 date format`() {
         val spec = validationSpec {
             constraints<StringTestClass> {
                 property(StringTestClass::field1) {
-                    dateValid()
+                    iso8601Date()
                 }
             }
         }
@@ -114,11 +114,11 @@ class StringValidationTest {
     }
 
     @Test
-    fun `Positive test format date is null`() {
+    fun `test validation of null String with ISO8601 date format`() {
         val spec = validationSpec {
             constraints<StringTestClass> {
                 property(StringTestClass::field1) {
-                    dateValid()
+                    iso8601Date()
                 }
             }
         }
@@ -130,11 +130,11 @@ class StringValidationTest {
     }
 
     @Test
-    fun `Negative test format date is empty`() {
+    fun `test validation of empty String with ISO8601 date format`() {
         val spec = validationSpec {
             constraints<StringTestClass> {
                 property(StringTestClass::field1) {
-                    dateValid()
+                    iso8601Date()
                 }
             }
         }
@@ -143,14 +143,21 @@ class StringValidationTest {
         val validated = spec.validate(dslTest)
 
         assert(validated.isInvalid)
+
+        validated.fold(
+                {
+                    assertThat(it).extracting("fieldName").containsExactly("field1")
+                },
+                { fail("The validation should not be valid") }
+        )
     }
 
     @Test
-    fun `Negative test format date is not ZonedDateTime`() {
+    fun `test validation of String without ISO8601 date format`() {
         val spec = validationSpec {
             constraints<StringTestClass> {
                 property(StringTestClass::field1) {
-                    dateValid()
+                    iso8601Date()
                 }
             }
         }
@@ -158,7 +165,12 @@ class StringValidationTest {
         val dslTest = StringTestClass("NotZonedDateTime", "EmptyNotUsedForTest", "EmptyNotUsedForTest")
         val validated = spec.validate(dslTest)
 
-        assert(validated.isInvalid)
+        validated.fold(
+                {
+                    assertThat(it).extracting("fieldName").containsExactly("field1")
+                },
+                { fail("The validation should not be valid") }
+        )
     }
 }
 

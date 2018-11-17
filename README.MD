@@ -98,6 +98,7 @@ The `ValidationResult` object contains the name of the field in error, and the i
  * notNull()
  * isNull()
  * valid(), used for cascading validation (on an inner class)
+ * validByScript(lang: String, script: String, alias: String = "_this", reportOn: String = "")
  
 ***Array***
  
@@ -129,7 +130,7 @@ The `ValidationResult` object contains the name of the field in error, and the i
   * decimalMin(val value: String, val inclusive: Boolean)
   * decimalMax(val value: String, val inclusive: Boolean)
   * digits (val integer: Int, val fraction: Int)
-  * dateValid()
+  * iso8601Date()
      
  
 ***Number (Integer, Float, Long, BigDecimal, BigInteger, etc.)***
