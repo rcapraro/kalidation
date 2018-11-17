@@ -2,6 +2,7 @@
 
 *Kalidation = A Kotlin validation DSL*
 
+[![Download](https://api.bintray.com/packages/rcapraro/maven-releases/kalidation/images/download.svg) ](https://bintray.com/rcapraro/maven-releases/kalidation/_latestVersion)
 [![Build Status](https://travis-ci.org/rcapraro/kalidation.svg?branch=master)](https://travis-ci.org/rcapraro/kalidation)
 
 **Objective**
