@@ -71,7 +71,7 @@ class HibernateValidatorFactory(private val spec: ValidationSpec) {
     }
 
     private fun ConstraintDef<*, *>.customMessage(message: String?): ConstraintDef<*, *> {
-        if (message != null) {
+        message?.let {
             this.message(message)
         }
         return this
