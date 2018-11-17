@@ -98,7 +98,7 @@ The `ValidationResult` object contains the name of the field in error, and the i
  * notNull()
  * isNull()
  * valid(), used for cascading validation (on an inner class)
- * validByScript(lang: String, script: String, alias: String = "_this", reportOn: String = "")
+ * validByScript(lang: String, script: String, alias: String = "_this", reportOn: String = "") - *supports javascript, jexl and groovy scripts*
  
 ***Array***
  
