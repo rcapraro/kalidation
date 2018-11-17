@@ -25,7 +25,7 @@
 package com.capraro.kalidation.constraints.rule
 
 /**
- * Interface for all the [ConstraintRule] implementations and its implementations.
+ * Interface for all the [ConstraintRule] implementations and their implementations.
  * @author Richard Capraro
  * @since 0.0.1
  */
@@ -35,7 +35,8 @@ sealed class ConstraintRule
 
 class NotNull : ConstraintRule()
 class Null : ConstraintRule()
-class Valid: ConstraintRule()
+class Valid : ConstraintRule()
+class ValidByScript(val lang: String, val script: String, val alias: String, val reportOn: String) : ConstraintRule()
 
 //Array
 
@@ -46,8 +47,8 @@ class ArrayNotEmpty : ConstraintRule()
 
 class IterableSize(val min: Int, val max: Int) : ConstraintRule()
 class IterableNotEmpty : ConstraintRule()
-data class SubSetOf(val completeValues: List<String>) : ConstraintRule()
-class CsDateValid() : ConstraintRule()
+class SubSetOf(val completeValues: List<String>) : ConstraintRule()
+class Iso8601Date : ConstraintRule()
 
 //Boolean
 
@@ -58,11 +59,11 @@ class AssertFalse : ConstraintRule()
 
 class NotBlank : ConstraintRule()
 class CsNotEmpty : ConstraintRule()
-data class CsSize(val min: Int, val max: Int) : ConstraintRule()
-data class Regexp(val regexp: String) : ConstraintRule()
+class CsSize(val min: Int, val max: Int) : ConstraintRule()
+class Regexp(val regexp: String) : ConstraintRule()
 class Email : ConstraintRule()
-data class PhoneNumber(val regionCode: String) : ConstraintRule()
-data class InValues(val values: List<String>) : ConstraintRule()
+class PhoneNumber(val regionCode: String) : ConstraintRule()
+class InValues(val values: List<String>) : ConstraintRule()
 class CsMin(val value: Long) : ConstraintRule()
 class CsMax(val value: Long) : ConstraintRule()
 class CsDecimalMin(val value: String, val inclusive: Boolean) : ConstraintRule()
