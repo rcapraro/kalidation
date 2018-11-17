@@ -16,10 +16,13 @@ val spec = validationSpec {
              notBlank()
              inValues("GREEN", "WHITE", "RED")
          }
-         field(Foo::baz) {
+         field(Foo::bax) {
              min(3)
              email()
          }
+         field(Foo::baz) {
+             validByScript(lang = "groovy", script= "baz.validate()", alias="baz")
+         }         
      }
  }
 ```
@@ -99,7 +102,7 @@ The `ValidationResult` object contains the name of the field in error, and the i
  * notNull()
  * isNull()
  * valid(), used for cascading validation (on an inner class)
- * validByScript(lang: String, script: String, alias: String = "_this", reportOn: String = "") - *supports javascript, jexl and groovy scripts*
+ * validByScript(lang: String, script: String, alias: String = "_this", reportOn: String = "") - *supports javascript, jexl and groovy scripts which returns a **Boolean***
  
 ***Array***
  
