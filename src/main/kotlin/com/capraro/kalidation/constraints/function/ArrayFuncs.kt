@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package com.capraro.kalidation.constraints.function;
+package com.capraro.kalidation.constraints.function
 
 import com.capraro.kalidation.constraints.rule.ArrayNotEmpty
 import com.capraro.kalidation.constraints.rule.ArraySize
@@ -33,10 +33,10 @@ import com.capraro.kalidation.spec.PropertyConstraint
  * @author Richard Capraro
  * @since 0.0.1
  */
-fun PropertyConstraint<out Any, out Array<*>?>.size(min: Int = 0, max: Int = Int.MAX_VALUE, message: String? = null) {
-    constraintRules.add(ArraySize(min, max, message))
+fun PropertyConstraint<out Any, out Array<*>?>.size(min: Int = 0, max: Int = Int.MAX_VALUE) {
+    constraintRules.add(ArraySize(min, max))
 }
 
-fun PropertyConstraint<out Any, out Array<*>?>.notEmpty(message: String? = null) {
-    constraintRules.add(ArrayNotEmpty(message))
+fun PropertyConstraint<out Any, out Array<*>?>.notEmpty() {
+    constraintRules.add(ArrayNotEmpty())
 }

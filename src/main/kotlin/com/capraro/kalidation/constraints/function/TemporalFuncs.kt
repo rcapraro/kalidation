@@ -36,18 +36,18 @@ import java.time.temporal.Temporal
  * @author Richard Capraro
  * @since 0.0.1
  */
-fun PropertyConstraint<out Any, out Temporal?>.future(message: String? = null) {
-    constraintRules.add(Future(message))
+fun PropertyConstraint<out Any, out Temporal?>.future() {
+    constraintRules.add(Future())
 }
 
-fun PropertyConstraint<out Any, out Temporal?>.futureOrPresent(message: String? = null) {
-    constraintRules.add(FutureOrPresent(message))
+fun PropertyConstraint<out Any, out Temporal?>.futureOrPresent() {
+    constraintRules.add(FutureOrPresent())
 }
 
-fun PropertyConstraint<out Any, out Temporal?>.past(message: String? = null) {
-    constraintRules.add(Past(message))
+fun PropertyConstraint<out Any, out Temporal?>.past() {
+    constraintRules.add(Past())
 }
 
-fun PropertyConstraint<out Any, out Temporal?>.pastOrPresent(message: String? = null) {
-    constraintRules.add(PastOrPresent(message))
+fun PropertyConstraint<out Any, out Temporal?>.pastOrPresent() {
+    constraintRules.add(PastOrPresent())
 }
