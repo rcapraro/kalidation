@@ -4,7 +4,6 @@ import com.capraro.kalidation.dsl.constraints
 import com.capraro.kalidation.dsl.property
 import com.capraro.kalidation.dsl.validationSpec
 import org.assertj.core.api.Assertions
-import org.assertj.core.api.Assertions.tuple
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
 
@@ -19,12 +18,10 @@ class ScriptValidationTest {
     @Test
     fun `test validation by javascript script should fail`() {
 
-        val customMessage = "Oops It's not valid"
-
         val spec = validationSpec {
             constraints<MyClass> {
                 property(MyClass::field) {
-                    validByScript("javascript", "it.innerField1.size > it.innerField2.size", "it", message = customMessage)
+                    validByScript("javascript", "it.innerField1.size > it.innerField2.size", "it")
                 }
             }
         }
@@ -35,7 +32,7 @@ class ScriptValidationTest {
 
         validated.fold(
                 {
-                    Assertions.assertThat(it).extracting("fieldName", "message").contains(tuple("field", customMessage))
+                    Assertions.assertThat(it).extracting("fieldName").containsExactly("field")
                 },
                 { fail("The validation should not be valid") }
         )

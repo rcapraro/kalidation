@@ -28,6 +28,7 @@ import com.capraro.kalidation.implementation.HibernateValidatorFactory
 import com.capraro.kalidation.spec.Constraint
 import com.capraro.kalidation.spec.PropertyConstraint
 import com.capraro.kalidation.spec.ValidationSpec
+import java.util.*
 import kotlin.reflect.KProperty1
 
 /**
@@ -36,10 +37,10 @@ import kotlin.reflect.KProperty1
  * @since 0.0.1
  */
 
-fun validationSpec(block: ValidationSpec.() -> Unit): ValidationSpec {
+fun validationSpec(locale: Locale = Locale.US, block: ValidationSpec.() -> Unit): ValidationSpec {
     val validationSpec = ValidationSpec()
     block(validationSpec)
-    validationSpec.validator = HibernateValidatorFactory(validationSpec).build()
+    validationSpec.validator = HibernateValidatorFactory(validationSpec).build(locale)
     return validationSpec
 }
 

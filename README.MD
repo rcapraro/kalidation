@@ -36,7 +36,7 @@ https://blog.sourced-bvba.be/article/2018/01/13/kotlin-validation/
  **Usage**
  
  ```kotlin
-val spec = validationSpec {
+val spec = validationSpec(Locale.FRENCH) {
             constraints<MyClass> {
                 property(MyClass::field1) {
                     notBlank()
@@ -62,7 +62,7 @@ val spec = validationSpec {
         
 val myClass = MyClass("BLUE", "foobar", LocalDateTime.parse("2017-12-03T10:15:30"))
 
-val validated = spec.validate(myClass)     
+val validated = spec.validate(myClass) 
 ```
 
 In this example, `validated` is an [Arrow](https://arrow-kt.io) `Validated` object, which we can transform through Arrow built-in functions: `when`, `fold`, `getOrElse`, `map`, etc.
@@ -91,9 +91,9 @@ _Structure of the validation result_:
 
 The validation result structure is a `Set` of `ValidationResult` instances.
  ```kotlin
- data class ValidationResult(val fieldName: String, val message: String)
+data class ValidationResult(val fieldName: String, val invalidValue: Any?, val messageTemplate: String, val message: String)
 ```
-The `ValidationResult` object contains the name of the field in error, and the i18n corresponding message.
+The `ValidationResult` object contains the name and the value of the field in error, the message template and the i18n corresponding message.
  
 **Implemented validation functions**
  
@@ -155,5 +155,3 @@ The `ValidationResult` object contains the name of the field in error, and the i
   * past() 
   * futureOrPresent()
   * pastOrPresent()
-  
-> For all methods, an optional *message: String?* parameter can be used to override the Hibernate validator resource bundle message.  
