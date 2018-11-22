@@ -29,62 +29,62 @@ package com.capraro.kalidation.constraints.rule
  * @author Richard Capraro
  * @since 0.0.1
  */
-sealed class ConstraintRule(var customMessage: String?)
+sealed class ConstraintRule
 
 //All classes
 
-class NotNull(val message: String?) : ConstraintRule(message)
-class Null(val message: String?) : ConstraintRule(message)
-class Valid(val message: String?) : ConstraintRule(message)
-class ValidByScript(val lang: String, val script: String, val alias: String, val reportOn: String, val message: String?) : ConstraintRule(message)
+class NotNull : ConstraintRule()
+class Null : ConstraintRule()
+class Valid : ConstraintRule()
+class ValidByScript(val lang: String, val script: String, val alias: String, val reportOn: String) : ConstraintRule()
 
 //Array
 
-class ArraySize(val min: Int, val max: Int, val message: String?) : ConstraintRule(message)
-class ArrayNotEmpty(val message: String?) : ConstraintRule(message)
+class ArraySize(val min: Int, val max: Int) : ConstraintRule()
+class ArrayNotEmpty : ConstraintRule()
 
 //Iterable
 
-class IterableSize(val min: Int, val max: Int, val message: String?) : ConstraintRule(message)
-class IterableNotEmpty(val message: String?) : ConstraintRule(message)
-class SubSetOf(val completeValues: List<String>, val message: String?) : ConstraintRule(message)
-class Iso8601Date(val message: String?) : ConstraintRule(message)
+class IterableSize(val min: Int, val max: Int) : ConstraintRule()
+class IterableNotEmpty : ConstraintRule()
+class SubSetOf(val completeValues: List<String>) : ConstraintRule()
+class Iso8601Date : ConstraintRule()
 
 //Boolean
 
-class AssertTrue(val message: String?) : ConstraintRule(message)
-class AssertFalse(val message: String?) : ConstraintRule(message)
+class AssertTrue : ConstraintRule()
+class AssertFalse : ConstraintRule()
 
 //CharSequence
 
-class NotBlank(val message: String?) : ConstraintRule(message)
-class CsNotEmpty(val message: String?) : ConstraintRule(message)
-class CsSize(val min: Int, val max: Int, val message: String?) : ConstraintRule(message)
-class Regexp(val regexp: String, val message: String?) : ConstraintRule(message)
-class Email(val message: String?) : ConstraintRule(message)
-class PhoneNumber(val regionCode: String, val message: String?) : ConstraintRule(message)
-class InValues(val values: List<String>, val message: String?) : ConstraintRule(message)
-class CsMin(val value: Long, val message: String?) : ConstraintRule(message)
-class CsMax(val value: Long, val message: String?) : ConstraintRule(message)
-class CsDecimalMin(val value: String, val inclusive: Boolean, val message: String?) : ConstraintRule(message)
-class CsDecimalMax(val value: String, val inclusive: Boolean, val message: String?) : ConstraintRule(message)
-class CsDigits(val integer: Int, val fraction: Int, val message: String?) : ConstraintRule(message)
+class NotBlank : ConstraintRule()
+class CsNotEmpty : ConstraintRule()
+class CsSize(val min: Int, val max: Int) : ConstraintRule()
+class Regexp(val regexp: String) : ConstraintRule()
+class Email : ConstraintRule()
+class PhoneNumber(val regionCode: String) : ConstraintRule()
+class InValues(val values: List<String>) : ConstraintRule()
+class CsMin(val value: Long) : ConstraintRule()
+class CsMax(val value: Long) : ConstraintRule()
+class CsDecimalMin(val value: String, val inclusive: Boolean) : ConstraintRule()
+class CsDecimalMax(val value: String, val inclusive: Boolean) : ConstraintRule()
+class CsDigits(val integer: Int, val fraction: Int) : ConstraintRule()
 
 //Number
 
-class NegativeOrZero(val message: String?) : ConstraintRule(message)
-class PositiveOrZero(val message: String?) : ConstraintRule(message)
-class Negative(val message: String?) : ConstraintRule(message)
-class Positive(val message: String?) : ConstraintRule(message)
-class Min(val value: Long, val message: String?) : ConstraintRule(message)
-class Max(val value: Long, val message: String?) : ConstraintRule(message)
-class DecimalMin(val value: String, val inclusive: Boolean, val message: String?) : ConstraintRule(message)
-class DecimalMax(val value: String, val inclusive: Boolean, val message: String?) : ConstraintRule(message)
-class Digits(val integer: Int, val fraction: Int, val message: String?) : ConstraintRule(message)
+class NegativeOrZero : ConstraintRule()
+class PositiveOrZero : ConstraintRule()
+class Negative : ConstraintRule()
+class Positive : ConstraintRule()
+class Min(val value: Long) : ConstraintRule()
+class Max(val value: Long) : ConstraintRule()
+class DecimalMin(val value: String, val inclusive: Boolean) : ConstraintRule()
+class DecimalMax(val value: String, val inclusive: Boolean) : ConstraintRule()
+class Digits(val integer: Int, val fraction: Int) : ConstraintRule()
 
 //Temporal
 
-class Future(val message: String?) : ConstraintRule(message)
-class Past(val message: String?) : ConstraintRule(message)
-class FutureOrPresent(val message: String?) : ConstraintRule(message)
-class PastOrPresent(val message: String?) : ConstraintRule(message)
+class Future : ConstraintRule()
+class Past : ConstraintRule()
+class FutureOrPresent : ConstraintRule()
+class PastOrPresent : ConstraintRule()

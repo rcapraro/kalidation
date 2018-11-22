@@ -46,10 +46,14 @@ data class ValidationSpec(val constraints: MutableList<Constraint<out Any>> = mu
     internal lateinit var validator: Validator
 
     fun validate(constrainedClass: Any): Validated<Set<ValidationResult>, Boolean> {
+
         val validationSet = validator.validate(constrainedClass)
                 .map {
+                    print(it.invalidValue.javaClass)
                     ValidationResult(
-                            fieldName = it.propertyPath.joinToString(".") { it.name },
+                            fieldName = it.propertyPath.joinToString(".") { violation -> violation.name },
+                            invalidValue = it.invalidValue,
+                            messageTemplate = it.messageTemplate,
                             message = it.message)
                 }
                 .toSet()
@@ -78,4 +82,4 @@ data class Constraint<T : Any>(val constrainedClass: KClass<T>,
 data class PropertyConstraint<T : Any, P : Any?>(val constrainedProperty: KProperty1<T, P>,
                                                  val constraintRules: MutableList<ConstraintRule> = mutableListOf())
 
-data class ValidationResult(val fieldName: String, val message: String)
+data class ValidationResult(val fieldName: String, val invalidValue: Any?, val messageTemplate: String, val message: String)
