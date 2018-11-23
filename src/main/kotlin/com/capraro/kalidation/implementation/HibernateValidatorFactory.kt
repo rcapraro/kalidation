@@ -35,6 +35,7 @@ import org.hibernate.validator.cfg.ConstraintDef
 import org.hibernate.validator.cfg.ConstraintMapping
 import org.hibernate.validator.cfg.defs.*
 import org.hibernate.validator.internal.cfg.context.DefaultConstraintMapping
+import org.hibernate.validator.resourceloading.AggregateResourceBundleLocator
 import java.lang.annotation.ElementType
 import java.util.*
 import javax.validation.Validation
@@ -144,13 +145,15 @@ class HibernateValidatorFactory(private val spec: ValidationSpec) {
         }.translate(rule)
     }
 
-    internal fun build(locale: Locale): Validator {
+    internal fun build(locale: Locale, messageBundle: String?): Validator {
 
         val validatorConfiguration = Validation
                 .byProvider(HibernateValidator::class.java)
                 .configure()
 
-        return validatorConfiguration.messageInterpolator(LocaleSpecificMessageInterpolator(validatorConfiguration.defaultMessageInterpolator, locale))
+        return validatorConfiguration
+                .messageInterpolator(LocaleSpecificMessageInterpolator(locale,
+                        AggregateResourceBundleLocator(listOfNotNull(messageBundle, "ValidationMessages"))))
                 .addMapping(createConstraintMapping(spec))
                 .buildValidatorFactory().validator
     }

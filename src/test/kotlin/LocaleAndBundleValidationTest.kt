@@ -1,0 +1,72 @@
+import com.capraro.kalidation.constraints.function.inValues
+import com.capraro.kalidation.constraints.function.notBlank
+import com.capraro.kalidation.dsl.constraints
+import com.capraro.kalidation.dsl.property
+import com.capraro.kalidation.dsl.validationSpec
+import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.tuple
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.fail
+import java.util.*
+
+private class ValidationTestClass(val field: String)
+
+class LocaleAndBundleValidationTest {
+
+    @Test
+    fun `test validation with custom resourceBundle and EN Locale`() {
+        val spec = validationSpec(messageBundle = "TestMessages", locale = Locale.ENGLISH) {
+            constraints<ValidationTestClass> {
+                property(ValidationTestClass::field) {
+                    notBlank()
+                    inValues("FOO", "BAR")
+                }
+            }
+        }
+
+        val dslTest = ValidationTestClass(" ")
+
+        val validated = spec.validate(dslTest)
+
+        println(validated)
+
+        assert(validated.isInvalid)
+
+        validated.fold(
+                {
+                    assertThat(it).extracting("fieldName", "message")
+                            .containsExactlyInAnyOrder(tuple("field", "[EN] is blank"), tuple("field", "[EN] not in values [FOO, BAR]"))
+                },
+                { fail("The validation should not be valid") }
+        )
+    }
+
+    @Test
+    fun `test validation with custom resourceBundle and FR Locale`() {
+        val spec = validationSpec(messageBundle = "TestMessages", locale = Locale.FRENCH) {
+            constraints<ValidationTestClass> {
+                property(ValidationTestClass::field) {
+                    notBlank()
+                    inValues("FOO", "BAR")
+                }
+            }
+        }
+
+        val dslTest = ValidationTestClass(" ")
+
+        val validated = spec.validate(dslTest)
+
+        println(validated)
+
+        assert(validated.isInvalid)
+
+        validated.fold(
+                {
+                    assertThat(it).extracting("fieldName", "message")
+                            .containsExactlyInAnyOrder(tuple("field", "[FR] est blanc"), tuple("field", "[FR] pas dans les valeurs [FOO, BAR]"))
+                },
+                { fail("The validation should not be valid") }
+        )
+    }
+}
+
