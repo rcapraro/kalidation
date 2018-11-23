@@ -49,7 +49,6 @@ data class ValidationSpec(val constraints: MutableList<Constraint<out Any>> = mu
 
         val validationSet = validator.validate(constrainedClass)
                 .map {
-                    print(it.invalidValue.javaClass)
                     ValidationResult(
                             fieldName = it.propertyPath.joinToString(".") { violation -> violation.name },
                             invalidValue = it.invalidValue,
