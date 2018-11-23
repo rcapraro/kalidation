@@ -36,7 +36,7 @@ https://blog.sourced-bvba.be/article/2018/01/13/kotlin-validation/
  **Usage**
  
  ```kotlin
-val spec = validationSpec(Locale.FRENCH) {
+val spec = validationSpec(messageBundle = "MyMessages", locale = Locale.FRENCH) {
             constraints<MyClass> {
                 property(MyClass::field1) {
                     notBlank()

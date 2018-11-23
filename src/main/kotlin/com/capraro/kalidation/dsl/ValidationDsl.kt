@@ -37,10 +37,10 @@ import kotlin.reflect.KProperty1
  * @since 0.0.1
  */
 
-fun validationSpec(locale: Locale = Locale.US, block: ValidationSpec.() -> Unit): ValidationSpec {
+fun validationSpec(locale: Locale = Locale.getDefault(), messageBundle: String? = null, block: ValidationSpec.() -> Unit): ValidationSpec {
     val validationSpec = ValidationSpec()
     block(validationSpec)
-    validationSpec.validator = HibernateValidatorFactory(validationSpec).build(locale)
+    validationSpec.validator = HibernateValidatorFactory(validationSpec).build(locale, messageBundle)
     return validationSpec
 }
 
