@@ -155,3 +155,7 @@ The `ValidationResult` object contains the name and the value of the field in er
   * past() 
   * futureOrPresent()
   * pastOrPresent()
+  
+ 
+> For all methods, an optional *message: String?* parameter can be used to override the resource bundle message.  
+  
