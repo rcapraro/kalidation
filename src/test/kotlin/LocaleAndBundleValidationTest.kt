@@ -28,8 +28,6 @@ class LocaleAndBundleValidationTest {
 
         val validated = spec.validate(dslTest)
 
-        println(validated)
-
         assert(validated.isInvalid)
 
         validated.fold(
@@ -64,6 +62,31 @@ class LocaleAndBundleValidationTest {
                 {
                     assertThat(it).extracting("fieldName", "message")
                             .containsExactlyInAnyOrder(tuple("field", "[FR] est blanc"), tuple("field", "[FR] pas dans les valeurs [FOO, BAR]"))
+                },
+                { fail("The validation should not be valid") }
+        )
+    }
+
+    @Test
+    fun `test validation with custom message`() {
+        val spec = validationSpec {
+            constraints<ValidationTestClass> {
+                property(ValidationTestClass::field) {
+                    notBlank(message = "is.blank")
+                }
+            }
+        }
+
+        val dslTest = ValidationTestClass(" ")
+
+        val validated = spec.validate(dslTest)
+
+        assert(validated.isInvalid)
+
+        validated.fold(
+                {
+                    assertThat(it).extracting("fieldName", "message")
+                            .containsExactly(tuple("field", "is.blank"))
                 },
                 { fail("The validation should not be valid") }
         )

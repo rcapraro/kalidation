@@ -72,76 +72,83 @@ class HibernateValidatorFactory(private val spec: ValidationSpec) {
         }
     }
 
+    private fun ConstraintDef<*, *>.customMessage(message: String?): ConstraintDef<*, *> {
+        message?.let {
+            this.message(message)
+        }
+        return this
+    }
+
     private fun translateConstraintDef(rule: ConstraintRule): ConstraintDef<*, *> = when (rule) {
 
         //hack: Valid is notNull
         is Valid -> ConstraintRuleTranslator<Valid> {
-            NotNullDef()
+            NotNullDef().customMessage(it.message)
         }.translate(rule)
         is ValidByScript -> ConstraintRuleTranslator<ValidByScript> {
-            ScriptAssertDef().lang(it.lang).script(it.script).alias(it.alias).reportOn(it.reportOn)
+            ScriptAssertDef().lang(it.lang).script(it.script).alias(it.alias).reportOn(it.reportOn).customMessage(it.message)
         }.translate(rule)
 
-        is NotNull -> ConstraintRuleTranslator<NotNull> { NotNullDef() }.translate(rule)
-        is Null -> ConstraintRuleTranslator<Null> { NullDef() }.translate(rule)
+        is NotNull -> ConstraintRuleTranslator<NotNull> { NotNullDef().customMessage(it.message) }.translate(rule)
+        is Null -> ConstraintRuleTranslator<Null> { NullDef().customMessage(it.message) }.translate(rule)
 
-        is ArraySize -> ConstraintRuleTranslator<ArraySize> { SizeDef().min(it.min).max(it.max) }.translate(rule)
-        is ArrayNotEmpty -> ConstraintRuleTranslator<ArrayNotEmpty> { NotEmptyDef() }.translate(rule)
+        is ArraySize -> ConstraintRuleTranslator<ArraySize> { SizeDef().min(it.min).max(it.max).customMessage(it.message) }.translate(rule)
+        is ArrayNotEmpty -> ConstraintRuleTranslator<ArrayNotEmpty> { NotEmptyDef().customMessage(it.message) }.translate(rule)
 
         is IterableSize -> ConstraintRuleTranslator<IterableSize> {
-            SizeDef().min(it.min).max(it.max)
+            SizeDef().min(it.min).max(it.max).customMessage(it.message)
         }.translate(rule)
-        is IterableNotEmpty -> ConstraintRuleTranslator<IterableNotEmpty> { NotEmptyDef() }.translate(rule)
+        is IterableNotEmpty -> ConstraintRuleTranslator<IterableNotEmpty> { NotEmptyDef().customMessage(it.message) }.translate(rule)
 
-        is AssertTrue -> ConstraintRuleTranslator<AssertTrue> { AssertTrueDef() }.translate(rule)
-        is AssertFalse -> ConstraintRuleTranslator<AssertFalse> { AssertFalseDef() }.translate(rule)
+        is AssertTrue -> ConstraintRuleTranslator<AssertTrue> { AssertTrueDef().customMessage(it.message) }.translate(rule)
+        is AssertFalse -> ConstraintRuleTranslator<AssertFalse> { AssertFalseDef().customMessage(it.message) }.translate(rule)
 
-        is NotBlank -> ConstraintRuleTranslator<NotBlank> { NotBlankDef() }.translate(rule)
-        is CsNotEmpty -> ConstraintRuleTranslator<CsNotEmpty> { NotEmptyDef() }.translate(rule)
-        is CsSize -> ConstraintRuleTranslator<CsSize> { SizeDef().min(it.min).max(it.max) }.translate(rule)
-        is Regexp -> ConstraintRuleTranslator<Regexp> { PatternDef().regexp(it.regexp) }.translate(rule)
-        is Email -> ConstraintRuleTranslator<Email> { EmailDef() }.translate(rule)
+        is NotBlank -> ConstraintRuleTranslator<NotBlank> { NotBlankDef().customMessage(it.message) }.translate(rule)
+        is CsNotEmpty -> ConstraintRuleTranslator<CsNotEmpty> { NotEmptyDef().customMessage(it.message) }.translate(rule)
+        is CsSize -> ConstraintRuleTranslator<CsSize> { SizeDef().min(it.min).max(it.max).customMessage(it.message) }.translate(rule)
+        is Regexp -> ConstraintRuleTranslator<Regexp> { PatternDef().regexp(it.regexp).customMessage(it.message) }.translate(rule)
+        is Email -> ConstraintRuleTranslator<Email> { EmailDef().customMessage(it.message) }.translate(rule)
         is PhoneNumber -> ConstraintRuleTranslator<PhoneNumber> {
-            PhoneNumberDef().regionCode(it.regionCode)
+            PhoneNumberDef().regionCode(it.regionCode).customMessage(it.message)
         }.translate(rule)
         is InValues -> ConstraintRuleTranslator<InValues> {
-            ValuesDef().values(it.values.toTypedArray())
+            ValuesDef().values(it.values.toTypedArray()).customMessage(it.message)
         }.translate(rule)
-        is CsMin -> ConstraintRuleTranslator<CsMin> { MinDef().value(it.value) }.translate(rule)
-        is CsMax -> ConstraintRuleTranslator<CsMax> { MaxDef().value(it.value) }.translate(rule)
+        is CsMin -> ConstraintRuleTranslator<CsMin> { MinDef().value(it.value).customMessage(it.message) }.translate(rule)
+        is CsMax -> ConstraintRuleTranslator<CsMax> { MaxDef().value(it.value).customMessage(it.message) }.translate(rule)
         is CsDecimalMin -> ConstraintRuleTranslator<CsDecimalMin> {
-            DecimalMinDef().value(it.value).inclusive(it.inclusive)
+            DecimalMinDef().value(it.value).inclusive(it.inclusive).customMessage(it.message)
         }.translate(rule)
         is CsDecimalMax -> ConstraintRuleTranslator<CsDecimalMax> {
-            DecimalMaxDef().value(it.value).inclusive(it.inclusive)
+            DecimalMaxDef().value(it.value).inclusive(it.inclusive).customMessage(it.message)
         }.translate(rule)
         is CsDigits -> ConstraintRuleTranslator<CsDigits> {
-            DigitsDef().integer(it.integer).fraction(it.fraction)
+            DigitsDef().integer(it.integer).fraction(it.fraction).customMessage(it.message)
         }.translate(rule)
-        is Iso8601Date -> ConstraintRuleTranslator<Iso8601Date> { Iso8601DateDef() }.translate(rule)
+        is Iso8601Date -> ConstraintRuleTranslator<Iso8601Date> { Iso8601DateDef().customMessage(it.message) }.translate(rule)
 
-        is NegativeOrZero -> ConstraintRuleTranslator<NegativeOrZero> { NegativeOrZeroDef() }.translate(rule)
-        is PositiveOrZero -> ConstraintRuleTranslator<PositiveOrZero> { PositiveOrZeroDef() }.translate(rule)
-        is Negative -> ConstraintRuleTranslator<Negative> { NegativeDef() }.translate(rule)
-        is Positive -> ConstraintRuleTranslator<Positive> { PositiveDef() }.translate(rule)
-        is Min -> ConstraintRuleTranslator<Min> { MinDef().value(it.value) }.translate(rule)
-        is Max -> ConstraintRuleTranslator<Max> { MaxDef().value(it.value) }.translate(rule)
+        is NegativeOrZero -> ConstraintRuleTranslator<NegativeOrZero> { NegativeOrZeroDef().customMessage(it.message) }.translate(rule)
+        is PositiveOrZero -> ConstraintRuleTranslator<PositiveOrZero> { PositiveOrZeroDef().customMessage(it.message) }.translate(rule)
+        is Negative -> ConstraintRuleTranslator<Negative> { NegativeDef().customMessage(it.message) }.translate(rule)
+        is Positive -> ConstraintRuleTranslator<Positive> { PositiveDef().customMessage(it.message) }.translate(rule)
+        is Min -> ConstraintRuleTranslator<Min> { MinDef().value(it.value).customMessage(it.message) }.translate(rule)
+        is Max -> ConstraintRuleTranslator<Max> { MaxDef().value(it.value).customMessage(it.message) }.translate(rule)
         is DecimalMin -> ConstraintRuleTranslator<DecimalMin> {
-            DecimalMinDef().value(it.value).inclusive(it.inclusive)
+            DecimalMinDef().value(it.value).inclusive(it.inclusive).customMessage(it.message)
         }.translate(rule)
         is DecimalMax -> ConstraintRuleTranslator<DecimalMax> {
-            DecimalMaxDef().value(it.value).inclusive(it.inclusive)
+            DecimalMaxDef().value(it.value).inclusive(it.inclusive).customMessage(it.message)
         }.translate(rule)
         is Digits -> ConstraintRuleTranslator<Digits> {
-            DigitsDef().integer(it.integer).fraction(it.fraction)
+            DigitsDef().integer(it.integer).fraction(it.fraction).customMessage(it.message)
         }.translate(rule)
 
-        is Future -> ConstraintRuleTranslator<Future> { FutureDef() }.translate(rule)
-        is FutureOrPresent -> ConstraintRuleTranslator<FutureOrPresent> { FutureOrPresentDef() }.translate(rule)
-        is Past -> ConstraintRuleTranslator<Past> { PastDef() }.translate(rule)
-        is PastOrPresent -> ConstraintRuleTranslator<PastOrPresent> { PastOrPresentDef() }.translate(rule)
+        is Future -> ConstraintRuleTranslator<Future> { FutureDef().customMessage(it.message) }.translate(rule)
+        is FutureOrPresent -> ConstraintRuleTranslator<FutureOrPresent> { FutureOrPresentDef().customMessage(it.message) }.translate(rule)
+        is Past -> ConstraintRuleTranslator<Past> { PastDef().customMessage(it.message) }.translate(rule)
+        is PastOrPresent -> ConstraintRuleTranslator<PastOrPresent> { PastOrPresentDef().customMessage(it.message) }.translate(rule)
         is SubSetOf -> ConstraintRuleTranslator<SubSetOf> {
-            SubSetDef().completeValues(it.completeValues.toTypedArray())
+            SubSetDef().completeValues(it.completeValues.toTypedArray()).customMessage(it.message)
         }.translate(rule)
     }
 
