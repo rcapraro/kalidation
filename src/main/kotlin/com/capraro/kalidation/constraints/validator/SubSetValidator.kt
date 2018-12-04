@@ -28,6 +28,11 @@ import com.capraro.kalidation.constraints.annotation.SubSet
 import javax.validation.ConstraintValidator
 import javax.validation.ConstraintValidatorContext
 
+/**
+ * Iso8601DateValidator validator.
+ * @author Gwenael Cholet
+ * @since 1.0.3
+ */
 class SubSetValidator : ConstraintValidator<SubSet, Iterable<*>> {
 
     private var completeValues = listOf<String>()

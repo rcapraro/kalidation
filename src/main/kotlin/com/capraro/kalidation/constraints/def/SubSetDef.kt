@@ -28,9 +28,9 @@ import com.capraro.kalidation.constraints.annotation.SubSet
 import org.hibernate.validator.cfg.ConstraintDef
 
 /**
- * Subset validation definition
+ * Subset validation definition.
  * @author Vetrano Romain
- * @since 0.0.1
+ * @since 1.0.3
  */
 class SubSetDef : ConstraintDef<SubSetDef, SubSet>(SubSet::class.java) {
 
