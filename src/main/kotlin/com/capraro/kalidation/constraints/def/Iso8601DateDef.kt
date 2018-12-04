@@ -28,7 +28,7 @@ import com.capraro.kalidation.constraints.annotation.Iso8601Date
 import org.hibernate.validator.cfg.ConstraintDef
 
 /**
- * Iso8601 date validation definition
+ * Iso8601 date validation definition.
  * @author Gwenael Cholet
  * @since 1.0.3
  */

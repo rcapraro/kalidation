@@ -28,6 +28,11 @@ import com.capraro.kalidation.constraints.annotation.Values
 import javax.validation.ConstraintValidator
 import javax.validation.ConstraintValidatorContext
 
+/**
+ * Values list validator.
+ * @author Richard Capraro
+ * @since 0.0.1
+ */
 class ValuesValidator : ConstraintValidator<Values, CharSequence> {
 
     private var values = listOf<String>()
