@@ -28,7 +28,7 @@ import com.capraro.kalidation.constraints.annotation.Values
 import org.hibernate.validator.cfg.ConstraintDef
 
 /**
- * Values validation definition
+ * Values validation definition.
  * @author Richard Capraro
  * @since 0.0.1
  */
