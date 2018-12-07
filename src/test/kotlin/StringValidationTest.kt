@@ -64,6 +64,7 @@ class StringValidationTest {
                 property(StringTestClass::field1) {
                     min(345)
                     max(123)
+                    range(235, 237)
                 }
                 property(StringTestClass::field2) {
                     decimalMin("45.5", true)
@@ -87,6 +88,7 @@ class StringValidationTest {
                 {
                     assertThat(it).extracting("fieldName")
                             .containsExactlyInAnyOrder(
+                                    "field1",
                                     "field1",
                                     "field1",
                                     "field2",
