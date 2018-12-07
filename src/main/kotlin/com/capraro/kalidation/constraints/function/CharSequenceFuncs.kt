@@ -60,6 +60,26 @@ fun PropertyConstraint<out Any, out CharSequence?>.inValues(vararg values: Strin
     constraintRules.add(InValues(values.asList(), message))
 }
 
+fun PropertyConstraint<out Any, out CharSequence?>.range(min: Long, max: Long, message: String? = null) {
+    constraintRules.add(CsRange(min, max, message))
+}
+
+fun PropertyConstraint<out Any, out CharSequence?>.positive(message: String? = null) {
+    constraintRules.add(CsPositive(message))
+}
+
+fun PropertyConstraint<out Any, out CharSequence?>.positiveOrZero(message: String? = null) {
+    constraintRules.add(CsPositiveOrZero(message))
+}
+
+fun PropertyConstraint<out Any, out CharSequence?>.negative(message: String? = null) {
+    constraintRules.add(CsNegative(message))
+}
+
+fun PropertyConstraint<out Any, out CharSequence?>.negativeOrZero(message: String? = null) {
+    constraintRules.add(CsNegativeOrZero(message))
+}
+
 fun PropertyConstraint<out Any, out CharSequence?>.min(value: Long, message: String? = null) {
     constraintRules.add(CsMin(value, message))
 }
