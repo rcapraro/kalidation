@@ -22,14 +22,27 @@
  * THE SOFTWARE.
  */
 
-package com.capraro.kalidation.constraints.def
+package com.capraro.kalidation.constraints.validator
 
-import com.capraro.kalidation.constraints.annotation.CsPositive
-import org.hibernate.validator.cfg.ConstraintDef
+import com.capraro.kalidation.constraints.annotation.CsPositiveOrZero
+import java.math.BigDecimal
+import javax.validation.ConstraintValidator
+import javax.validation.ConstraintValidatorContext
+
 
 /**
- *  CharSequence positive number validator.
- * @author Gwenael Cholet
+ * CharSequence positiveOrZero number validator.
+ * @author Richard Capraro
  * @since 1.2.6
  */
-class CsPositiveDef : ConstraintDef<CsPositiveDef, CsPositive>(CsPositive::class.java)
+class CsPositiveOrZeroValidator : ConstraintValidator<CsPositiveOrZero, CharSequence> {
+
+    override fun isValid(value: CharSequence?, context: ConstraintValidatorContext): Boolean = value?.let {
+        return try {
+            val number = BigDecimal(value.toString())
+            number.signum() >= 0
+        } catch (nfe: NumberFormatException) {
+            false
+        }
+    } ?: true
+}
