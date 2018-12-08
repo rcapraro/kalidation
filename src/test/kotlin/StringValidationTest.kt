@@ -8,7 +8,8 @@ import org.junit.jupiter.api.fail
 
 private class StringTestClass(val field1: String?,
                               val field2: String,
-                              val field3: String)
+                              val field3: String,
+                              val field4: String? = "0.0")
 
 class StringValidationTest {
 
@@ -69,9 +70,18 @@ class StringValidationTest {
                 property(StringTestClass::field2) {
                     decimalMin("45.5", true)
                     decimalMax("23.6", true)
+                    negative()
+                    negativeOrZero()
                 }
                 property(StringTestClass::field3) {
                     digits(3, 2)
+                    positive()
+                    positiveOrZero()
+                }
+                property(StringTestClass::field4) {
+                    notBlank()
+                    positiveOrZero()
+                    negativeOrZero()
                 }
             }
 
@@ -84,6 +94,8 @@ class StringValidationTest {
 
         assert(validated.isInvalid)
 
+        println(validated)
+
         validated.fold(
                 {
                     assertThat(it).extracting("fieldName")
@@ -93,6 +105,10 @@ class StringValidationTest {
                                     "field1",
                                     "field2",
                                     "field2",
+                                    "field2",
+                                    "field2",
+                                    "field3",
+                                    "field3",
                                     "field3")
                 },
                 { fail("The validation should not be valid") }
