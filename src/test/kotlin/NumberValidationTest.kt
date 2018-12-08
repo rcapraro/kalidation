@@ -23,6 +23,7 @@ class NumberValidationTest {
                     positiveOrZero()
                     negative()
                     negativeOrZero()
+                    range(5, 8)
                 }
                 property(NumberTestClass::bdField) {
                     decimalMin("500.55", true)
@@ -44,6 +45,7 @@ class NumberValidationTest {
                                     "bdField",
                                     "bdField",
                                     "bdField",
+                                    "iField",
                                     "iField",
                                     "iField",
                                     "iField",

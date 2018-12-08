@@ -129,6 +129,11 @@ The `ValidationResult` object contains the name and the value of the field in er
   * email()
   * phoneNumber(val regionCode: String)
   * inValues(val values: List<String>)
+  * negativeOrZero()
+  * positiveOrZero() 
+  * negative()
+  * positive()
+  * range(val min: Long, val max: Long)  
   * min(val value: Long)
   * max(val value: Long)
   * decimalMin(val value: String, val inclusive: Boolean)
@@ -136,9 +141,9 @@ The `ValidationResult` object contains the name and the value of the field in er
   * digits (val integer: Int, val fraction: Int)
   * iso8601Date()
      
- 
 ***Number (Integer, Float, Long, BigDecimal, BigInteger, etc.)***
   
+  * range(val min: Long, val max: Long) 
   * negativeOrZero()
   * positiveOrZero() 
   * negative()

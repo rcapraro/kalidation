@@ -77,11 +77,11 @@ class CsDigits(val integer: Int, val fraction: Int, val message: String?) : Cons
 
 //Number
 
+class Range(val min: Long, val max: Long, val message: String?) : ConstraintRule(message)
 class NegativeOrZero(val message: String?) : ConstraintRule(message)
 class PositiveOrZero(val message: String?) : ConstraintRule(message)
 class Negative(val message: String?) : ConstraintRule(message)
 class Positive(val message: String?) : ConstraintRule(message)
-class Range(val min: Long, val max: Long, val message: String?) : ConstraintRule(message)
 class Min(val value: Long, val message: String?) : ConstraintRule(message)
 class Max(val value: Long, val message: String?) : ConstraintRule(message)
 class DecimalMin(val value: String, val inclusive: Boolean, val message: String?) : ConstraintRule(message)
