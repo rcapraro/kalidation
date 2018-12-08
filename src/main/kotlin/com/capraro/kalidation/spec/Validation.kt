@@ -55,6 +55,7 @@ data class ValidationSpec(val constraints: MutableList<Constraint<out Any>> = mu
                             messageTemplate = it.messageTemplate,
                             message = it.message)
                 }
+                .sortedBy { it.fieldName }
                 .toSet()
 
         return if (validationSet.isEmpty()) {
