@@ -32,6 +32,10 @@ import com.capraro.kalidation.spec.PropertyConstraint
  * @author Richard Capraro
  * @since 0.0.1
  */
+fun PropertyConstraint<out Any, out Number?>.range(min: Long, max: Long, message: String? = null) {
+    constraintRules.add(Range(min, max, message))
+}
+
 fun PropertyConstraint<out Any, out Number?>.negativeOrZero(message: String? = null) {
     constraintRules.add(NegativeOrZero(message))
 }
