@@ -35,6 +35,6 @@ import kotlin.reflect.KClass
         AnnotationTarget.PROPERTY
 )
 @Retention(AnnotationRetention.RUNTIME)
-annotation class CsPositiveOrZero(val message: String = "{javax.validation.constraints.CsPositiveOrZero.message}",
+annotation class CsPositiveOrZero(val message: String = "{javax.validation.constraints.PositiveOrZero.message}",
                                   val groups: Array<KClass<out Any>> = [],
                                   val payload: Array<KClass<out Any>> = [])
