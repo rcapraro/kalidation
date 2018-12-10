@@ -43,12 +43,17 @@ class ValidByScript(val lang: String, val script: String, val alias: String, val
 class ArraySize(val min: Int, val max: Int, val message: String?) : ConstraintRule(message)
 class ArrayNotEmpty(val message: String?) : ConstraintRule(message)
 
-//Iterable
+//Collection
 
-class IterableSize(val min: Int, val max: Int, val message: String?) : ConstraintRule(message)
-class IterableNotEmpty(val message: String?) : ConstraintRule(message)
-class SubSetOf(val completeValues: List<String>, val message: String?) : ConstraintRule(message)
-class Iso8601Date(val message: String?) : ConstraintRule(message)
+class ColSize(val min: Int, val max: Int, val message: String?) : ConstraintRule(message)
+class ColNotEmpty(val message: String?) : ConstraintRule(message)
+class SubSetOf(val values: List<String>, val message: String?) : ConstraintRule(message)
+
+//Map
+
+class MapSize(val min: Int, val max: Int, val message: String?) : ConstraintRule(message)
+class MapNotEmpty(val message: String?) : ConstraintRule(message)
+class MapHasKeys(val keys: List<String>, val message: String?) : ConstraintRule(message)
 
 //Boolean
 
@@ -63,6 +68,7 @@ class CsSize(val min: Int, val max: Int, val message: String?) : ConstraintRule(
 class Regexp(val regexp: String, val message: String?) : ConstraintRule(message)
 class Email(val message: String?) : ConstraintRule(message)
 class PhoneNumber(val regionCode: String, val message: String?) : ConstraintRule(message)
+class Iso8601Date(val message: String?) : ConstraintRule(message)
 class InValues(val values: List<String>, val message: String?) : ConstraintRule(message)
 class CsPositive(val message: String?) : ConstraintRule(message)
 class CsPositiveOrZero(val message: String?) : ConstraintRule(message)

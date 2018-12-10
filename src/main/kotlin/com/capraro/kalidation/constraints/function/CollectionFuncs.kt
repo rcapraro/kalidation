@@ -22,19 +22,27 @@
  * THE SOFTWARE.
  */
 
-package com.capraro.kalidation.constraints.annotation
+package com.capraro.kalidation.constraints.function
 
-import com.capraro.kalidation.constraints.validator.CsNegativeValidator
-import javax.validation.Constraint
-import kotlin.reflect.KClass
+import com.capraro.kalidation.constraints.rule.ColNotEmpty
+import com.capraro.kalidation.constraints.rule.ColSize
+import com.capraro.kalidation.constraints.rule.SubSetOf
+import com.capraro.kalidation.spec.PropertyConstraint
 
-@MustBeDocumented
-@Constraint(validatedBy = [CsNegativeValidator::class])
-@Target(
-        AnnotationTarget.FIELD,
-        AnnotationTarget.PROPERTY
-)
-@Retention(AnnotationRetention.RUNTIME)
-annotation class CsNegative(val message: String = "{javax.validation.constraints.Negative.message}",
-                            val groups: Array<KClass<out Any>> = [],
-                            val payload: Array<KClass<out Any>> = [])
+/**
+ * [Collection] Validation Functions.
+ * @author Richard Capraro
+ * @since 0.0.1
+ */
+fun PropertyConstraint<out Any, out Collection<*>?>.size(min: Int = 0, max: Int = Int.MAX_VALUE, message: String? = null) {
+    constraintRules.add(ColSize(min, max, message))
+}
+
+fun PropertyConstraint<out Any, out Collection<*>?>.notEmpty(message: String? = null) {
+    constraintRules.add(ColNotEmpty(message))
+}
+
+fun PropertyConstraint<out Any, out Collection<*>?>.subSetOf(vararg completeValues: String, message: String? = null) {
+    constraintRules.add(SubSetOf(completeValues.asList(), message))
+}
+

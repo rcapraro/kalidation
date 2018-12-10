@@ -22,19 +22,26 @@
  * THE SOFTWARE.
  */
 
-package com.capraro.kalidation.constraints.annotation
+package com.capraro.kalidation.constraints.validator
 
-import com.capraro.kalidation.constraints.validator.CsNegativeValidator
-import javax.validation.Constraint
-import kotlin.reflect.KClass
+import com.capraro.kalidation.constraints.annotation.MapHasKeys
+import javax.validation.ConstraintValidator
+import javax.validation.ConstraintValidatorContext
 
-@MustBeDocumented
-@Constraint(validatedBy = [CsNegativeValidator::class])
-@Target(
-        AnnotationTarget.FIELD,
-        AnnotationTarget.PROPERTY
-)
-@Retention(AnnotationRetention.RUNTIME)
-annotation class CsNegative(val message: String = "{javax.validation.constraints.Negative.message}",
-                            val groups: Array<KClass<out Any>> = [],
-                            val payload: Array<KClass<out Any>> = [])
+/**
+ * MapHasKeys validator.
+ * @author Richard Capraro
+ * @since 1.2.8
+ */
+class MapKeysValidator : ConstraintValidator<MapHasKeys, Map<String, *>> {
+
+    private var mapKeys = listOf<String>()
+
+    override fun initialize(constraintAnnotation: MapHasKeys) {
+        mapKeys = constraintAnnotation.mapKeys.toList()
+    }
+
+    override fun isValid(value: Map<String, *>?, context: ConstraintValidatorContext?): Boolean {
+        return value?.let { mapKeys.containsAll(value.keys) } ?: true
+    }
+}

@@ -22,27 +22,20 @@
  * THE SOFTWARE.
  */
 
-package com.capraro.kalidation.constraints.function
+package com.capraro.kalidation.constraints.annotation
 
-import com.capraro.kalidation.constraints.rule.IterableNotEmpty
-import com.capraro.kalidation.constraints.rule.IterableSize
-import com.capraro.kalidation.constraints.rule.SubSetOf
-import com.capraro.kalidation.spec.PropertyConstraint
+import com.capraro.kalidation.constraints.validator.MapKeysValidator
+import javax.validation.Constraint
+import kotlin.reflect.KClass
 
-/**
- * [Iterable] Validation Functions.
- * @author Richard Capraro
- * @since 0.0.1
- */
-fun PropertyConstraint<out Any, out Iterable<*>?>.size(min: Int = 0, max: Int = Int.MAX_VALUE, message: String? = null) {
-    constraintRules.add(IterableSize(min, max, message))
-}
-
-fun PropertyConstraint<out Any, out Iterable<*>?>.notEmpty(message: String? = null) {
-    constraintRules.add(IterableNotEmpty(message))
-}
-
-fun PropertyConstraint<out Any, out Iterable<*>?>.subSetOf(vararg completeValues: String, message: String? = null) {
-    constraintRules.add(SubSetOf(completeValues.asList(), message))
-}
-
+@MustBeDocumented
+@Constraint(validatedBy = [MapKeysValidator::class])
+@Target(
+        AnnotationTarget.FIELD,
+        AnnotationTarget.PROPERTY
+)
+@Retention(AnnotationRetention.RUNTIME)
+annotation class MapHasKeys(val message: String = "{javax.validation.constraints.MapHasKeys.message}",
+                            val groups: Array<KClass<out Any>> = [],
+                            val payload: Array<KClass<out Any>> = [],
+                            val mapKeys: Array<String>)

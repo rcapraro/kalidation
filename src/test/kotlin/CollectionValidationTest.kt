@@ -9,22 +9,22 @@ import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
 
-private class IterableClass(val listField: List<String>)
+private class CollectionClass(val listField: List<String>)
 
-class IterableValidationTest {
+class CollectionValidationTest {
 
     @Test
-    fun `test validation of Iterable fields`() {
+    fun `test validation of Collection field`() {
         val spec = validationSpec {
-            constraints<IterableClass> {
-                property(IterableClass::listField) {
+            constraints<CollectionClass> {
+                property(CollectionClass::listField) {
                     notNull()
                     size(3, 5)
                     notEmpty()
                 }
             }
         }
-        val dslTest = IterableClass(listOf("one", "two"))
+        val dslTest = CollectionClass(listOf("one", "two"))
 
         val validated = spec.validate(dslTest)
 
@@ -41,15 +41,15 @@ class IterableValidationTest {
     }
 
     @Test
-    fun `test validation of Iterable fields is not subset of other list`() {
+    fun `test validation of Collection field is not subset of other list`() {
         val spec = validationSpec {
-            constraints<IterableClass> {
-                property(IterableClass::listField) {
+            constraints<CollectionClass> {
+                property(CollectionClass::listField) {
                     subSetOf("GREEN", "WHITE", "RED")
                 }
             }
         }
-        val dslTest = IterableClass(listOf("one", "two"))
+        val dslTest = CollectionClass(listOf("one", "two"))
 
         val validated = spec.validate(dslTest)
 
@@ -66,15 +66,15 @@ class IterableValidationTest {
     }
 
     @Test
-    fun `test validation of Iterable fields is partial subset of other list`() {
+    fun `test validation of Collection field is partial subset of other list`() {
         val spec = validationSpec {
-            constraints<IterableClass> {
-                property(IterableClass::listField) {
+            constraints<CollectionClass> {
+                property(CollectionClass::listField) {
                     subSetOf("GREEN", "WHITE", "RED")
                 }
             }
         }
-        val dslTest = IterableClass(listOf("GREEN", "two"))
+        val dslTest = CollectionClass(listOf("GREEN", "two"))
 
         val validated = spec.validate(dslTest)
 
@@ -91,15 +91,15 @@ class IterableValidationTest {
     }
 
     @Test
-    fun `test validation of Iterable fields is subset of other list`() {
+    fun `test validation of Collection field is subset of other list`() {
         val spec = validationSpec {
-            constraints<IterableClass> {
-                property(IterableClass::listField) {
+            constraints<CollectionClass> {
+                property(CollectionClass::listField) {
                     subSetOf("GREEN", "WHITE", "RED")
                 }
             }
         }
-        val dslTest = IterableClass(listOf("GREEN", "WHITE"))
+        val dslTest = CollectionClass(listOf("GREEN", "WHITE"))
 
         val validated = spec.validate(dslTest)
 
@@ -108,15 +108,15 @@ class IterableValidationTest {
     }
 
     @Test
-    fun `test validation of empty Iterable fields is subset of other empty list`() {
+    fun `test validation of empty Collection field is subset of other empty list`() {
         val spec = validationSpec {
-            constraints<IterableClass> {
-                property(IterableClass::listField) {
+            constraints<CollectionClass> {
+                property(CollectionClass::listField) {
                     subSetOf()
                 }
             }
         }
-        val dslTest = IterableClass(listOf())
+        val dslTest = CollectionClass(listOf())
 
         val validated = spec.validate(dslTest)
 

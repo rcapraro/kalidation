@@ -29,11 +29,11 @@ import javax.validation.ConstraintValidator
 import javax.validation.ConstraintValidatorContext
 
 /**
- * Iso8601DateValidator validator.
+ * SubSet validator.
  * @author Gwenael Cholet
  * @since 1.0.3
  */
-class SubSetValidator : ConstraintValidator<SubSet, Iterable<*>> {
+class SubSetValidator : ConstraintValidator<SubSet, Collection<*>> {
 
     private var completeValues = listOf<String>()
 
@@ -41,7 +41,7 @@ class SubSetValidator : ConstraintValidator<SubSet, Iterable<*>> {
         completeValues = constraintAnnotation.completeValues.toList()
     }
 
-    override fun isValid(values: Iterable<*>?, context: ConstraintValidatorContext?): Boolean {
-        return values?.let { completeValues.containsAll(it.toList()) } ?: true
+    override fun isValid(value: Collection<*>?, context: ConstraintValidatorContext?): Boolean {
+        return value?.let { completeValues.containsAll(it.toList()) } ?: true
     }
 }

@@ -109,11 +109,16 @@ The `ValidationResult` object contains the name and the value of the field in er
   * size(val min: Int, val max: Int)
   * notEmpty()
  
-***Iterable (Collection, List, Set, etc.)***
+***Collections (List, Set, etc.)***
   
   * size(val min: Int, val max: Int)
   * notEmpty()
   * subSetOf(val completeValues: List<String>)
+  
+***Maps***   
+  * size(val min: Int, val max: Int)
+  * notEmpty()
+  * hasKeys(val keys: List<String>)
   
 ***Boolean***
   
