@@ -38,6 +38,8 @@ class NumberValidationTest {
 
         assert(validated.isInvalid)
 
+        println(validated)
+
         validated.fold(
                 {
                     Assertions.assertThat(it).extracting("fieldName")

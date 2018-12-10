@@ -88,8 +88,8 @@ class HibernateValidatorFactory(private val spec: ValidationSpec) {
         is ArraySize -> ConstraintRuleTranslator<ArraySize> { SizeDef().min(it.min).max(it.max).customMessage(it.message) }.translate(rule)
         is ArrayNotEmpty -> ConstraintRuleTranslator<ArrayNotEmpty> { NotEmptyDef().customMessage(it.message) }.translate(rule)
 
-        is IterableSize -> ConstraintRuleTranslator<IterableSize> { SizeDef().min(it.min).max(it.max).customMessage(it.message) }.translate(rule)
-        is IterableNotEmpty -> ConstraintRuleTranslator<IterableNotEmpty> { NotEmptyDef().customMessage(it.message) }.translate(rule)
+        is ColSize -> ConstraintRuleTranslator<ColSize> { SizeDef().min(it.min).max(it.max).customMessage(it.message) }.translate(rule)
+        is ColNotEmpty -> ConstraintRuleTranslator<ColNotEmpty> { NotEmptyDef().customMessage(it.message) }.translate(rule)
 
         is AssertTrue -> ConstraintRuleTranslator<AssertTrue> { AssertTrueDef().customMessage(it.message) }.translate(rule)
         is AssertFalse -> ConstraintRuleTranslator<AssertFalse> { AssertFalseDef().customMessage(it.message) }.translate(rule)
@@ -128,8 +128,11 @@ class HibernateValidatorFactory(private val spec: ValidationSpec) {
         is FutureOrPresent -> ConstraintRuleTranslator<FutureOrPresent> { FutureOrPresentDef().customMessage(it.message) }.translate(rule)
         is Past -> ConstraintRuleTranslator<Past> { PastDef().customMessage(it.message) }.translate(rule)
         is PastOrPresent -> ConstraintRuleTranslator<PastOrPresent> { PastOrPresentDef().customMessage(it.message) }.translate(rule)
-        is SubSetOf -> ConstraintRuleTranslator<SubSetOf> { SubSetDef().completeValues(it.completeValues.toTypedArray()).customMessage(it.message) }.translate(rule)
+        is SubSetOf -> ConstraintRuleTranslator<SubSetOf> { SubSetDef().completeValues(it.values.toTypedArray()).customMessage(it.message) }.translate(rule)
 
+        is MapHasKeys -> ConstraintRuleTranslator<MapHasKeys> { MapHasKeysDef().mapKeys(it.keys.toTypedArray()).customMessage(it.message) }.translate(rule)
+        is MapNotEmpty -> ConstraintRuleTranslator<MapNotEmpty> { NotEmptyDef().customMessage(it.message) }.translate(rule)
+        is MapSize -> ConstraintRuleTranslator<MapSize> { SizeDef().min(it.min).max(it.max).customMessage(it.message) }.translate(rule)
     }
 
     internal fun build(locale: Locale, messageBundle: String?): Validator {
