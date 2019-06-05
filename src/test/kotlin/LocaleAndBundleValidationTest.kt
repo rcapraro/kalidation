@@ -1,5 +1,5 @@
-import com.capraro.kalidation.constraints.function.inValues
-import com.capraro.kalidation.constraints.function.notBlank
+import com.capraro.kalidation.constraints.function.property.inValues
+import com.capraro.kalidation.constraints.function.property.notBlank
 import com.capraro.kalidation.dsl.constraints
 import com.capraro.kalidation.dsl.property
 import com.capraro.kalidation.dsl.validationSpec

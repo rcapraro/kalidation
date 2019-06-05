@@ -22,31 +22,21 @@
  * THE SOFTWARE.
  */
 
-package com.capraro.kalidation.constraints.function
+package com.capraro.kalidation.constraints.function.property
 
-import com.capraro.kalidation.constraints.rule.NotNull
-import com.capraro.kalidation.constraints.rule.Null
-import com.capraro.kalidation.constraints.rule.Valid
-import com.capraro.kalidation.constraints.rule.ValidByScript
+import com.capraro.kalidation.constraints.rule.AssertFalse
+import com.capraro.kalidation.constraints.rule.AssertTrue
 import com.capraro.kalidation.spec.PropertyConstraint
 
 /**
- * Validation Functions on [Any] classes.
+ * [Boolean] Validation Functions.
  * @author Richard Capraro
  * @since 0.0.1
  */
-fun PropertyConstraint<out Any, out Any?>.notNull(message: String? = null) {
-    constraintRules.add(NotNull(message))
+fun PropertyConstraint<out Any, out Boolean?>.assertTrue(message: String? = null) {
+    constraintRules.add(AssertTrue(message))
 }
 
-fun PropertyConstraint<out Any, out Any?>.isNull(message: String? = null) {
-    constraintRules.add(Null(message))
-}
-
-fun PropertyConstraint<out Any, out Any?>.valid(message: String? = null) {
-    constraintRules.add(Valid(message))
-}
-
-fun PropertyConstraint<out Any, out Any?>.validByScript(lang: String, script: String, alias: String = "_this", reportOn: String = "", message: String? = null) {
-    constraintRules.add(ValidByScript(lang, script, alias, reportOn, message))
+fun PropertyConstraint<out Any, out Boolean?>.assertFalse(message: String? = null) {
+    constraintRules.add(AssertFalse(message))
 }

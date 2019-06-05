@@ -22,21 +22,27 @@
  * THE SOFTWARE.
  */
 
-package com.capraro.kalidation.constraints.function
+package com.capraro.kalidation.constraints.function.method
 
-import com.capraro.kalidation.constraints.rule.AssertFalse
-import com.capraro.kalidation.constraints.rule.AssertTrue
-import com.capraro.kalidation.spec.PropertyConstraint
+import com.capraro.kalidation.constraints.rule.ColNotEmpty
+import com.capraro.kalidation.constraints.rule.ColSize
+import com.capraro.kalidation.constraints.rule.SubSetOf
+import com.capraro.kalidation.spec.MethodConstraint
 
 /**
- * [Boolean] Validation Functions.
+ * [Collection] Validation Functions.
  * @author Richard Capraro
- * @since 0.0.1
+ * @since 1.3.0
  */
-fun PropertyConstraint<out Any, out Boolean?>.assertTrue(message: String? = null) {
-    constraintRules.add(AssertTrue(message))
+fun MethodConstraint<out Collection<*>?>.size(min: Int = 0, max: Int = Int.MAX_VALUE, message: String? = null) {
+    constraintRules.add(ColSize(min, max, message))
 }
 
-fun PropertyConstraint<out Any, out Boolean?>.assertFalse(message: String? = null) {
-    constraintRules.add(AssertFalse(message))
+fun MethodConstraint<out Collection<*>?>.notEmpty(message: String? = null) {
+    constraintRules.add(ColNotEmpty(message))
 }
+
+fun MethodConstraint<out Collection<*>?>.subSetOf(vararg completeValues: String, message: String? = null) {
+    constraintRules.add(SubSetOf(completeValues.asList(), message))
+}
+

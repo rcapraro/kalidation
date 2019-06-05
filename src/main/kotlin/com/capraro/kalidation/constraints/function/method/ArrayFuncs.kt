@@ -22,27 +22,21 @@
  * THE SOFTWARE.
  */
 
-package com.capraro.kalidation.constraints.function
+package com.capraro.kalidation.constraints.function.method
 
-import com.capraro.kalidation.constraints.rule.MapHasKeys
-import com.capraro.kalidation.constraints.rule.MapNotEmpty
-import com.capraro.kalidation.constraints.rule.MapSize
-import com.capraro.kalidation.spec.PropertyConstraint
+import com.capraro.kalidation.constraints.rule.ArrayNotEmpty
+import com.capraro.kalidation.constraints.rule.ArraySize
+import com.capraro.kalidation.spec.MethodConstraint
 
 /**
- * [Map] Validation Functions.
+ * [Array] Validation Functions.
  * @author Richard Capraro
- * @since 1.2.8
+ * @since 1.3.0
  */
-fun PropertyConstraint<out Any, out Map<String, *>?>.size(min: Int = 0, max: Int = Int.MAX_VALUE, message: String? = null) {
-    constraintRules.add(MapSize(min, max, message))
+fun MethodConstraint<out Array<*>?>.size(min: Int = 0, max: Int = Int.MAX_VALUE, message: String? = null) {
+    constraintRules.add(ArraySize(min, max, message))
 }
 
-fun PropertyConstraint<out Any, out Map<String, *>?>.notEmpty(message: String? = null) {
-    constraintRules.add(MapNotEmpty(message))
+fun MethodConstraint<out Array<*>?>.notEmpty(message: String? = null) {
+    constraintRules.add(ArrayNotEmpty(message))
 }
-
-fun PropertyConstraint<out Any, out Map<String, *>?>.hasKeys(vararg mapKeys: String, message: String? = null) {
-    constraintRules.add(MapHasKeys(mapKeys.asList(), message))
-}
-

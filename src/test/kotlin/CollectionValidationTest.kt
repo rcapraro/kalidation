@@ -1,7 +1,7 @@
-import com.capraro.kalidation.constraints.function.notEmpty
-import com.capraro.kalidation.constraints.function.notNull
-import com.capraro.kalidation.constraints.function.size
-import com.capraro.kalidation.constraints.function.subSetOf
+import com.capraro.kalidation.constraints.function.property.notEmpty
+import com.capraro.kalidation.constraints.function.property.notNull
+import com.capraro.kalidation.constraints.function.property.size
+import com.capraro.kalidation.constraints.function.property.subSetOf
 import com.capraro.kalidation.dsl.constraints
 import com.capraro.kalidation.dsl.property
 import com.capraro.kalidation.dsl.validationSpec
