@@ -24,7 +24,7 @@ class BooleanValidationTest {
 
         val validated = spec.validate(dslTest)
 
-        assert(validated.isInvalid)
+        assertThat(validated.isInvalid)
 
         validated.fold(
                 {
@@ -48,7 +48,7 @@ class BooleanValidationTest {
 
         val validated = spec.validate(dslTest)
 
-        assert(validated.isInvalid)
+        assertThat(validated.isInvalid)
 
         validated.fold(
                 {

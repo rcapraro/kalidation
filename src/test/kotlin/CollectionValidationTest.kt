@@ -6,6 +6,7 @@ import com.capraro.kalidation.dsl.constraints
 import com.capraro.kalidation.dsl.property
 import com.capraro.kalidation.dsl.validationSpec
 import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
 
@@ -28,7 +29,7 @@ class CollectionValidationTest {
 
         val validated = spec.validate(dslTest)
 
-        assert(validated.isInvalid)
+        assertThat(validated.isInvalid)
 
         validated.fold(
                 {
@@ -53,7 +54,7 @@ class CollectionValidationTest {
 
         val validated = spec.validate(dslTest)
 
-        assert(validated.isInvalid)
+        assertThat(validated.isInvalid)
 
         validated.fold(
                 {
@@ -78,7 +79,7 @@ class CollectionValidationTest {
 
         val validated = spec.validate(dslTest)
 
-        assert(validated.isInvalid)
+        assertThat(validated.isInvalid)
 
         validated.fold(
                 {
@@ -103,7 +104,7 @@ class CollectionValidationTest {
 
         val validated = spec.validate(dslTest)
 
-        assert(validated.isValid)
+        assertThat(validated.isValid)
 
     }
 
@@ -120,7 +121,7 @@ class CollectionValidationTest {
 
         val validated = spec.validate(dslTest)
 
-        assert(validated.isValid)
+        assertThat(validated.isValid)
 
     }
 }
