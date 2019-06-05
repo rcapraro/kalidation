@@ -24,6 +24,7 @@
 
 package com.capraro.kalidation.dsl
 
+import com.capraro.kalidation.exception.KalidationException
 import com.capraro.kalidation.implementation.HibernateValidatorFactory
 import com.capraro.kalidation.spec.Constraint
 import com.capraro.kalidation.spec.MethodConstraint
@@ -46,20 +47,27 @@ fun validationSpec(locale: Locale = Locale.getDefault(), messageBundle: String? 
     return validationSpec
 }
 
-inline fun <reified T : Any> ValidationSpec.constraints(block: Constraint<T>.() -> Unit) {
+inline fun <reified T : Any> ValidationSpec.constraints(block: (@ValidationSpecMarker Constraint<T>).() -> Unit) {
     val constraints = Constraint(T::class)
     this.constraints.add(constraints)
     block(constraints)
 }
 
-fun <T : Any, P : Any?> Constraint<T>.property(property: KProperty1<T, P>, block: PropertyConstraint<T, P>.() -> Unit) {
+fun <T : Any, P : Any?> Constraint<T>.property(property: KProperty1<T, P>, block: (@ValidationSpecMarker PropertyConstraint<T, P>).() -> Unit) {
     val propertyConstraint = PropertyConstraint(property)
     this.propertyConstraints.add(propertyConstraint)
     block(propertyConstraint)
 }
 
-fun <T : Any, R : Any?> Constraint<T>.returnOf(method: KFunction<R>, block: MethodConstraint<R>.() -> Unit) {
+fun <T : Any, R : Any?> Constraint<T>.returnOf(method: KFunction<R>, block: (@ValidationSpecMarker MethodConstraint<R>).() -> Unit) {
+    if (method.parameters.size > 1) { //first parameter is the return type
+        throw KalidationException("Method ${method.name} should have 0 arguments", null)
+    }
     val methodConstraint = MethodConstraint(method)
     this.methodConstraints.add(methodConstraint)
     block(methodConstraint)
 }
+
+@DslMarker
+@Target(AnnotationTarget.CLASS, AnnotationTarget.TYPE)
+annotation class ValidationSpecMarker

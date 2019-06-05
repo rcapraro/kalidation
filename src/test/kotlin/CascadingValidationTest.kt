@@ -65,7 +65,7 @@ class CascadingValidationTest {
 
         val validated = spec.validate(dslTest)
 
-        assert(validated.isInvalid)
+        assertThat(validated.isInvalid)
 
         validated.fold(
                 {

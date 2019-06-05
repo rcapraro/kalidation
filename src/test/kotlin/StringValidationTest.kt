@@ -41,7 +41,7 @@ class StringValidationTest {
 
         val validated = spec.validate(dslTest)
 
-        assert(validated.isInvalid)
+        assertThat(validated.isInvalid)
 
         validated.fold(
                 {
@@ -92,7 +92,7 @@ class StringValidationTest {
 
         val validated = spec.validate(dslTest)
 
-        assert(validated.isInvalid)
+        assertThat(validated.isInvalid)
 
         validated.fold(
                 {
@@ -126,7 +126,7 @@ class StringValidationTest {
         val dslTest = StringTestClass("2018-06-15T17:32:28.000Z", "EmptyNotUsedForTest", "EmptyNotUsedForTest")
         val validated = spec.validate(dslTest)
 
-        assert(validated.isValid)
+        assertThat(validated.isValid)
     }
 
     @Test
@@ -142,7 +142,7 @@ class StringValidationTest {
         val dslTest = StringTestClass(null, "EmptyNotUsedForTest", "EmptyNotUsedForTest")
         val validated = spec.validate(dslTest)
 
-        assert(validated.isValid)
+        assertThat(validated.isValid)
     }
 
     @Test
@@ -158,7 +158,7 @@ class StringValidationTest {
         val dslTest = StringTestClass("", "EmptyNotUsedForTest", "EmptyNotUsedForTest")
         val validated = spec.validate(dslTest)
 
-        assert(validated.isInvalid)
+        assertThat(validated.isInvalid)
 
         validated.fold(
                 {

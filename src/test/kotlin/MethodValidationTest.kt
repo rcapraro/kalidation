@@ -6,7 +6,10 @@ import com.capraro.kalidation.dsl.constraints
 import com.capraro.kalidation.dsl.property
 import com.capraro.kalidation.dsl.returnOf
 import com.capraro.kalidation.dsl.validationSpec
+import com.capraro.kalidation.exception.KalidationException
 import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
 
@@ -18,6 +21,10 @@ class ClassWithMethods(val field1: Int,
 
     fun total(): Int {
         return field1 + field2
+    }
+
+    fun methodWithArguments(arg1: Any): Any? {
+        return arg1
     }
 }
 
@@ -44,7 +51,9 @@ class MethodValidationTest {
 
         val validated = spec.validate(dslTest)
 
-        assert(validated.isInvalid)
+        assertThat(validated.isInvalid)
+
+        println(validated)
 
         validated.fold(
                 {
@@ -54,4 +63,22 @@ class MethodValidationTest {
         )
 
     }
+
+    @Test
+    fun `test validation of class with methods should throw an exception if method has arguments`() {
+
+        assertThatThrownBy {
+            validationSpec {
+                constraints<ClassWithMethods> {
+
+                    returnOf(ClassWithMethods::methodWithArguments) {
+                        notNull()
+                    }
+                }
+            }
+        }.isInstanceOf(KalidationException::class.java)
+    }
+
+
 }
+
