@@ -22,7 +22,13 @@ val spec = validationSpec {
          }
          property(Foo::baz) {
              validByScript(lang = "groovy", script= "baz.validate()", alias="baz")
-         }         
+         }
+        returnOf(Foo::validate) {
+            assertTrue()
+        }
+        returnOf(Foo::total) {
+            min(10)
+        }                  
      }
  }
 ```
@@ -49,6 +55,9 @@ val spec = validationSpec(messageBundle = "MyMessages", locale = Locale.FRENCH) 
                 property(MyClass::field3) {
                     future()
                 }
+                returnOf(Foo::validate) {
+                    assertTrue()
+                }                
                 property(MyClass::innerClass) {
                     valid()
                 }                     
@@ -95,7 +104,7 @@ data class ValidationResult(val fieldName: String, val invalidValue: Any?, val m
 ```
 The `ValidationResult` object contains the name and the value of the field in error, the message template and the i18n corresponding message.
  
-**Implemented validation functions**
+**Implemented validation functions on properties**
  
 ***All classes***
 
@@ -166,6 +175,29 @@ The `ValidationResult` object contains the name and the value of the field in er
   * futureOrPresent()
   * pastOrPresent()
   
- 
+   
 > For all methods, an optional *message: String?* parameter can be used to override the resource bundle message.  
   
+  
+**Validation on method return type**  
+It is also possible to specify a validation on a return type of a method:
+```kotlin
+returnOf(Foo::validate) {
+    notNull()
+    assertTrue()
+    //etc...
+}
+```
+
+In this example, if the method validate returns ```false```, the `ValidationResult` object will look like:
+
+```
+Invalid(e=[ValidationResult(
+    fieldName=validate.<return value>, 
+    invalidValue=false, 
+    messageTemplate={javax.validation.constraints.AssertTrue.message}, 
+    message=doit être vrai)]
+)
+```
+
+       

@@ -6,6 +6,7 @@ import com.capraro.kalidation.dsl.constraints
 import com.capraro.kalidation.dsl.property
 import com.capraro.kalidation.dsl.validationSpec
 import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
 
@@ -30,7 +31,7 @@ class MapValidationTest {
 
         val validated = spec.validate(dslTest)
 
-        assert(validated.isInvalid)
+        assertThat(validated.isInvalid)
 
         validated.fold(
                 {

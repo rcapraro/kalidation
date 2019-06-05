@@ -59,7 +59,6 @@ data class ValidationSpec(val constraints: MutableList<Constraint<out Any>> = mu
             }
         }
 
-
         val validationSet = validationResult
                 .map {
                     ValidationResult(
