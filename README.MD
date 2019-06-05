@@ -12,15 +12,15 @@ Creation of a validation DSL which allows this kind of fluent code:
 ```kotlin
 val spec = validationSpec {
        constraints<Foo> {
-         field(Foo::bar) {
+         property(Foo::bar) {
              notBlank()
              inValues("GREEN", "WHITE", "RED")
          }
-         field(Foo::bax) {
+         property(Foo::bax) {
              min(3)
              email()
          }
-         field(Foo::baz) {
+         property(Foo::baz) {
              validByScript(lang = "groovy", script= "baz.validate()", alias="baz")
          }         
      }

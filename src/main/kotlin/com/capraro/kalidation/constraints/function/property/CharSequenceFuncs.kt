@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package com.capraro.kalidation.constraints.function
+package com.capraro.kalidation.constraints.function.property
 
 import com.capraro.kalidation.constraints.rule.*
 import com.capraro.kalidation.spec.PropertyConstraint

@@ -30,7 +30,9 @@ import arrow.data.Validated
 import com.capraro.kalidation.constraints.rule.ConstraintRule
 import javax.validation.Validator
 import kotlin.reflect.KClass
+import kotlin.reflect.KFunction
 import kotlin.reflect.KProperty1
+import kotlin.reflect.jvm.javaMethod
 
 /**
  * Validation DSL Specification classes.
@@ -47,7 +49,18 @@ data class ValidationSpec(val constraints: MutableList<Constraint<out Any>> = mu
 
     fun validate(constrainedClass: Any): Validated<Set<ValidationResult>, Boolean> {
 
-        val validationSet = validator.validate(constrainedClass)
+        val validationResult = validator.validate(constrainedClass)
+
+        constraints.forEach { constraint ->
+            constraint.methodConstraints.forEach {
+                validationResult.addAll(validator
+                        .forExecutables()
+                        .validateReturnValue(constrainedClass, it.constrainedMethod.javaMethod, it.constrainedMethod.call(constrainedClass)))
+            }
+        }
+
+
+        val validationSet = validationResult
                 .map {
                     ValidationResult(
                             fieldName = it.propertyPath.joinToString(".") { violation -> violation.name },
@@ -72,7 +85,9 @@ data class ValidationSpec(val constraints: MutableList<Constraint<out Any>> = mu
  * @see PropertyConstraint
  */
 data class Constraint<T : Any>(val constrainedClass: KClass<T>,
-                               val propertyConstraints: MutableList<PropertyConstraint<T, out Any?>> = mutableListOf())
+                               val propertyConstraints: MutableList<PropertyConstraint<T, out Any?>> = mutableListOf(),
+                               val methodConstraints: MutableList<MethodConstraint<out Any?>> = mutableListOf()
+)
 
 /**
  * Property constraints.
@@ -81,5 +96,13 @@ data class Constraint<T : Any>(val constrainedClass: KClass<T>,
  */
 data class PropertyConstraint<T : Any, P : Any?>(val constrainedProperty: KProperty1<T, P>,
                                                  val constraintRules: MutableList<ConstraintRule> = mutableListOf())
+
+/**
+ * Method return value constraints.
+ * A Method return value constraint refers to the return value of a method and contains a list of [ConstraintRule] to apply to this return value property.
+ * @see ConstraintRule
+ */
+data class MethodConstraint<R : Any?>(val constrainedMethod: KFunction<R>,
+                                      val constraintRules: MutableList<ConstraintRule> = mutableListOf())
 
 data class ValidationResult(val fieldName: String, val invalidValue: Any?, val messageTemplate: String, val message: String)

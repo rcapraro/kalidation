@@ -22,32 +22,27 @@
  * THE SOFTWARE.
  */
 
-package com.capraro.kalidation.constraints.function
+package com.capraro.kalidation.constraints.function.property
 
-import com.capraro.kalidation.constraints.rule.Future
-import com.capraro.kalidation.constraints.rule.FutureOrPresent
-import com.capraro.kalidation.constraints.rule.Past
-import com.capraro.kalidation.constraints.rule.PastOrPresent
+import com.capraro.kalidation.constraints.rule.ColNotEmpty
+import com.capraro.kalidation.constraints.rule.ColSize
+import com.capraro.kalidation.constraints.rule.SubSetOf
 import com.capraro.kalidation.spec.PropertyConstraint
-import java.time.temporal.Temporal
 
 /**
- * [Temporal] Validation Functions.
+ * [Collection] Validation Functions.
  * @author Richard Capraro
  * @since 0.0.1
  */
-fun PropertyConstraint<out Any, out Temporal?>.future(message: String? = null) {
-    constraintRules.add(Future(message))
+fun PropertyConstraint<out Any, out Collection<*>?>.size(min: Int = 0, max: Int = Int.MAX_VALUE, message: String? = null) {
+    constraintRules.add(ColSize(min, max, message))
 }
 
-fun PropertyConstraint<out Any, out Temporal?>.futureOrPresent(message: String? = null) {
-    constraintRules.add(FutureOrPresent(message))
+fun PropertyConstraint<out Any, out Collection<*>?>.notEmpty(message: String? = null) {
+    constraintRules.add(ColNotEmpty(message))
 }
 
-fun PropertyConstraint<out Any, out Temporal?>.past(message: String? = null) {
-    constraintRules.add(Past(message))
+fun PropertyConstraint<out Any, out Collection<*>?>.subSetOf(vararg completeValues: String, message: String? = null) {
+    constraintRules.add(SubSetOf(completeValues.asList(), message))
 }
 
-fun PropertyConstraint<out Any, out Temporal?>.pastOrPresent(message: String? = null) {
-    constraintRules.add(PastOrPresent(message))
-}

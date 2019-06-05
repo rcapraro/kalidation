@@ -22,21 +22,32 @@
  * THE SOFTWARE.
  */
 
-package com.capraro.kalidation.constraints.function
+package com.capraro.kalidation.constraints.function.property
 
-import com.capraro.kalidation.constraints.rule.ArrayNotEmpty
-import com.capraro.kalidation.constraints.rule.ArraySize
+import com.capraro.kalidation.constraints.rule.Future
+import com.capraro.kalidation.constraints.rule.FutureOrPresent
+import com.capraro.kalidation.constraints.rule.Past
+import com.capraro.kalidation.constraints.rule.PastOrPresent
 import com.capraro.kalidation.spec.PropertyConstraint
+import java.time.temporal.Temporal
 
 /**
- * [Array] Validation Functions.
+ * [Temporal] Validation Functions.
  * @author Richard Capraro
  * @since 0.0.1
  */
-fun PropertyConstraint<out Any, out Array<*>?>.size(min: Int = 0, max: Int = Int.MAX_VALUE, message: String? = null) {
-    constraintRules.add(ArraySize(min, max, message))
+fun PropertyConstraint<out Any, out Temporal?>.future(message: String? = null) {
+    constraintRules.add(Future(message))
 }
 
-fun PropertyConstraint<out Any, out Array<*>?>.notEmpty(message: String? = null) {
-    constraintRules.add(ArrayNotEmpty(message))
+fun PropertyConstraint<out Any, out Temporal?>.futureOrPresent(message: String? = null) {
+    constraintRules.add(FutureOrPresent(message))
+}
+
+fun PropertyConstraint<out Any, out Temporal?>.past(message: String? = null) {
+    constraintRules.add(Past(message))
+}
+
+fun PropertyConstraint<out Any, out Temporal?>.pastOrPresent(message: String? = null) {
+    constraintRules.add(PastOrPresent(message))
 }

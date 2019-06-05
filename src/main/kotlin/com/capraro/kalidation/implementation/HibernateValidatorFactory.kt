@@ -64,6 +64,12 @@ class HibernateValidatorFactory(private val spec: ValidationSpec) {
                         }
                     }
                 }
+                constraint.methodConstraints.forEach { methodConstraint ->
+                    val methodReturnValue = typeMapping.method(methodConstraint.constrainedMethod.name).returnValue()
+                    methodConstraint.constraintRules.forEach { rule: ConstraintRule ->
+                        methodReturnValue.constraint(translateConstraintDef(rule)).valid()
+                    }
+                }
             }
             constraintMapping
         }

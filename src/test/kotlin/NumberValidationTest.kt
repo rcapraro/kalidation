@@ -1,4 +1,4 @@
-import com.capraro.kalidation.constraints.function.*
+import com.capraro.kalidation.constraints.function.property.*
 import com.capraro.kalidation.dsl.constraints
 import com.capraro.kalidation.dsl.property
 import com.capraro.kalidation.dsl.validationSpec
@@ -37,8 +37,6 @@ class NumberValidationTest {
         val validated = spec.validate(dslTest)
 
         assert(validated.isInvalid)
-
-        println(validated)
 
         validated.fold(
                 {
