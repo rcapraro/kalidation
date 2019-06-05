@@ -1,4 +1,4 @@
-import com.capraro.kalidation.constraints.function.*
+import com.capraro.kalidation.constraints.function.property.*
 import com.capraro.kalidation.dsl.constraints
 import com.capraro.kalidation.dsl.property
 import com.capraro.kalidation.dsl.validationSpec
@@ -6,10 +6,10 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
 
-private class StringTestClass(val field1: String?,
-                              val field2: String,
-                              val field3: String,
-                              val field4: String? = "0.0")
+class StringTestClass(val field1: String?,
+                      val field2: String,
+                      val field3: String,
+                      val field4: String? = "0.0")
 
 class StringValidationTest {
 
@@ -93,8 +93,6 @@ class StringValidationTest {
         val validated = spec.validate(dslTest)
 
         assert(validated.isInvalid)
-
-        println(validated)
 
         validated.fold(
                 {

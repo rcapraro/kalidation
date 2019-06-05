@@ -1,7 +1,7 @@
-import com.capraro.kalidation.constraints.function.future
-import com.capraro.kalidation.constraints.function.futureOrPresent
-import com.capraro.kalidation.constraints.function.past
-import com.capraro.kalidation.constraints.function.pastOrPresent
+import com.capraro.kalidation.constraints.function.property.future
+import com.capraro.kalidation.constraints.function.property.futureOrPresent
+import com.capraro.kalidation.constraints.function.property.past
+import com.capraro.kalidation.constraints.function.property.pastOrPresent
 import com.capraro.kalidation.dsl.constraints
 import com.capraro.kalidation.dsl.property
 import com.capraro.kalidation.dsl.validationSpec

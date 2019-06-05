@@ -26,9 +26,11 @@ package com.capraro.kalidation.dsl
 
 import com.capraro.kalidation.implementation.HibernateValidatorFactory
 import com.capraro.kalidation.spec.Constraint
+import com.capraro.kalidation.spec.MethodConstraint
 import com.capraro.kalidation.spec.PropertyConstraint
 import com.capraro.kalidation.spec.ValidationSpec
 import java.util.*
+import kotlin.reflect.KFunction
 import kotlin.reflect.KProperty1
 
 /**
@@ -54,4 +56,10 @@ fun <T : Any, P : Any?> Constraint<T>.property(property: KProperty1<T, P>, block
     val propertyConstraint = PropertyConstraint(property)
     this.propertyConstraints.add(propertyConstraint)
     block(propertyConstraint)
+}
+
+fun <T : Any, R : Any?> Constraint<T>.returnOf(method: KFunction<R>, block: MethodConstraint<R>.() -> Unit) {
+    val methodConstraint = MethodConstraint(method)
+    this.methodConstraints.add(methodConstraint)
+    block(methodConstraint)
 }
