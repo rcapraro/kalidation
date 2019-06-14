@@ -1,20 +1,20 @@
 language: java
 jdk:
-- oraclejdk8
+  - openjdk8
 before_install:
-- chmod +x gradlew
+  - chmod +x gradlew
 
 stages:
-- name: build
-- name: release
-  # only publish releases from "master" branch and not in pull requests
-  if: branch = master AND type IN (push)
+  - name: build
+  - name: release
+    # only publish releases from "master" branch and not in pull requests
+    if: branch = master AND type IN (push)
 
 jobs:
   include:
-  # run gradle build
-  - stage: build
-    script: ./gradlew build
-  # release a new stable version to bintray
-  - stage: release
-    script: ./gradlew bintrayUpload -x test -Dbintray.user=$BINTRAY_USER -Dbintray.key=$BINTRAY_KEY -Dbuild.number=$TRAVIS_BUILD_NUMBER
+    # run gradle build
+    - stage: build
+      script: ./gradlew build
+    # release a new stable version to bintray
+    - stage: release
+      script: ./gradlew bintrayUpload -x test -Dbintray.user=$BINTRAY_USER -Dbintray.key=$BINTRAY_KEY -Dbuild.number=$TRAVIS_BUILD_NUMBER
