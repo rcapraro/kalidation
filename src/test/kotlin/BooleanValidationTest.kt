@@ -1,5 +1,5 @@
-import com.capraro.kalidation.constraints.function.property.assertFalse
-import com.capraro.kalidation.constraints.function.property.assertTrue
+import com.capraro.kalidation.constraints.function.assertFalse
+import com.capraro.kalidation.constraints.function.assertTrue
 import com.capraro.kalidation.dsl.constraints
 import com.capraro.kalidation.dsl.property
 import com.capraro.kalidation.dsl.validationSpec

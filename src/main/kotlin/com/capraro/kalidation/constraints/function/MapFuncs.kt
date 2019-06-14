@@ -22,27 +22,27 @@
  * THE SOFTWARE.
  */
 
-package com.capraro.kalidation.constraints.function.property
+package com.capraro.kalidation.constraints.function
 
-import com.capraro.kalidation.constraints.rule.ColNotEmpty
-import com.capraro.kalidation.constraints.rule.ColSize
-import com.capraro.kalidation.constraints.rule.SubSetOf
-import com.capraro.kalidation.spec.PropertyConstraint
+import com.capraro.kalidation.constraints.rule.MapHasKeys
+import com.capraro.kalidation.constraints.rule.MapNotEmpty
+import com.capraro.kalidation.constraints.rule.MapSize
+import com.capraro.kalidation.spec.Constraint
 
 /**
- * [Collection] Validation Functions.
+ * [Map] Validation Functions.
  * @author Richard Capraro
- * @since 0.0.1
+ * @since 1.2.8
  */
-fun PropertyConstraint<out Any, out Collection<*>?>.size(min: Int = 0, max: Int = Int.MAX_VALUE, message: String? = null) {
-    constraintRules.add(ColSize(min, max, message))
+fun Constraint<out Any, out Map<String, *>?>.size(min: Int = 0, max: Int = Int.MAX_VALUE, message: String? = null) {
+    constraintRules.add(MapSize(min, max, message))
 }
 
-fun PropertyConstraint<out Any, out Collection<*>?>.notEmpty(message: String? = null) {
-    constraintRules.add(ColNotEmpty(message))
+fun Constraint<out Any, out Map<String, *>?>.notEmpty(message: String? = null) {
+    constraintRules.add(MapNotEmpty(message))
 }
 
-fun PropertyConstraint<out Any, out Collection<*>?>.subSetOf(vararg completeValues: String, message: String? = null) {
-    constraintRules.add(SubSetOf(completeValues.asList(), message))
+fun Constraint<out Any, out Map<String, *>?>.hasKeys(vararg mapKeys: String, message: String? = null) {
+    constraintRules.add(MapHasKeys(mapKeys.asList(), message))
 }
 
