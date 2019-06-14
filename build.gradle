@@ -56,7 +56,7 @@ compileTestKotlin {
 }
 
 wrapper {
-    gradleVersion = '4.10'
+    gradleVersion = '4.9'
 }
 
 jacoco {
