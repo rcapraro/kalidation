@@ -42,9 +42,9 @@ import kotlin.reflect.jvm.javaMethod
 
 /**
  * Validation Spec class.
- * This 'root' class contains a list of [Constraint].
+ * This 'root' class contains a list of [ClassConstraint].
  */
-data class ValidationSpec(val constraints: MutableList<Constraint<out Any>> = mutableListOf()) {
+data class ValidationSpec(val constraints: MutableList<ClassConstraint<out Any>> = mutableListOf()) {
     internal lateinit var validator: Validator
 
     fun validate(constrainedClass: Any): Validated<Set<ValidationResult>, Boolean> {
@@ -83,25 +83,25 @@ data class ValidationSpec(val constraints: MutableList<Constraint<out Any>> = mu
  * A Class constraint refers to a class and contains a list of [PropertyConstraint]
  * @see PropertyConstraint
  */
-data class Constraint<T : Any>(val constrainedClass: KClass<T>,
-                               val propertyConstraints: MutableList<PropertyConstraint<T, out Any?>> = mutableListOf(),
-                               val methodConstraints: MutableList<MethodConstraint<out Any?>> = mutableListOf()
+data class ClassConstraint<T : Any>(val constrainedClass: KClass<T>,
+                                    val propertyConstraints: MutableList<PropertyConstraint<T, out Any?>> = mutableListOf(),
+                                    val methodConstraints: MutableList<MethodConstraint<out Any?>> = mutableListOf()
 )
+
+open class Constraint<T : Any, P : Any?>(val constraintRules: MutableList<ConstraintRule> = mutableListOf())
 
 /**
  * Property constraints.
  * A Property constraint refers to a property and contains a list of [ConstraintRule] to apply to this property.
  * @see ConstraintRule
  */
-data class PropertyConstraint<T : Any, P : Any?>(val constrainedProperty: KProperty1<T, P>,
-                                                 val constraintRules: MutableList<ConstraintRule> = mutableListOf())
+data class PropertyConstraint<T : Any, P : Any?>(val constrainedProperty: KProperty1<T, P>) : Constraint<T, P>()
 
 /**
  * Method return value constraints.
- * A Method return value constraint refers to the return value of a method and contains a list of [ConstraintRule] to apply to this return value property.
+ * A Method return value constraint refers to the return value of a method and contains a list of [ConstraintRule] to apply to this return value.
  * @see ConstraintRule
  */
-data class MethodConstraint<R : Any?>(val constrainedMethod: KFunction<R>,
-                                      val constraintRules: MutableList<ConstraintRule> = mutableListOf())
+data class MethodConstraint<R : Any?>(val constrainedMethod: KFunction<R>) : Constraint<Any, R>()
 
 data class ValidationResult(val fieldName: String, val invalidValue: Any?, val messageTemplate: String, val message: String)

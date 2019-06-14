@@ -22,21 +22,27 @@
  * THE SOFTWARE.
  */
 
-package com.capraro.kalidation.constraints.function.method
+package com.capraro.kalidation.constraints.function
 
-import com.capraro.kalidation.constraints.rule.ArrayNotEmpty
-import com.capraro.kalidation.constraints.rule.ArraySize
-import com.capraro.kalidation.spec.MethodConstraint
+import com.capraro.kalidation.constraints.rule.ColNotEmpty
+import com.capraro.kalidation.constraints.rule.ColSize
+import com.capraro.kalidation.constraints.rule.SubSetOf
+import com.capraro.kalidation.spec.Constraint
 
 /**
- * [Array] Validation Functions.
+ * [Collection] Validation Functions.
  * @author Richard Capraro
- * @since 1.3.0
+ * @since 0.0.1
  */
-fun MethodConstraint<out Array<*>?>.size(min: Int = 0, max: Int = Int.MAX_VALUE, message: String? = null) {
-    constraintRules.add(ArraySize(min, max, message))
+fun Constraint<out Any, out Collection<*>?>.size(min: Int = 0, max: Int = Int.MAX_VALUE, message: String? = null) {
+    constraintRules.add(ColSize(min, max, message))
 }
 
-fun MethodConstraint<out Array<*>?>.notEmpty(message: String? = null) {
-    constraintRules.add(ArrayNotEmpty(message))
+fun Constraint<out Any, out Collection<*>?>.notEmpty(message: String? = null) {
+    constraintRules.add(ColNotEmpty(message))
 }
+
+fun Constraint<out Any, out Collection<*>?>.subSetOf(vararg completeValues: String, message: String? = null) {
+    constraintRules.add(SubSetOf(completeValues.asList(), message))
+}
+

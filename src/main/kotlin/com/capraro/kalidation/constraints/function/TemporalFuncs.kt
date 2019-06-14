@@ -22,21 +22,32 @@
  * THE SOFTWARE.
  */
 
-package com.capraro.kalidation.constraints.function.property
+package com.capraro.kalidation.constraints.function
 
-import com.capraro.kalidation.constraints.rule.AssertFalse
-import com.capraro.kalidation.constraints.rule.AssertTrue
-import com.capraro.kalidation.spec.PropertyConstraint
+import com.capraro.kalidation.constraints.rule.Future
+import com.capraro.kalidation.constraints.rule.FutureOrPresent
+import com.capraro.kalidation.constraints.rule.Past
+import com.capraro.kalidation.constraints.rule.PastOrPresent
+import com.capraro.kalidation.spec.Constraint
+import java.time.temporal.Temporal
 
 /**
- * [Boolean] Validation Functions.
+ * [Temporal] Validation Functions.
  * @author Richard Capraro
  * @since 0.0.1
  */
-fun PropertyConstraint<out Any, out Boolean?>.assertTrue(message: String? = null) {
-    constraintRules.add(AssertTrue(message))
+fun Constraint<out Any, out Temporal?>.future(message: String? = null) {
+    constraintRules.add(Future(message))
 }
 
-fun PropertyConstraint<out Any, out Boolean?>.assertFalse(message: String? = null) {
-    constraintRules.add(AssertFalse(message))
+fun Constraint<out Any, out Temporal?>.futureOrPresent(message: String? = null) {
+    constraintRules.add(FutureOrPresent(message))
+}
+
+fun Constraint<out Any, out Temporal?>.past(message: String? = null) {
+    constraintRules.add(Past(message))
+}
+
+fun Constraint<out Any, out Temporal?>.pastOrPresent(message: String? = null) {
+    constraintRules.add(PastOrPresent(message))
 }

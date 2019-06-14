@@ -22,84 +22,84 @@
  * THE SOFTWARE.
  */
 
-package com.capraro.kalidation.constraints.function.property
+package com.capraro.kalidation.constraints.function
 
 import com.capraro.kalidation.constraints.rule.*
-import com.capraro.kalidation.spec.PropertyConstraint
+import com.capraro.kalidation.spec.Constraint
 
 /**
  * [CharSequence] Validation Functions.
  * @author Richard Capraro
  * @since 0.0.1
  */
-fun PropertyConstraint<out Any, out CharSequence?>.notBlank(message: String? = null) {
+fun Constraint<out Any, out CharSequence?>.notBlank(message: String? = null) {
     constraintRules.add(NotBlank(message))
 }
 
-fun PropertyConstraint<out Any, out CharSequence?>.notEmpty(message: String? = null) {
+fun Constraint<out Any, out CharSequence?>.notEmpty(message: String? = null) {
     constraintRules.add(CsNotEmpty(message))
 }
 
-fun PropertyConstraint<out Any, out CharSequence?>.size(min: Int = 0, max: Int = Int.MAX_VALUE, message: String? = null) {
+fun Constraint<out Any, out CharSequence?>.size(min: Int = 0, max: Int = Int.MAX_VALUE, message: String? = null) {
     constraintRules.add(CsSize(min, max, message))
 }
 
-fun PropertyConstraint<out Any, out CharSequence?>.regexp(regexp: String, message: String? = null) {
+fun Constraint<out Any, out CharSequence?>.regexp(regexp: String, message: String? = null) {
     constraintRules.add(Regexp(regexp, message))
 }
 
-fun PropertyConstraint<out Any, out CharSequence?>.email(message: String? = null) {
+fun Constraint<out Any, out CharSequence?>.email(message: String? = null) {
     constraintRules.add(Email(message))
 }
 
-fun PropertyConstraint<out Any, out CharSequence?>.phoneNumber(regionCode: String, message: String? = null) {
+fun Constraint<out Any, out CharSequence?>.phoneNumber(regionCode: String, message: String? = null) {
     constraintRules.add(PhoneNumber(regionCode, message))
 }
 
-fun PropertyConstraint<out Any, out CharSequence?>.inValues(vararg values: String, message: String? = null) {
+fun Constraint<out Any, out CharSequence?>.inValues(vararg values: String, message: String? = null) {
     constraintRules.add(InValues(values.asList(), message))
 }
 
-fun PropertyConstraint<out Any, out CharSequence?>.range(min: Long, max: Long, message: String? = null) {
+fun Constraint<out Any, out CharSequence?>.range(min: Long, max: Long, message: String? = null) {
     constraintRules.add(CsRange(min, max, message))
 }
 
-fun PropertyConstraint<out Any, out CharSequence?>.positive(message: String? = null) {
+fun Constraint<out Any, out CharSequence?>.positive(message: String? = null) {
     constraintRules.add(CsPositive(message))
 }
 
-fun PropertyConstraint<out Any, out CharSequence?>.positiveOrZero(message: String? = null) {
+fun Constraint<out Any, out CharSequence?>.positiveOrZero(message: String? = null) {
     constraintRules.add(CsPositiveOrZero(message))
 }
 
-fun PropertyConstraint<out Any, out CharSequence?>.negative(message: String? = null) {
+fun Constraint<out Any, out CharSequence?>.negative(message: String? = null) {
     constraintRules.add(CsNegative(message))
 }
 
-fun PropertyConstraint<out Any, out CharSequence?>.negativeOrZero(message: String? = null) {
+fun Constraint<out Any, out CharSequence?>.negativeOrZero(message: String? = null) {
     constraintRules.add(CsNegativeOrZero(message))
 }
 
-fun PropertyConstraint<out Any, out CharSequence?>.min(value: Long, message: String? = null) {
+fun Constraint<out Any, out CharSequence?>.min(value: Long, message: String? = null) {
     constraintRules.add(CsMin(value, message))
 }
 
-fun PropertyConstraint<out Any, out CharSequence?>.max(value: Long, message: String? = null) {
+fun Constraint<out Any, out CharSequence?>.max(value: Long, message: String? = null) {
     constraintRules.add(CsMax(value, message))
 }
 
-fun PropertyConstraint<out Any, out CharSequence?>.decimalMin(value: String, inclusive: Boolean, message: String? = null) {
+fun Constraint<out Any, out CharSequence?>.decimalMin(value: String, inclusive: Boolean, message: String? = null) {
     constraintRules.add(CsDecimalMin(value, inclusive, message))
 }
 
-fun PropertyConstraint<out Any, out CharSequence?>.decimalMax(value: String, inclusive: Boolean, message: String? = null) {
+fun Constraint<out Any, out CharSequence?>.decimalMax(value: String, inclusive: Boolean, message: String? = null) {
     constraintRules.add(CsDecimalMax(value, inclusive, message))
 }
 
-fun PropertyConstraint<out Any, out CharSequence?>.digits(value: Int, fraction: Int, message: String? = null) {
+fun Constraint<out Any, out CharSequence?>.digits(value: Int, fraction: Int, message: String? = null) {
     constraintRules.add(CsDigits(value, fraction, message))
 }
 
-fun PropertyConstraint<out Any, out CharSequence?>.iso8601Date(message: String? = null) {
+fun Constraint<out Any, out CharSequence?>.iso8601Date(message: String? = null) {
     constraintRules.add(Iso8601Date(message))
 }
