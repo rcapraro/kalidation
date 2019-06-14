@@ -1,5 +1,5 @@
-import com.capraro.kalidation.constraints.function.property.notNull
-import com.capraro.kalidation.constraints.function.property.validByScript
+import com.capraro.kalidation.constraints.function.notNull
+import com.capraro.kalidation.constraints.function.validByScript
 import com.capraro.kalidation.dsl.constraints
 import com.capraro.kalidation.dsl.property
 import com.capraro.kalidation.dsl.validationSpec

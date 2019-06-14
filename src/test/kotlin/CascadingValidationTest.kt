@@ -22,9 +22,9 @@
  * THE SOFTWARE.
  */
 
-import com.capraro.kalidation.constraints.function.property.negativeOrZero
-import com.capraro.kalidation.constraints.function.property.notBlank
-import com.capraro.kalidation.constraints.function.property.valid
+import com.capraro.kalidation.constraints.function.negativeOrZero
+import com.capraro.kalidation.constraints.function.notBlank
+import com.capraro.kalidation.constraints.function.valid
 import com.capraro.kalidation.dsl.constraints
 import com.capraro.kalidation.dsl.property
 import com.capraro.kalidation.dsl.validationSpec

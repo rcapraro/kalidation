@@ -22,32 +22,31 @@
  * THE SOFTWARE.
  */
 
-package com.capraro.kalidation.constraints.function.property
+package com.capraro.kalidation.constraints.function
 
-import com.capraro.kalidation.constraints.rule.Future
-import com.capraro.kalidation.constraints.rule.FutureOrPresent
-import com.capraro.kalidation.constraints.rule.Past
-import com.capraro.kalidation.constraints.rule.PastOrPresent
-import com.capraro.kalidation.spec.PropertyConstraint
-import java.time.temporal.Temporal
+import com.capraro.kalidation.constraints.rule.NotNull
+import com.capraro.kalidation.constraints.rule.Null
+import com.capraro.kalidation.constraints.rule.Valid
+import com.capraro.kalidation.constraints.rule.ValidByScript
+import com.capraro.kalidation.spec.Constraint
 
 /**
- * [Temporal] Validation Functions.
+ * Validation Functions on [Any] classes.
  * @author Richard Capraro
  * @since 0.0.1
  */
-fun PropertyConstraint<out Any, out Temporal?>.future(message: String? = null) {
-    constraintRules.add(Future(message))
+fun Constraint<out Any, out Any?>.notNull(message: String? = null) {
+    constraintRules.add(NotNull(message))
 }
 
-fun PropertyConstraint<out Any, out Temporal?>.futureOrPresent(message: String? = null) {
-    constraintRules.add(FutureOrPresent(message))
+fun Constraint<out Any, out Any?>.isNull(message: String? = null) {
+    constraintRules.add(Null(message))
 }
 
-fun PropertyConstraint<out Any, out Temporal?>.past(message: String? = null) {
-    constraintRules.add(Past(message))
+fun Constraint<out Any, out Any?>.valid(message: String? = null) {
+    constraintRules.add(Valid(message))
 }
 
-fun PropertyConstraint<out Any, out Temporal?>.pastOrPresent(message: String? = null) {
-    constraintRules.add(PastOrPresent(message))
+fun Constraint<out Any, out Any?>.validByScript(lang: String, script: String, alias: String = "_this", reportOn: String = "", message: String? = null) {
+    constraintRules.add(ValidByScript(lang, script, alias, reportOn, message))
 }
