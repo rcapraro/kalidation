@@ -26,10 +26,12 @@ package com.capraro.kalidation.implementation
 
 import com.capraro.kalidation.constraints.def.*
 import com.capraro.kalidation.constraints.rule.*
+import com.capraro.kalidation.spec.PropertyConstraint
 import com.capraro.kalidation.spec.ValidationSpec
 import org.hibernate.validator.HibernateValidator
 import org.hibernate.validator.cfg.ConstraintDef
 import org.hibernate.validator.cfg.ConstraintMapping
+import org.hibernate.validator.cfg.context.PropertyConstraintMappingContext
 import org.hibernate.validator.cfg.defs.*
 import org.hibernate.validator.internal.cfg.context.DefaultConstraintMapping
 import org.hibernate.validator.resourceloading.AggregateResourceBundleLocator
@@ -57,6 +59,9 @@ class HibernateValidatorFactory(private val spec: ValidationSpec) {
                 val typeMapping = constraintMapping.type(constraint.constrainedClass.java)
                 constraint.propertyConstraints.forEach { propertyConstraint ->
                     val propertyMapping = typeMapping.property(propertyConstraint.constrainedProperty.name, ElementType.FIELD)
+
+                    createContainerConstraintMapping(propertyConstraint, propertyMapping)
+
                     propertyConstraint.constraintRules.forEach { rule: ConstraintRule ->
                         val context = propertyMapping.constraint(translateConstraintDef(rule))
                         when (rule) {
@@ -64,14 +69,29 @@ class HibernateValidatorFactory(private val spec: ValidationSpec) {
                         }
                     }
                 }
+
                 constraint.methodConstraints.forEach { methodConstraint ->
                     val methodReturnValue = typeMapping.method(methodConstraint.constrainedMethod.name).returnValue()
                     methodConstraint.constraintRules.forEach { rule: ConstraintRule ->
-                        methodReturnValue.constraint(translateConstraintDef(rule)).valid()
+                        methodReturnValue.constraint(translateConstraintDef(rule))
                     }
                 }
             }
             constraintMapping
+        }
+    }
+
+    private fun createContainerConstraintMapping(propertyConstraint: PropertyConstraint<out Any, out Any?>, propertyMapping: PropertyConstraintMappingContext) {
+        if (propertyConstraint.containerElementsTypes.isNotEmpty()) {
+            propertyConstraint.containerElementsTypes.forEach { containerElementType ->
+                val hvContainerElementType = propertyMapping.containerElementType(containerElementType.indexes.head, *containerElementType.indexes.tail.toIntArray())
+                containerElementType.constraintRules.forEach { rule: ConstraintRule ->
+                    val context = hvContainerElementType.constraint(translateConstraintDef(rule))
+                    when (rule) {
+                        is Valid -> context.valid()
+                    }
+                }
+            }
         }
     }
 

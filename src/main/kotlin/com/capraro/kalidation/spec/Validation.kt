@@ -25,9 +25,11 @@
 package com.capraro.kalidation.spec
 
 import arrow.data.Invalid
+import arrow.data.NonEmptyList
 import arrow.data.Valid
 import arrow.data.Validated
 import com.capraro.kalidation.constraints.rule.ConstraintRule
+import com.capraro.kalidation.exception.KalidationException
 import javax.validation.Validator
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction
@@ -53,6 +55,9 @@ data class ValidationSpec(val constraints: MutableList<ClassConstraint<out Any>>
 
         constraints.forEach { constraint ->
             constraint.methodConstraints.forEach {
+                if (!constrainedClass.javaClass.methods.contains(it.constrainedMethod.javaMethod)) {
+                    throw KalidationException("method ${it.constrainedMethod} must belong to class $constrainedClass to be callable", null)
+                }
                 validationResult.addAll(validator
                         .forExecutables()
                         .validateReturnValue(constrainedClass, it.constrainedMethod.javaMethod, it.constrainedMethod.call(constrainedClass)))
@@ -88,14 +93,22 @@ data class ClassConstraint<T : Any>(val constrainedClass: KClass<T>,
                                     val methodConstraints: MutableList<MethodConstraint<out Any?>> = mutableListOf()
 )
 
-open class Constraint<T : Any, P : Any?>(val constraintRules: MutableList<ConstraintRule> = mutableListOf())
+open class Constraint<T : Any, P>(val constraintRules: MutableList<ConstraintRule> = mutableListOf())
 
 /**
  * Property constraints.
  * A Property constraint refers to a property and contains a list of [ConstraintRule] to apply to this property.
  * @see ConstraintRule
  */
-data class PropertyConstraint<T : Any, P : Any?>(val constrainedProperty: KProperty1<T, P>) : Constraint<T, P>()
+data class PropertyConstraint<T : Any, P : Any?>(val constrainedProperty: KProperty1<T, P>, val containerElementsTypes: MutableList<ContainerElementType<T, P, out Any>> = mutableListOf()) : Constraint<T, P>()
+
+/**
+ * ContainerElementType.
+ */
+data class ContainerElementType<T : Any, P : Any?, U : Any?>(
+        val constrainedProperty: KProperty1<T, P>,
+        val indexes: NonEmptyList<Int>
+) : Constraint<T, U>()
 
 /**
  * Method return value constraints.
