@@ -25,6 +25,7 @@
 package com.capraro.kalidation.spec
 
 import arrow.data.Invalid
+import arrow.data.NonEmptyList
 import arrow.data.Valid
 import arrow.data.Validated
 import com.capraro.kalidation.constraints.rule.ConstraintRule
@@ -85,6 +86,7 @@ data class ValidationSpec(val constraints: MutableList<ClassConstraint<out Any>>
  */
 data class ClassConstraint<T : Any>(val constrainedClass: KClass<T>,
                                     val propertyConstraints: MutableList<PropertyConstraint<T, out Any?>> = mutableListOf(),
+                                    val containerPropertyConstraints: MutableList<ContainerPropertyConstraint<T, out Any?, out Any>> = mutableListOf(),
                                     val methodConstraints: MutableList<MethodConstraint<out Any?>> = mutableListOf()
 )
 
@@ -96,6 +98,13 @@ open class Constraint<T : Any, P : Any?>(val constraintRules: MutableList<Constr
  * @see ConstraintRule
  */
 data class PropertyConstraint<T : Any, P : Any?>(val constrainedProperty: KProperty1<T, P>) : Constraint<T, P>()
+
+/**
+ * Container Property constraints.
+ * A Property constraint refers to a property and contains a list of [ConstraintRule] to apply to this property.
+ * @see ConstraintRule
+ */
+data class ContainerPropertyConstraint<T : Any, P : Any?, U : Any>(val constrainedProperty: KProperty1<T, P>, val type: KClass<U>, val indexes: NonEmptyList<Int>) : Constraint<T, U>()
 
 /**
  * Method return value constraints.

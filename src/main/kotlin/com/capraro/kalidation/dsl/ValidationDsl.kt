@@ -24,13 +24,12 @@
 
 package com.capraro.kalidation.dsl
 
+import arrow.data.NonEmptyList
 import com.capraro.kalidation.exception.KalidationException
 import com.capraro.kalidation.implementation.HibernateValidatorFactory
-import com.capraro.kalidation.spec.ClassConstraint
-import com.capraro.kalidation.spec.MethodConstraint
-import com.capraro.kalidation.spec.PropertyConstraint
-import com.capraro.kalidation.spec.ValidationSpec
+import com.capraro.kalidation.spec.*
 import java.util.*
+import kotlin.reflect.KClass
 import kotlin.reflect.KFunction
 import kotlin.reflect.KProperty1
 
@@ -56,6 +55,12 @@ inline fun <reified T : Any> ValidationSpec.constraints(block: (@ValidationSpecM
 fun <T : Any, P : Any?> ClassConstraint<T>.property(property: KProperty1<T, P>, block: (@ValidationSpecMarker PropertyConstraint<T, P>).() -> Unit) {
     val propertyConstraint = PropertyConstraint(property)
     this.propertyConstraints.add(propertyConstraint)
+    block(propertyConstraint)
+}
+
+fun <T : Any, P : Any?, U : Any> ClassConstraint<T>.eachProperty(property: KProperty1<T, P>, type: KClass<U>, indexes: NonEmptyList<Int>, block: (@ValidationSpecMarker ContainerPropertyConstraint<T, P, U>).() -> Unit) {
+    val propertyConstraint = ContainerPropertyConstraint(property, type, indexes)
+    this.containerPropertyConstraints.add(propertyConstraint)
     block(propertyConstraint)
 }
 
