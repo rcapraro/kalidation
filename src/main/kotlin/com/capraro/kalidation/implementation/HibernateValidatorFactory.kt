@@ -57,6 +57,19 @@ class HibernateValidatorFactory(private val spec: ValidationSpec) {
                 val typeMapping = constraintMapping.type(constraint.constrainedClass.java)
                 constraint.propertyConstraints.forEach { propertyConstraint ->
                     val propertyMapping = typeMapping.property(propertyConstraint.constrainedProperty.name, ElementType.FIELD)
+
+                    if (propertyConstraint.containerElementsTypes.isNotEmpty()) {
+                        propertyConstraint.containerElementsTypes.forEach { containerElementType ->
+                            val hvContainerElementType = propertyMapping.containerElementType(containerElementType.indexes.head, *containerElementType.indexes.tail.toIntArray())
+                            propertyConstraint.constraintRules.forEach { rule: ConstraintRule ->
+                                val context = hvContainerElementType.constraint(translateConstraintDef(rule))
+                                when (rule) {
+                                    is Valid -> context.valid()
+                                }
+                            }
+                        }
+                    }
+
                     propertyConstraint.constraintRules.forEach { rule: ConstraintRule ->
                         val context = propertyMapping.constraint(translateConstraintDef(rule))
                         when (rule) {
@@ -65,16 +78,6 @@ class HibernateValidatorFactory(private val spec: ValidationSpec) {
                     }
                 }
 
-                constraint.containerPropertyConstraints.forEach { propertyConstraint ->
-                    val propertyMapping = typeMapping.property(propertyConstraint.constrainedProperty.name, ElementType.FIELD)
-                    val containerElementType = propertyMapping.containerElementType(propertyConstraint.indexes.head, *propertyConstraint.indexes.tail.toIntArray())
-                    propertyConstraint.constraintRules.forEach { rule: ConstraintRule ->
-                        val context = containerElementType.constraint(translateConstraintDef(rule))
-                        when (rule) {
-                            is Valid -> context.valid()
-                        }
-                    }
-                }
                 constraint.methodConstraints.forEach { methodConstraint ->
                     val methodReturnValue = typeMapping.method(methodConstraint.constrainedMethod.name).returnValue()
                     methodConstraint.constraintRules.forEach { rule: ConstraintRule ->

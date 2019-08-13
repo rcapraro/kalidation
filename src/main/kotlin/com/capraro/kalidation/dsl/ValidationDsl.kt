@@ -29,7 +29,6 @@ import com.capraro.kalidation.exception.KalidationException
 import com.capraro.kalidation.implementation.HibernateValidatorFactory
 import com.capraro.kalidation.spec.*
 import java.util.*
-import kotlin.reflect.KClass
 import kotlin.reflect.KFunction
 import kotlin.reflect.KProperty1
 
@@ -46,23 +45,17 @@ fun validationSpec(locale: Locale = Locale.getDefault(), messageBundle: String? 
     return validationSpec
 }
 
-inline fun <reified T : Any> ValidationSpec.constraints(block: (@ValidationSpecMarker ClassConstraint<T>).() -> Unit) {
-    val constraints = ClassConstraint(T::class)
-    this.constraints.add(constraints)
-    block(constraints)
+inline fun <reified T : Any> ValidationSpec.constraints(block: (@ValidationSpecMarker ClassConstraint<T>).() -> Unit) =
+        this.constraints.add(ClassConstraint(T::class).apply(block))
+
+fun <T : Any, P : Any?> ClassConstraint<T>.property(property: KProperty1<T, P>, block: (@ValidationSpecMarker PropertyConstraint<T, P>).() -> Unit) =
+        this.propertyConstraints.add(PropertyConstraint(property).apply(block))
+
+fun <T : Any, P : Iterable<U>, U : Any> PropertyConstraint<T, P>.eachItem(indexes: NonEmptyList<Int> = NonEmptyList.of(0), block: (@ValidationSpecMarker PropertyConstraint<T, U>).() -> Unit) {
+    this.containerElementsTypes.add(ContainerElementType(indexes))
+    this.apply(block)
 }
 
-fun <T : Any, P : Any?> ClassConstraint<T>.property(property: KProperty1<T, P>, block: (@ValidationSpecMarker PropertyConstraint<T, P>).() -> Unit) {
-    val propertyConstraint = PropertyConstraint(property)
-    this.propertyConstraints.add(propertyConstraint)
-    block(propertyConstraint)
-}
-
-fun <T : Any, P : Any?, U : Any> ClassConstraint<T>.eachProperty(property: KProperty1<T, P>, type: KClass<U>, indexes: NonEmptyList<Int>, block: (@ValidationSpecMarker ContainerPropertyConstraint<T, P, U>).() -> Unit) {
-    val propertyConstraint = ContainerPropertyConstraint(property, type, indexes)
-    this.containerPropertyConstraints.add(propertyConstraint)
-    block(propertyConstraint)
-}
 
 fun <T : Any, R : Any?> ClassConstraint<T>.returnOf(method: KFunction<R>, block: (@ValidationSpecMarker MethodConstraint<R>).() -> Unit) {
     if (method.parameters.size > 1) { //first parameter is the return type
