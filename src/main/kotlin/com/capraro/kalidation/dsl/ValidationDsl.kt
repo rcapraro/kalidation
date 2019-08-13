@@ -51,9 +51,8 @@ inline fun <reified T : Any> ValidationSpec.constraints(block: (@ValidationSpecM
 fun <T : Any, P : Any?> ClassConstraint<T>.property(property: KProperty1<T, P>, block: (@ValidationSpecMarker PropertyConstraint<T, P>).() -> Unit) =
         this.propertyConstraints.add(PropertyConstraint(property).apply(block))
 
-fun <T : Any, P : Iterable<U>, U : Any> PropertyConstraint<T, P>.eachItem(indexes: NonEmptyList<Int> = NonEmptyList.of(0), block: (@ValidationSpecMarker PropertyConstraint<T, U>).() -> Unit) {
-    this.containerElementsTypes.add(ContainerElementType(indexes))
-    this.apply(block)
+fun <T : Any, P : Iterable<U>, U : Any> PropertyConstraint<T, P>.eachItem(indexes: NonEmptyList<Int> = NonEmptyList.of(0), block: (@ValidationSpecMarker ContainerElementType<T, U>).() -> Unit) {
+    this.containerElementsTypes.add(ContainerElementType(indexes).apply(block))
 }
 
 
