@@ -1,8 +1,13 @@
+import com.capraro.kalidation.constraints.function.email
+import com.capraro.kalidation.constraints.function.notEmpty
 import com.capraro.kalidation.constraints.function.notNull
 import com.capraro.kalidation.dsl.constraints
+import com.capraro.kalidation.dsl.eachItem
 import com.capraro.kalidation.dsl.property
 import com.capraro.kalidation.dsl.validationSpec
+import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.fail
 import org.junit.jupiter.api.Test
 
 private class ContainerClass(val listField: List<String?>)
@@ -14,9 +19,10 @@ class ContainerValidationTest {
         val spec = validationSpec {
             constraints<ContainerClass> {
                 property(ContainerClass::listField) {
-                    notNull()
+                    notEmpty()
                     eachItem() {
-
+                        email()
+                        notNull()
                     }
                 }
             }
@@ -30,13 +36,13 @@ class ContainerValidationTest {
 
         println(validated)
 
-/*        validated.fold(
+        validated.fold(
                 {
                     Assertions.assertThat(it).extracting("fieldName")
                             .containsExactly("listField.<list element>", "listField.<list element>")
                 },
                 { fail("The validation should not be valid") }
-        )*/
+        )
 
     }
 }

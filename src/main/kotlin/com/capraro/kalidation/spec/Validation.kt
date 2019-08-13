@@ -89,19 +89,20 @@ data class ClassConstraint<T : Any>(val constrainedClass: KClass<T>,
                                     val methodConstraints: MutableList<MethodConstraint<out Any?>> = mutableListOf()
 )
 
-open class Constraint<T : Any, P : Any?>(val constraintRules: MutableList<ConstraintRule> = mutableListOf())
+open class Constraint<T : Any, P>(val constraintRules: MutableList<ConstraintRule> = mutableListOf())
 
 /**
  * Property constraints.
  * A Property constraint refers to a property and contains a list of [ConstraintRule] to apply to this property.
  * @see ConstraintRule
  */
-data class PropertyConstraint<T : Any, P : Any?>(val constrainedProperty: KProperty1<T, P>, val containerElementsTypes: MutableList<ContainerElementType<T, Any>> = mutableListOf()) : Constraint<T, P>()
+data class PropertyConstraint<T : Any, P : Any?>(val constrainedProperty: KProperty1<T, P>, val containerElementsTypes: MutableList<ContainerElementType<T, P, out Any>> = mutableListOf()) : Constraint<T, P>()
 
 /**
  * ContainerElementType.
  */
-data class ContainerElementType<T : Any, U : Any>(
+data class ContainerElementType<T : Any, P : Any?, U : Any?>(
+        val constrainedProperty: KProperty1<T, P>,
         val indexes: NonEmptyList<Int>
 ) : Constraint<T, U>()
 

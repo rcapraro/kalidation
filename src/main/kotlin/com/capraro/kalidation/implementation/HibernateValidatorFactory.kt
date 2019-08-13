@@ -61,7 +61,7 @@ class HibernateValidatorFactory(private val spec: ValidationSpec) {
                     if (propertyConstraint.containerElementsTypes.isNotEmpty()) {
                         propertyConstraint.containerElementsTypes.forEach { containerElementType ->
                             val hvContainerElementType = propertyMapping.containerElementType(containerElementType.indexes.head, *containerElementType.indexes.tail.toIntArray())
-                            propertyConstraint.constraintRules.forEach { rule: ConstraintRule ->
+                            containerElementType.constraintRules.forEach { rule: ConstraintRule ->
                                 val context = hvContainerElementType.constraint(translateConstraintDef(rule))
                                 when (rule) {
                                     is Valid -> context.valid()
