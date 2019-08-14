@@ -29,6 +29,7 @@ import com.capraro.kalidation.exception.KalidationException
 import com.capraro.kalidation.implementation.HibernateValidatorFactory
 import com.capraro.kalidation.spec.*
 import java.util.*
+import kotlin.reflect.KClass
 import kotlin.reflect.KFunction
 import kotlin.reflect.KProperty1
 
@@ -51,18 +52,17 @@ inline fun <reified T : Any> ValidationSpec.constraints(block: (@ValidationSpecM
 fun <T : Any, P : Any?> ClassConstraint<T>.property(property: KProperty1<T, P>, block: (@ValidationSpecMarker PropertyConstraint<T, P>).() -> Unit) =
         this.propertyConstraints.add(PropertyConstraint(property).apply(block))
 
-fun <T : Any, P : Iterable<U?>, U : Any> PropertyConstraint<T, P>.eachItem(indexes: NonEmptyList<Int> = NonEmptyList.of(0), block: ContainerElementType<T, P, U>.() -> Unit) {
-    this.containerElementsTypes.add(ContainerElementType<T, P, U>(this.constrainedProperty, indexes).apply(block))
-}
+fun <T : Any, P : Collection<U?>, U : Any> PropertyConstraint<T, P>.eachElement(block: (@ValidationSpecMarker ContainerElementType<T, P, U>).() -> Unit) =
+        this.containerElementsTypes.add(ContainerElementType<T, P, U>(this.constrainedProperty, NonEmptyList.of(0)).apply(block))
 
+fun <T : Any, P : Any?, U : Any> PropertyConstraint<T, P>.eachElement(type: KClass<U>, indexes: NonEmptyList<Int> = NonEmptyList.of(0), block: (@ValidationSpecMarker ContainerElementType<T, P, U>).() -> Unit) =
+        this.containerElementsTypes.add(ContainerElementType<T, P, U>(this.constrainedProperty, indexes).apply(block))
 
 fun <T : Any, R : Any?> ClassConstraint<T>.returnOf(method: KFunction<R>, block: (@ValidationSpecMarker MethodConstraint<R>).() -> Unit) {
     if (method.parameters.size > 1) { //first parameter is the return type
         throw KalidationException("Method ${method.name} should have 0 arguments", null)
     }
-    val methodConstraint = MethodConstraint(method)
-    this.methodConstraints.add(methodConstraint)
-    block(methodConstraint)
+    this.methodConstraints.add(MethodConstraint(method).apply(block))
 }
 
 @DslMarker
