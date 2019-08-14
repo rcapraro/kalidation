@@ -1,7 +1,4 @@
-import com.capraro.kalidation.constraints.function.assertTrue
-import com.capraro.kalidation.constraints.function.min
-import com.capraro.kalidation.constraints.function.notNull
-import com.capraro.kalidation.constraints.function.range
+import com.capraro.kalidation.constraints.function.*
 import com.capraro.kalidation.dsl.constraints
 import com.capraro.kalidation.dsl.property
 import com.capraro.kalidation.dsl.returnOf
@@ -14,7 +11,8 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
 
 class ClassWithMethods(val field1: Int,
-                       val field2: Int) {
+                       val field2: Int,
+                       val embeddedClass: EmbeddedClassWithMethod?) {
     fun validate1(): Boolean {
         return field1 > field2
     }
@@ -26,6 +24,10 @@ class ClassWithMethods(val field1: Int,
     fun methodWithArguments(arg1: Any): Any? {
         return arg1
     }
+}
+
+class EmbeddedClassWithMethod {
+    fun embeddedValidate() = true
 }
 
 class MethodValidationTest {
@@ -47,13 +49,11 @@ class MethodValidationTest {
                 }
             }
         }
-        val dslTest = ClassWithMethods(1, 3)
+        val dslTest = ClassWithMethods(1, 3, null)
 
         val validated = spec.validate(dslTest)
 
         assertThat(validated.isInvalid)
-
-        println(validated)
 
         validated.fold(
                 {
@@ -62,6 +62,30 @@ class MethodValidationTest {
                 { fail("The validation should not be valid") }
         )
 
+    }
+
+    @Test
+    fun `test validation by a method embedded in a nested class should fail`() {
+
+        assertThatThrownBy {
+            val spec = validationSpec {
+                constraints<ClassWithMethods> {
+                    property(ClassWithMethods::embeddedClass) {
+                        valid()
+                    }
+                }
+                constraints<EmbeddedClassWithMethod> {
+                    returnOf(EmbeddedClassWithMethod::embeddedValidate) {
+                        assertTrue()
+                    }
+                }
+            }
+
+            val dslTest = ClassWithMethods(1, 3, EmbeddedClassWithMethod())
+
+            spec.validate(dslTest)
+
+        }.isInstanceOf(KalidationException::class.java)
     }
 
     @Test

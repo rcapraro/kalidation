@@ -29,6 +29,7 @@ import arrow.data.NonEmptyList
 import arrow.data.Valid
 import arrow.data.Validated
 import com.capraro.kalidation.constraints.rule.ConstraintRule
+import com.capraro.kalidation.exception.KalidationException
 import javax.validation.Validator
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction
@@ -54,6 +55,9 @@ data class ValidationSpec(val constraints: MutableList<ClassConstraint<out Any>>
 
         constraints.forEach { constraint ->
             constraint.methodConstraints.forEach {
+                if (!constrainedClass.javaClass.methods.contains(it.constrainedMethod.javaMethod)) {
+                    throw KalidationException("method ${it.constrainedMethod} must belong to class $constrainedClass to be callable", null)
+                }
                 validationResult.addAll(validator
                         .forExecutables()
                         .validateReturnValue(constrainedClass, it.constrainedMethod.javaMethod, it.constrainedMethod.call(constrainedClass)))
