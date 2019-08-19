@@ -30,6 +30,7 @@ import arrow.data.Valid
 import arrow.data.Validated
 import com.capraro.kalidation.constraints.rule.ConstraintRule
 import com.capraro.kalidation.exception.KalidationException
+import javax.validation.ConstraintViolation
 import javax.validation.Validator
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction
@@ -53,10 +54,15 @@ data class ValidationSpec(val constraints: MutableList<ClassConstraint<out Any>>
 
         val validationResult = validator.validate(constrainedClass)
 
+        val aliases = mutableMapOf<Pair<Any, String>, String>()
+
         constraints.forEach { constraint ->
             constraint.methodConstraints.forEach {
                 if (!constrainedClass.javaClass.methods.contains(it.constrainedMethod.javaMethod)) {
                     throw KalidationException("method ${it.constrainedMethod} must belong to class $constrainedClass to be callable", null)
+                }
+                if (it.alias != "None") {
+                    aliases.putIfAbsent(constrainedClass.javaClass.name to it.constrainedMethod.javaMethod!!.name, it.alias)
                 }
                 validationResult.addAll(validator
                         .forExecutables()
@@ -67,7 +73,7 @@ data class ValidationSpec(val constraints: MutableList<ClassConstraint<out Any>>
         val validationSet = validationResult
                 .map {
                     ValidationResult(
-                            fieldName = it.propertyPath.joinToString(".") { violation -> violation.name },
+                            fieldName = buildFieldName(it, aliases),
                             invalidValue = it.invalidValue,
                             messageTemplate = it.messageTemplate,
                             message = it.message)
@@ -81,6 +87,11 @@ data class ValidationSpec(val constraints: MutableList<ClassConstraint<out Any>>
             Invalid(validationSet)
         }
     }
+
+    private fun buildFieldName(violation: ConstraintViolation<Any>, aliases: Map<Pair<Any, String>, String>): String {
+        return aliases[violation.rootBeanClass.name to violation.propertyPath.toString().substringBefore(".")]
+                ?: violation.propertyPath.joinToString(".") { it.name }
+    }
 }
 
 /**
@@ -90,7 +101,7 @@ data class ValidationSpec(val constraints: MutableList<ClassConstraint<out Any>>
  */
 data class ClassConstraint<T : Any>(val constrainedClass: KClass<T>,
                                     val propertyConstraints: MutableList<PropertyConstraint<T, out Any?>> = mutableListOf(),
-                                    val methodConstraints: MutableList<MethodConstraint<out Any?>> = mutableListOf()
+                                    val methodConstraints: MutableList<MethodConstraint<T, out Any?>> = mutableListOf()
 )
 
 open class Constraint<T : Any, P>(val constraintRules: MutableList<ConstraintRule> = mutableListOf())
@@ -115,6 +126,6 @@ data class ContainerElementType<T : Any, P : Any?, U : Any?>(
  * A Method return value constraint refers to the return value of a method and contains a list of [ConstraintRule] to apply to this return value.
  * @see ConstraintRule
  */
-data class MethodConstraint<R : Any?>(val constrainedMethod: KFunction<R>) : Constraint<Any, R>()
+data class MethodConstraint<T : Any, R : Any?>(val constrainedClass: KClass<T>, val constrainedMethod: KFunction<R>, val alias: String) : Constraint<T, R>()
 
 data class ValidationResult(val fieldName: String, val invalidValue: Any?, val messageTemplate: String, val message: String)
