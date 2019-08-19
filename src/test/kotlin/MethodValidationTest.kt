@@ -39,11 +39,11 @@ class MethodValidationTest {
                 property(ClassWithMethods::field1) {
                     range(0, 5)
                 }
-                returnOf(ClassWithMethods::validate1) {
+                returnOf(ClassWithMethods::validate1, "field1") {
                     notNull()
                     assertTrue()
                 }
-                returnOf(ClassWithMethods::total, "toto") {
+                returnOf(ClassWithMethods::total) {
                     notNull()
                     min(10)
                 }
@@ -55,11 +55,9 @@ class MethodValidationTest {
 
         assertThat(validated.isInvalid)
 
-        println(validated)
-
         validated.fold(
                 {
-                    Assertions.assertThat(it).extracting("fieldName").containsExactlyInAnyOrder("validate1.<return value>", "total.<return value>")
+                    Assertions.assertThat(it).extracting("fieldName").containsExactlyInAnyOrder("field1", "total.<return value>")
                 },
                 { fail("The validation should not be valid") }
         )
