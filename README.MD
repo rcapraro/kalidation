@@ -39,7 +39,7 @@ This DSL decouples your domain classes from any validation framework and annotat
 
 https://blog.sourced-bvba.be/article/2018/01/13/kotlin-validation/
 
- **Usage**
+**Usage**
  
  ```kotlin
 val spec = validationSpec(messageBundle = "MyMessages", locale = Locale.FRENCH) {
@@ -179,7 +179,8 @@ The `ValidationResult` object contains the name and the value of the field in er
 > For all methods, an optional *message: String?* parameter can be used to override the resource bundle message.  
   
   
-**Validation on method return type**  
+**Validation on method return type** 
+
 It is also possible to specify a validation on a return type of a method:
 ```kotlin
 returnOf(Foo::validate) {
@@ -189,8 +190,9 @@ returnOf(Foo::validate) {
 }
 ```
 
-In this example, if the method validate returns ```false```, the `ValidationResult` object will look like:
+The method `returOf` accepts an optional `alias` parameter to report the violation on a specific property rather than the method.
 
+In this example, if the method validate returns `false`, the `ValidationResult` object will look like:
 ```
 Invalid(e=[ValidationResult(
     fieldName=validate.<return value>, 
@@ -199,5 +201,27 @@ Invalid(e=[ValidationResult(
     message=doit être vrai)]
 )
 ```
+
+**Validation of containers (List, Maps, Sets, etc)**
+
+It is possible to validate each property inside a container:
+```kotlin
+eachElement(Foo::emails) {
+    notNull()
+    email()
+    //etc...
+}
+```
+
+In case of more complex containers (ex: Map of List), a `NonEmptyList` of *indexes* enables a navigation inside the container types to validate.
+
+For example, to validate the `List<String?>` of a `Map<String, List<String?>`, we must write the following validation:
+````kotlin
+eachElement(String::class, NonEmptyList(1, 0)) {
+    notNull()
+    email()
+    //etc...
+}
+````
 
        
