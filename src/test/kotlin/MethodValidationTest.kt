@@ -43,7 +43,7 @@ class MethodValidationTest {
                     notNull()
                     assertTrue()
                 }
-                returnOf(ClassWithMethods::total) {
+                returnOf(ClassWithMethods::total, "toto") {
                     notNull()
                     min(10)
                 }
@@ -54,6 +54,8 @@ class MethodValidationTest {
         val validated = spec.validate(dslTest)
 
         assertThat(validated.isInvalid)
+
+        println(validated)
 
         validated.fold(
                 {
