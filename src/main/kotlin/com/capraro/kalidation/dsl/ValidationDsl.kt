@@ -58,11 +58,11 @@ fun <T : Any, P : Collection<U?>, U : Any> PropertyConstraint<T, P>.eachElement(
 fun <T : Any, P : Any?, U : Any> PropertyConstraint<T, P>.eachElement(type: KClass<U>, indexes: NonEmptyList<Int> = NonEmptyList.of(0), block: (@ValidationSpecMarker ContainerElementType<T, P, U>).() -> Unit) =
         this.containerElementsTypes.add(ContainerElementType<T, P, U>(this.constrainedProperty, indexes).apply(block))
 
-fun <T : Any, R : Any?> ClassConstraint<T>.returnOf(method: KFunction<R>, block: (@ValidationSpecMarker MethodConstraint<R>).() -> Unit) {
+inline fun <reified T : Any, R : Any?> ClassConstraint<T>.returnOf(method: KFunction<R>, alias: String = "None", block: (@ValidationSpecMarker MethodConstraint<T, R>).() -> Unit) {
     if (method.parameters.size > 1) { //first parameter is the return type
         throw KalidationException("Method ${method.name} should have 0 arguments", null)
     }
-    this.methodConstraints.add(MethodConstraint(method).apply(block))
+    this.methodConstraints.add(MethodConstraint(T::class, method, alias).apply(block))
 }
 
 @DslMarker
