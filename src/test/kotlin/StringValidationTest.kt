@@ -126,7 +126,7 @@ class StringValidationTest {
         val dslTest = StringTestClass("2018-06-15T17:32:28.000Z", "EmptyNotUsedForTest", "EmptyNotUsedForTest")
         val validated = spec.validate(dslTest)
 
-        assertThat(validated.isValid)
+        assertThat(validated.isValid).isTrue()
     }
 
     @Test
@@ -142,7 +142,7 @@ class StringValidationTest {
         val dslTest = StringTestClass(null, "EmptyNotUsedForTest", "EmptyNotUsedForTest")
         val validated = spec.validate(dslTest)
 
-        assertThat(validated.isValid)
+        assertThat(validated.isValid).isTrue()
     }
 
     @Test
@@ -158,7 +158,7 @@ class StringValidationTest {
         val dslTest = StringTestClass("", "EmptyNotUsedForTest", "EmptyNotUsedForTest")
         val validated = spec.validate(dslTest)
 
-        assertThat(validated.isInvalid)
+        assertThat(validated.isInvalid).isTrue()
 
         validated.fold(
                 {
@@ -179,6 +179,75 @@ class StringValidationTest {
         }
 
         val dslTest = StringTestClass("NotZonedDateTime", "EmptyNotUsedForTest", "EmptyNotUsedForTest")
+        val validated = spec.validate(dslTest)
+
+        validated.fold(
+                {
+                    assertThat(it).extracting("fieldName").containsExactly("field1")
+                },
+                { fail("The validation should not be valid") }
+        )
+    }
+
+    @Test
+    fun `test validation inIso8601DateRange date is within range`() {
+        val spec = validationSpec {
+            constraints<StringTestClass> {
+                property(StringTestClass::field1) {
+                    inIso8601DateRange("2018-06-14T17:32:28.000Z", "2018-06-16T17:32:28.000Z")
+                }
+            }
+        }
+
+        val dslTest = StringTestClass("2018-06-14T17:32:28.001Z", "EmptyNotUsedForTest", "EmptyNotUsedForTest")
+        val validated = spec.validate(dslTest)
+
+        assertThat(validated.isValid).isTrue()
+    }
+
+    @Test
+    fun `test validation inIso8601DateRange date is equal to starDate`() {
+        val spec = validationSpec {
+            constraints<StringTestClass> {
+                property(StringTestClass::field1) {
+                    inIso8601DateRange("2018-06-14T17:32:28.000Z", "2018-06-16T17:32:28.000Z")
+                }
+            }
+        }
+
+        val dslTest = StringTestClass("2018-06-14T17:32:28.000Z", "EmptyNotUsedForTest", "EmptyNotUsedForTest")
+        val validated = spec.validate(dslTest)
+
+        assertThat(validated.isValid).isTrue()
+    }
+
+    @Test
+    fun `test validation inIso8601DateRange date is equal to stopDate`() {
+        val spec = validationSpec {
+            constraints<StringTestClass> {
+                property(StringTestClass::field1) {
+                    inIso8601DateRange("2018-06-14T17:32:28.000Z", "2018-06-16T17:32:28.000Z")
+                }
+            }
+        }
+
+        val dslTest = StringTestClass("2018-06-16T17:32:28.000Z", "EmptyNotUsedForTest", "EmptyNotUsedForTest")
+        val validated = spec.validate(dslTest)
+
+        assertThat(validated.isValid).isTrue()
+    }
+
+    @Test
+    fun `test validation out of inIso8601DateRange`() {
+        val spec = validationSpec {
+            constraints<StringTestClass> {
+                property(StringTestClass::field1) {
+                    inIso8601DateRange("2018-06-14T17:32:28.000Z", "2018-06-16T17:32:28.000Z")
+                }
+            }
+        }
+
+        val dslTest = StringTestClass("2018-06-14T17:32:27.001Z", "EmptyNotUsedForTest", "EmptyNotUsedForTest")
         val validated = spec.validate(dslTest)
 
         validated.fold(
