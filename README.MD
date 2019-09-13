@@ -154,6 +154,7 @@ The `ValidationResult` object contains the name and the value of the field in er
   * decimalMax(val value: String, val inclusive: Boolean)
   * digits (val integer: Int, val fraction: Int)
   * iso8601Date()
+  * inZonedDateTimeRange(startDate: String, stopDate: String)
      
 ***Number (Integer, Float, Long, BigDecimal, BigInteger, etc.)***
   

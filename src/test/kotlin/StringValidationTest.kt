@@ -188,5 +188,42 @@ class StringValidationTest {
                 { fail("The validation should not be valid") }
         )
     }
+
+    @Test
+    fun `test validation inDateRange`() {
+        val spec = validationSpec {
+            constraints<StringTestClass> {
+                property(StringTestClass::field1) {
+                    inZonedDateTimeRange("2018-06-14T17:32:28.000Z", "2018-06-16T17:32:28.000Z")
+                }
+            }
+        }
+
+        val dslTest = StringTestClass("2018-06-14T17:32:28.001Z", "EmptyNotUsedForTest", "EmptyNotUsedForTest")
+        val validated = spec.validate(dslTest)
+
+        assertThat(validated.isValid)
+    }
+
+    @Test
+    fun `test validation out of inDateRange`() {
+        val spec = validationSpec {
+            constraints<StringTestClass> {
+                property(StringTestClass::field1) {
+                    inZonedDateTimeRange("2018-06-14T17:32:28.000Z", "2018-06-16T17:32:28.000Z")
+                }
+            }
+        }
+
+        val dslTest = StringTestClass("2018-06-14T17:32:27.001Z", "EmptyNotUsedForTest", "EmptyNotUsedForTest")
+        val validated = spec.validate(dslTest)
+
+        validated.fold(
+                {
+                    assertThat(it).extracting("fieldName").containsExactly("field1")
+                },
+                { fail("The validation should not be valid") }
+        )
+    }
 }
 

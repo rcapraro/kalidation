@@ -103,3 +103,7 @@ fun Constraint<out Any, out CharSequence?>.digits(value: Int, fraction: Int, mes
 fun Constraint<out Any, out CharSequence?>.iso8601Date(message: String? = null) {
     constraintRules.add(Iso8601Date(message))
 }
+
+fun Constraint<out Any, out CharSequence?>.inZonedDateTimeRange(startDate: String, stopDate: String, message: String? = null) {
+    constraintRules.add(InDateRange(startDate, stopDate, message))
+}
