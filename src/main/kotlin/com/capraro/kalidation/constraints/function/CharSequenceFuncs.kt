@@ -103,3 +103,15 @@ fun Constraint<out Any, out CharSequence?>.digits(value: Int, fraction: Int, mes
 fun Constraint<out Any, out CharSequence?>.iso8601Date(message: String? = null) {
     constraintRules.add(Iso8601Date(message))
 }
+
+/**
+ * Control that an Iso8601Date is ranged.
+ *
+ * @receiver Constraint<out Any, out CharSequence?>
+ * @param startDate String. Beginning date of the range
+ * @param stopDate String. End date of the range
+ * @param message String?. Error message answered
+ */
+fun Constraint<out Any, out CharSequence?>.inIso8601DateRange(startDate: String, stopDate: String, message: String? = null) {
+    constraintRules.add(InIso8601DateRange(startDate, stopDate, message))
+}
