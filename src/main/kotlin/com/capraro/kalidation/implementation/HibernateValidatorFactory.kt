@@ -138,6 +138,7 @@ class HibernateValidatorFactory(private val spec: ValidationSpec) {
         is CsRange -> ConstraintRuleTranslator<CsRange> { RangeDef().min(it.min).max(it.max).customMessage(it.message) }.translate(rule)
         is CsDigits -> ConstraintRuleTranslator<CsDigits> { DigitsDef().integer(it.integer).fraction(it.fraction).customMessage(it.message) }.translate(rule)
         is Iso8601Date -> ConstraintRuleTranslator<Iso8601Date> { Iso8601DateDef().customMessage(it.message) }.translate(rule)
+        is InIso8601DateRange -> ConstraintRuleTranslator<InIso8601DateRange> { InIso8601DateRangeDef().startDate(it.startDate).stopDate(it.stopDate).customMessage(it.message) }.translate(rule)
 
         is NegativeOrZero -> ConstraintRuleTranslator<NegativeOrZero> { NegativeOrZeroDef().customMessage(it.message) }.translate(rule)
         is PositiveOrZero -> ConstraintRuleTranslator<PositiveOrZero> { PositiveOrZeroDef().customMessage(it.message) }.translate(rule)
