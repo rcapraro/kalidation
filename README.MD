@@ -33,26 +33,26 @@ val spec = validationSpec {
  }
 ```
  
-This DSL decouples your domain classes from any validation framework and annotations and, as such, respect the [Clean Architecture](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html).
+This DSL does _Type Checking_ on the properties of the bean to validate, ie constraints on `Foo` should only contain properties of `Foo`. 
+
+It also does _Type Checking_ on the rule: eg: an `email()` constraint is not applicable to an numeric property, so you shouldn’t be allowed to that constraint to such a property.
+
+Furthermore, this DSL decouples your domain classes from any validation framework and annotations and, as such, respect the [Clean Architecture](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html).
   
-**Inspiration**
-
-https://blog.sourced-bvba.be/article/2018/01/13/kotlin-validation/
-
 **Usage**
  
  ```kotlin
 val spec = validationSpec(messageBundle = "MyMessages", locale = Locale.FRENCH) {
             constraints<MyClass> {
-                property(MyClass::field1) {
+                property(MyClass::color) {
                     notBlank()
                     inValues("GREEN", "WHITE", "RED")
                     size(3, 5)
                 }
-                property(MyClass::field2) {
+                property(MyClass::token) {
                     regexp("[A-Za-z0-9]+")
                 }
-                property(MyClass::field3) {
+                property(MyClass::date) {
                     future()
                 }
                 returnOf(Foo::validate) {
@@ -65,11 +65,18 @@ val spec = validationSpec(messageBundle = "MyMessages", locale = Locale.FRENCH) 
             constraints<InnerClass> {
                 property(InnerClass::amount) {
                     negativeOrZero()
+                }
+                property(InnerClass::emailList) {
+                    notEmpty()
+                    eachElement {
+                        notNull()
+                        email()
+                    }
                 }                  
             }            
         }
         
-val myClass = MyClass("BLUE", "foobar", LocalDateTime.parse("2017-12-03T10:15:30"))
+val myClass = MyClass("BLUE", "foobar", LocalDateTime.parse("2017-12-03T10:15:30"), ...)
 
 val validated = spec.validate(myClass) 
 ```
