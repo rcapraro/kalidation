@@ -35,7 +35,7 @@ val spec = validationSpec {
  
 This DSL does _Type Checking_ on the properties of the bean to validate, ie constraints on `Foo` should only contain properties of `Foo`. 
 
-It also does _Type Checking_ on the rule: eg: an `email()` constraint is not applicable to an numeric property, so you shouldn’t be allowed to that constraint to such a property.
+It also does _Type Checking_ on the rule: eg: an `email()` constraint is not applicable to an numeric property, so you shouldn’t be allowed to put a constraint to such a property.
 
 Furthermore, this DSL decouples your domain classes from any validation framework and annotations and, as such, respect the [Clean Architecture](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html).
   
