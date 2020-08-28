@@ -24,7 +24,7 @@
 
 package com.capraro.kalidation.dsl
 
-import arrow.data.NonEmptyList
+import arrow.core.NonEmptyList
 import com.capraro.kalidation.exception.KalidationException
 import com.capraro.kalidation.implementation.HibernateValidatorFactory
 import com.capraro.kalidation.spec.*
