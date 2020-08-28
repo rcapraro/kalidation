@@ -24,10 +24,10 @@
 
 package com.capraro.kalidation.spec
 
-import arrow.data.Invalid
-import arrow.data.NonEmptyList
-import arrow.data.Valid
-import arrow.data.Validated
+import arrow.core.Invalid
+import arrow.core.NonEmptyList
+import arrow.core.Valid
+import arrow.core.Validated
 import com.capraro.kalidation.constraints.rule.ConstraintRule
 import com.capraro.kalidation.exception.KalidationException
 import javax.validation.ConstraintViolation

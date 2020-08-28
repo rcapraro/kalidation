@@ -12,7 +12,7 @@ version = "1.4.1"
 
 ext {
     junitJupiterVersion = "5.5.1"
-    arrowVersion = "0.9.0"
+    arrowVersion = "0.10.5"
     hibernateValidatorVersion = "6.0.17.Final"
     libphonenumberVersion = "8.10.13"
     groovyVersion = "2.5.8"
@@ -29,8 +29,8 @@ dependencies {
     compile("org.glassfish:javax.el:3.0.1-b10")
     compile("org.apache.commons:commons-jexl3:3.1")
     compile("org.codehaus.groovy:groovy-jsr223:$groovyVersion")
-    compile("io.arrow-kt:arrow-core-data:$arrowVersion")
-    compile("io.arrow-kt:arrow-extras-data:$arrowVersion")
+    compile("io.arrow-kt:arrow-core:$arrowVersion")
+    compile("io.arrow-kt:arrow-validation:$arrowVersion")
     testCompile("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
     testRuntime("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
     testRuntime("org.junit.platform:junit-platform-launcher:1.5.1")
