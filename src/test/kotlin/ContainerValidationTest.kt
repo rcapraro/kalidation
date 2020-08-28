@@ -1,4 +1,4 @@
-import arrow.data.NonEmptyList
+import arrow.core.NonEmptyList
 import com.capraro.kalidation.constraints.function.email
 import com.capraro.kalidation.constraints.function.notEmpty
 import com.capraro.kalidation.constraints.function.notNull
