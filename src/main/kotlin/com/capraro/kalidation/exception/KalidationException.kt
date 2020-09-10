@@ -24,7 +24,6 @@
 
 package com.capraro.kalidation.exception
 
-
 /**
  * Exception thrown during the Validator configuration.
  * @author Richard Capraro

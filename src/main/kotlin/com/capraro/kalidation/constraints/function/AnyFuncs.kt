@@ -47,6 +47,12 @@ fun Constraint<out Any, out Any?>.valid(message: String? = null) {
     constraintRules.add(Valid(message))
 }
 
-fun Constraint<out Any, out Any?>.validByScript(lang: String, script: String, alias: String = "_this", reportOn: String = "", message: String? = null) {
+fun Constraint<out Any, out Any?>.validByScript(
+    lang: String,
+    script: String,
+    alias: String = "_this",
+    reportOn: String = "",
+    message: String? = null
+) {
     constraintRules.add(ValidByScript(lang, script, alias, reportOn, message))
 }

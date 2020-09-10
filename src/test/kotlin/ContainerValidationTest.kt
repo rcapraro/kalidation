@@ -6,7 +6,6 @@ import com.capraro.kalidation.dsl.constraints
 import com.capraro.kalidation.dsl.eachElement
 import com.capraro.kalidation.dsl.property
 import com.capraro.kalidation.dsl.validationSpec
-import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.fail
 import org.junit.jupiter.api.Test
@@ -14,7 +13,6 @@ import org.junit.jupiter.api.Test
 private class ContainerListClass(val listField: List<String?>)
 
 private class ContainerMapOfListClass(val mapOfListField: Map<String, List<String?>>)
-
 
 class ContainerValidationTest {
 
@@ -39,11 +37,11 @@ class ContainerValidationTest {
         assertThat(validated.isInvalid)
 
         validated.fold(
-                {
-                    Assertions.assertThat(it).extracting("fieldName")
-                            .containsExactly("listField.<list element>", "listField.<list element>")
-                },
-                { fail("The validation should not be valid") }
+            {
+                assertThat(it).extracting("fieldName")
+                    .containsExactly("listField.<list element>", "listField.<list element>")
+            },
+            { fail("The validation should not be valid") }
         )
     }
 
@@ -68,12 +66,14 @@ class ContainerValidationTest {
         assertThat(validated.isInvalid)
 
         validated.fold(
-                {
-                    Assertions.assertThat(it).extracting("fieldName")
-                            .containsExactly("mapOfListField.<map value>.<list element>", "mapOfListField.<map value>.<list element>")
-                },
-                { fail("The validation should not be valid") }
+            {
+                assertThat(it).extracting("fieldName")
+                    .containsExactly(
+                        "mapOfListField.<map value>.<list element>",
+                        "mapOfListField.<map value>.<list element>"
+                    )
+            },
+            { fail("The validation should not be valid") }
         )
-
     }
 }

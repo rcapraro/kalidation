@@ -31,36 +31,42 @@ package com.capraro.kalidation.constraints.rule
  */
 sealed class ConstraintRule(var customMessage: String?)
 
-//All classes
+// All classes
 
 class NotNull(val message: String?) : ConstraintRule(message)
 class Null(val message: String?) : ConstraintRule(message)
 class Valid(val message: String?) : ConstraintRule(message)
-class ValidByScript(val lang: String, val script: String, val alias: String, val reportOn: String, val message: String?) : ConstraintRule(message)
+class ValidByScript(
+    val lang: String,
+    val script: String,
+    val alias: String,
+    val reportOn: String,
+    val message: String?
+) : ConstraintRule(message)
 
-//Array
+// Array
 
 class ArraySize(val min: Int, val max: Int, val message: String?) : ConstraintRule(message)
 class ArrayNotEmpty(val message: String?) : ConstraintRule(message)
 
-//Collection
+// Collection
 
 class ColSize(val min: Int, val max: Int, val message: String?) : ConstraintRule(message)
 class ColNotEmpty(val message: String?) : ConstraintRule(message)
 class SubSetOf(val values: List<String>, val message: String?) : ConstraintRule(message)
 
-//Map
+// Map
 
 class MapSize(val min: Int, val max: Int, val message: String?) : ConstraintRule(message)
 class MapNotEmpty(val message: String?) : ConstraintRule(message)
 class MapHasKeys(val keys: List<String>, val message: String?) : ConstraintRule(message)
 
-//Boolean
+// Boolean
 
 class AssertTrue(val message: String?) : ConstraintRule(message)
 class AssertFalse(val message: String?) : ConstraintRule(message)
 
-//CharSequence
+// CharSequence
 
 class NotBlank(val message: String?) : ConstraintRule(message)
 class CsNotEmpty(val message: String?) : ConstraintRule(message)
@@ -82,7 +88,7 @@ class CsDecimalMin(val value: String, val inclusive: Boolean, val message: Strin
 class CsDecimalMax(val value: String, val inclusive: Boolean, val message: String?) : ConstraintRule(message)
 class CsDigits(val integer: Int, val fraction: Int, val message: String?) : ConstraintRule(message)
 
-//Number
+// Number
 
 class Range(val min: Long, val max: Long, val message: String?) : ConstraintRule(message)
 class NegativeOrZero(val message: String?) : ConstraintRule(message)
@@ -95,7 +101,7 @@ class DecimalMin(val value: String, val inclusive: Boolean, val message: String?
 class DecimalMax(val value: String, val inclusive: Boolean, val message: String?) : ConstraintRule(message)
 class Digits(val integer: Int, val fraction: Int, val message: String?) : ConstraintRule(message)
 
-//Temporal
+// Temporal
 
 class Future(val message: String?) : ConstraintRule(message)
 class Past(val message: String?) : ConstraintRule(message)

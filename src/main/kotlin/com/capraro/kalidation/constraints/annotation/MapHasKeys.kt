@@ -31,11 +31,13 @@ import kotlin.reflect.KClass
 @MustBeDocumented
 @Constraint(validatedBy = [MapKeysValidator::class])
 @Target(
-        AnnotationTarget.FIELD,
-        AnnotationTarget.PROPERTY
+    AnnotationTarget.FIELD,
+    AnnotationTarget.PROPERTY
 )
 @Retention(AnnotationRetention.RUNTIME)
-annotation class MapHasKeys(val message: String = "{javax.validation.constraints.MapHasKeys.message}",
-                            val groups: Array<KClass<out Any>> = [],
-                            val payload: Array<KClass<out Any>> = [],
-                            val mapKeys: Array<String>)
+annotation class MapHasKeys(
+    val message: String = "{javax.validation.constraints.MapHasKeys.message}",
+    val groups: Array<KClass<out Any>> = [],
+    val payload: Array<KClass<out Any>> = [],
+    val mapKeys: Array<String>
+)

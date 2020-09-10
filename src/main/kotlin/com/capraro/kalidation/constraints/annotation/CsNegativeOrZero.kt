@@ -31,10 +31,12 @@ import kotlin.reflect.KClass
 @MustBeDocumented
 @Constraint(validatedBy = [CsNegativeOrZeroValidator::class])
 @Target(
-        AnnotationTarget.FIELD,
-        AnnotationTarget.PROPERTY
+    AnnotationTarget.FIELD,
+    AnnotationTarget.PROPERTY
 )
 @Retention(AnnotationRetention.RUNTIME)
-annotation class CsNegativeOrZero(val message: String = "{javax.validation.constraints.NegativeOrZero.message}",
-                                  val groups: Array<KClass<out Any>> = [],
-                                  val payload: Array<KClass<out Any>> = [])
+annotation class CsNegativeOrZero(
+    val message: String = "{javax.validation.constraints.NegativeOrZero.message}",
+    val groups: Array<KClass<out Any>> = [],
+    val payload: Array<KClass<out Any>> = []
+)

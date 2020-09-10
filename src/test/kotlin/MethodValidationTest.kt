@@ -1,18 +1,23 @@
-import com.capraro.kalidation.constraints.function.*
+import com.capraro.kalidation.constraints.function.assertTrue
+import com.capraro.kalidation.constraints.function.min
+import com.capraro.kalidation.constraints.function.notNull
+import com.capraro.kalidation.constraints.function.range
+import com.capraro.kalidation.constraints.function.valid
 import com.capraro.kalidation.dsl.constraints
 import com.capraro.kalidation.dsl.property
 import com.capraro.kalidation.dsl.returnOf
 import com.capraro.kalidation.dsl.validationSpec
 import com.capraro.kalidation.exception.KalidationException
-import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
 
-class ClassWithMethods(val field1: Int,
-                       val field2: Int,
-                       val embeddedClass: EmbeddedClassWithMethod?) {
+class ClassWithMethods(
+    val field1: Int,
+    val field2: Int,
+    val embeddedClass: EmbeddedClassWithMethod?
+) {
     fun validate1(): Boolean {
         return field1 > field2
     }
@@ -56,12 +61,12 @@ class MethodValidationTest {
         assertThat(validated.isInvalid)
 
         validated.fold(
-                {
-                    Assertions.assertThat(it).extracting("fieldName").containsExactlyInAnyOrder("field1", "total.<return value>")
-                },
-                { fail("The validation should not be valid") }
+            {
+                assertThat(it).extracting("fieldName")
+                    .containsExactlyInAnyOrder("field1", "total.<return value>")
+            },
+            { fail("The validation should not be valid") }
         )
-
     }
 
     @Test
@@ -84,7 +89,6 @@ class MethodValidationTest {
             val dslTest = ClassWithMethods(1, 3, EmbeddedClassWithMethod())
 
             spec.validate(dslTest)
-
         }.isInstanceOf(KalidationException::class.java)
     }
 
@@ -102,7 +106,4 @@ class MethodValidationTest {
             }
         }.isInstanceOf(KalidationException::class.java)
     }
-
-
 }
-

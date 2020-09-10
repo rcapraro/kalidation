@@ -38,5 +38,4 @@ class MapHasKeysDef : ConstraintDef<MapHasKeysDef, MapHasKeys>(MapHasKeys::class
         addParameter("mapKeys", values)
         return this
     }
-
 }

@@ -29,7 +29,6 @@ import java.math.BigDecimal
 import javax.validation.ConstraintValidator
 import javax.validation.ConstraintValidatorContext
 
-
 /**
  * CharSequence positive number validator.
  * @author Richard Capraro

@@ -24,7 +24,16 @@
 
 package com.capraro.kalidation.constraints.function
 
-import com.capraro.kalidation.constraints.rule.*
+import com.capraro.kalidation.constraints.rule.DecimalMax
+import com.capraro.kalidation.constraints.rule.DecimalMin
+import com.capraro.kalidation.constraints.rule.Digits
+import com.capraro.kalidation.constraints.rule.Max
+import com.capraro.kalidation.constraints.rule.Min
+import com.capraro.kalidation.constraints.rule.Negative
+import com.capraro.kalidation.constraints.rule.NegativeOrZero
+import com.capraro.kalidation.constraints.rule.Positive
+import com.capraro.kalidation.constraints.rule.PositiveOrZero
+import com.capraro.kalidation.constraints.rule.Range
 import com.capraro.kalidation.spec.Constraint
 
 /**

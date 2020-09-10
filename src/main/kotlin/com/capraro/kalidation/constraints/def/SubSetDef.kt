@@ -38,5 +38,4 @@ class SubSetDef : ConstraintDef<SubSetDef, SubSet>(SubSet::class.java) {
         addParameter("completeValues", values)
         return this
     }
-
 }

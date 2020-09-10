@@ -24,7 +24,25 @@
 
 package com.capraro.kalidation.constraints.function
 
-import com.capraro.kalidation.constraints.rule.*
+import com.capraro.kalidation.constraints.rule.CsDecimalMax
+import com.capraro.kalidation.constraints.rule.CsDecimalMin
+import com.capraro.kalidation.constraints.rule.CsDigits
+import com.capraro.kalidation.constraints.rule.CsMax
+import com.capraro.kalidation.constraints.rule.CsMin
+import com.capraro.kalidation.constraints.rule.CsNegative
+import com.capraro.kalidation.constraints.rule.CsNegativeOrZero
+import com.capraro.kalidation.constraints.rule.CsNotEmpty
+import com.capraro.kalidation.constraints.rule.CsPositive
+import com.capraro.kalidation.constraints.rule.CsPositiveOrZero
+import com.capraro.kalidation.constraints.rule.CsRange
+import com.capraro.kalidation.constraints.rule.CsSize
+import com.capraro.kalidation.constraints.rule.Email
+import com.capraro.kalidation.constraints.rule.InIso8601DateRange
+import com.capraro.kalidation.constraints.rule.InValues
+import com.capraro.kalidation.constraints.rule.Iso8601Date
+import com.capraro.kalidation.constraints.rule.NotBlank
+import com.capraro.kalidation.constraints.rule.PhoneNumber
+import com.capraro.kalidation.constraints.rule.Regexp
 import com.capraro.kalidation.spec.Constraint
 
 /**
@@ -112,6 +130,10 @@ fun Constraint<out Any, out CharSequence?>.iso8601Date(message: String? = null) 
  * @param stopDate String. End date of the range
  * @param message String?. Error message answered
  */
-fun Constraint<out Any, out CharSequence?>.inIso8601DateRange(startDate: String, stopDate: String, message: String? = null) {
+fun Constraint<out Any, out CharSequence?>.inIso8601DateRange(
+    startDate: String,
+    stopDate: String,
+    message: String? = null
+) {
     constraintRules.add(InIso8601DateRange(startDate, stopDate, message))
 }

@@ -38,5 +38,4 @@ class PhoneNumberDef : ConstraintDef<PhoneNumberDef, PhoneNumber>(PhoneNumber::c
         addParameter("regionCode", regionCode)
         return this
     }
-
 }

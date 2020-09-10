@@ -31,12 +31,14 @@ import kotlin.reflect.KClass
 @MustBeDocumented
 @Constraint(validatedBy = [InIso8601DateRangeValidator::class])
 @Target(
-        AnnotationTarget.FIELD,
-        AnnotationTarget.PROPERTY
+    AnnotationTarget.FIELD,
+    AnnotationTarget.PROPERTY
 )
 @Retention(AnnotationRetention.RUNTIME)
-annotation class InIso8601DateRange(val message: String = "{javax.validation.constraints.InDateRange.message}",
-                             val groups: Array<KClass<out Any>> = [],
-                             val payload: Array<KClass<out Any>> = [],
-                             val startDate: String,
-                             val stopDate: String)
+annotation class InIso8601DateRange(
+    val message: String = "{javax.validation.constraints.InDateRange.message}",
+    val groups: Array<KClass<out Any>> = [],
+    val payload: Array<KClass<out Any>> = [],
+    val startDate: String,
+    val stopDate: String
+)

@@ -26,7 +26,7 @@ package com.capraro.kalidation.implementation
 
 import org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator
 import org.hibernate.validator.resourceloading.AggregateResourceBundleLocator
-import java.util.*
+import java.util.Locale
 import javax.validation.MessageInterpolator
 
 /**
@@ -34,8 +34,10 @@ import javax.validation.MessageInterpolator
  * @author Richard Capraro
  * @since 1.2.0
  */
-data class LocaleSpecificMessageInterpolator(val locale: Locale,
-                                             var resourceBundleLocators: AggregateResourceBundleLocator) : ResourceBundleMessageInterpolator(resourceBundleLocators) {
+data class LocaleSpecificMessageInterpolator(
+    val locale: Locale,
+    var resourceBundleLocators: AggregateResourceBundleLocator
+) : ResourceBundleMessageInterpolator(resourceBundleLocators) {
 
     override fun interpolate(message: String?, context: MessageInterpolator.Context?): String {
         return super.interpolate(message, context, locale)

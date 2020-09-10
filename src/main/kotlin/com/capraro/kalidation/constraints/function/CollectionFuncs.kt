@@ -45,4 +45,3 @@ fun Constraint<out Any, out Collection<*>?>.notEmpty(message: String? = null) {
 fun Constraint<out Any, out Collection<*>?>.subSetOf(vararg completeValues: String, message: String? = null) {
     constraintRules.add(SubSetOf(completeValues.asList(), message))
 }
-

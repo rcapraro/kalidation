@@ -45,4 +45,3 @@ fun Constraint<out Any, out Map<String, *>?>.notEmpty(message: String? = null) {
 fun Constraint<out Any, out Map<String, *>?>.hasKeys(vararg mapKeys: String, message: String? = null) {
     constraintRules.add(MapHasKeys(mapKeys.asList(), message))
 }
-
