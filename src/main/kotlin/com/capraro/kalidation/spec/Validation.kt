@@ -52,7 +52,7 @@ data class ValidationSpec(val constraints: MutableList<ClassConstraint<out Any>>
 
     fun validate(constrainedClass: Any): Validated<Set<ValidationResult>, Boolean> {
 
-        val validationResult = validator.validate(constrainedClass)
+        val validationResult = validator.validate(constrainedClass).toMutableSet()
 
         val aliases = mutableMapOf<Pair<Any, String>, String>()
 
@@ -64,6 +64,7 @@ data class ValidationSpec(val constraints: MutableList<ClassConstraint<out Any>>
                 if (it.alias != "None") {
                     aliases.putIfAbsent(constrainedClass.javaClass.name to it.constrainedMethod.javaMethod!!.name, it.alias)
                 }
+
                 validationResult.addAll(validator
                         .forExecutables()
                         .validateReturnValue(constrainedClass, it.constrainedMethod.javaMethod, it.constrainedMethod.call(constrainedClass)))
