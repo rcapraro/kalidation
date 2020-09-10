@@ -31,10 +31,12 @@ import kotlin.reflect.KClass
 @MustBeDocumented
 @Constraint(validatedBy = [CsNegativeValidator::class])
 @Target(
-        AnnotationTarget.FIELD,
-        AnnotationTarget.PROPERTY
+    AnnotationTarget.FIELD,
+    AnnotationTarget.PROPERTY
 )
 @Retention(AnnotationRetention.RUNTIME)
-annotation class CsNegative(val message: String = "{javax.validation.constraints.Negative.message}",
-                            val groups: Array<KClass<out Any>> = [],
-                            val payload: Array<KClass<out Any>> = [])
+annotation class CsNegative(
+    val message: String = "{javax.validation.constraints.Negative.message}",
+    val groups: Array<KClass<out Any>> = [],
+    val payload: Array<KClass<out Any>> = []
+)

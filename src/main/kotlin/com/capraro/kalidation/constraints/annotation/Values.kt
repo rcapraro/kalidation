@@ -31,11 +31,13 @@ import kotlin.reflect.KClass
 @MustBeDocumented
 @Constraint(validatedBy = [ValuesValidator::class])
 @Target(
-        AnnotationTarget.FIELD,
-        AnnotationTarget.PROPERTY
+    AnnotationTarget.FIELD,
+    AnnotationTarget.PROPERTY
 )
 @Retention(AnnotationRetention.RUNTIME)
-annotation class Values(val message: String = "{javax.validation.constraints.Values.message}",
-                        val groups: Array<KClass<out Any>> = [],
-                        val payload: Array<KClass<out Any>> = [],
-                        val values: Array<String>)
+annotation class Values(
+    val message: String = "{javax.validation.constraints.Values.message}",
+    val groups: Array<KClass<out Any>> = [],
+    val payload: Array<KClass<out Any>> = [],
+    val values: Array<String>
+)

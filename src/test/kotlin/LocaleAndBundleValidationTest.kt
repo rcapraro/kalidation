@@ -7,7 +7,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.tuple
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
-import java.util.*
+import java.util.Locale
 
 private class ValidationTestClass(val field: String)
 
@@ -31,11 +31,14 @@ class LocaleAndBundleValidationTest {
         assertThat(validated.isInvalid)
 
         validated.fold(
-                {
-                    assertThat(it).extracting("fieldName", "message")
-                            .containsExactlyInAnyOrder(tuple("field", "[EN] is blank"), tuple("field", "[EN] not in values [FOO, BAR]"))
-                },
-                { fail("The validation should not be valid") }
+            {
+                assertThat(it).extracting("fieldName", "message")
+                    .containsExactlyInAnyOrder(
+                        tuple("field", "[EN] is blank"),
+                        tuple("field", "[EN] not in values [FOO, BAR]")
+                    )
+            },
+            { fail("The validation should not be valid") }
         )
     }
 
@@ -57,11 +60,14 @@ class LocaleAndBundleValidationTest {
         assertThat(validated.isInvalid)
 
         validated.fold(
-                {
-                    assertThat(it).extracting("fieldName", "message")
-                            .containsExactlyInAnyOrder(tuple("field", "[FR] est blanc"), tuple("field", "[FR] pas dans les valeurs [FOO, BAR]"))
-                },
-                { fail("The validation should not be valid") }
+            {
+                assertThat(it).extracting("fieldName", "message")
+                    .containsExactlyInAnyOrder(
+                        tuple("field", "[FR] est blanc"),
+                        tuple("field", "[FR] pas dans les valeurs [FOO, BAR]")
+                    )
+            },
+            { fail("The validation should not be valid") }
         )
     }
 
@@ -82,11 +88,11 @@ class LocaleAndBundleValidationTest {
         assertThat(validated.isInvalid)
 
         validated.fold(
-                {
-                    assertThat(it).extracting("fieldName", "message")
-                            .containsExactly(tuple("field", "is.blank"))
-                },
-                { fail("The validation should not be valid") }
+            {
+                assertThat(it).extracting("fieldName", "message")
+                    .containsExactly(tuple("field", "is.blank"))
+            },
+            { fail("The validation should not be valid") }
         )
     }
 
@@ -107,12 +113,11 @@ class LocaleAndBundleValidationTest {
         assertThat(validated.isInvalid)
 
         validated.fold(
-                {
-                    assertThat(it).extracting("fieldName", "message")
-                            .containsExactly(tuple("field", "[FR] field is blank custom"))
-                },
-                { fail("The validation should not be valid") }
+            {
+                assertThat(it).extracting("fieldName", "message")
+                    .containsExactly(tuple("field", "[FR] field is blank custom"))
+            },
+            { fail("The validation should not be valid") }
         )
     }
 }
-

@@ -27,11 +27,11 @@ class BooleanValidationTest {
         assertThat(validated.isInvalid)
 
         validated.fold(
-                {
-                    assertThat(it).extracting("fieldName")
-                            .containsExactly("booleanField")
-                },
-                { fail("The validation should not be valid") }
+            {
+                assertThat(it).extracting("fieldName")
+                    .containsExactly("booleanField")
+            },
+            { fail("The validation should not be valid") }
         )
     }
 
@@ -51,11 +51,11 @@ class BooleanValidationTest {
         assertThat(validated.isInvalid)
 
         validated.fold(
-                {
-                    assertThat(it).extracting("fieldName")
-                            .containsExactly("booleanField")
-                },
-                { fail("The validation should not be valid") }
+            {
+                assertThat(it).extracting("fieldName")
+                    .containsExactly("booleanField")
+            },
+            { fail("The validation should not be valid") }
         )
     }
 }

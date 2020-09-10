@@ -5,7 +5,6 @@ import com.capraro.kalidation.constraints.function.size
 import com.capraro.kalidation.dsl.constraints
 import com.capraro.kalidation.dsl.property
 import com.capraro.kalidation.dsl.validationSpec
-import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
@@ -34,12 +33,11 @@ class MapValidationTest {
         assertThat(validated.isInvalid)
 
         validated.fold(
-                {
-                    Assertions.assertThat(it).extracting("fieldName")
-                            .containsExactlyInAnyOrder("mapField", "mapField")
-                },
-                { fail("The validation should not be valid") }
+            {
+                assertThat(it).extracting("fieldName")
+                    .containsExactlyInAnyOrder("mapField", "mapField")
+            },
+            { fail("The validation should not be valid") }
         )
-
     }
 }

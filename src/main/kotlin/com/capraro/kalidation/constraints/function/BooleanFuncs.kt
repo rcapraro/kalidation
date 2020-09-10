@@ -39,5 +39,4 @@ fun Constraint<out Any, out Boolean?>.assertTrue(message: String? = null) {
 
 fun Constraint<out Any, out Boolean?>.assertFalse(message: String? = null) {
     constraintRules.add(AssertFalse(message))
-
 }

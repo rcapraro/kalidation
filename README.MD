@@ -4,6 +4,7 @@
 
 [![Download](https://api.bintray.com/packages/rcapraro/maven-releases/kalidation/images/download.svg) ](https://bintray.com/rcapraro/maven-releases/kalidation/_latestVersion)
 [![Build Status](https://travis-ci.org/rcapraro/kalidation.svg?branch=master)](https://travis-ci.org/rcapraro/kalidation)
+[![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/)
 
 **Objective**
 
