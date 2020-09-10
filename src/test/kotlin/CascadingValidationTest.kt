@@ -32,11 +32,15 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
 
-private class RootTestClass(val field1: String,
-                            val field2: LeafTestClass)
+private class RootTestClass(
+    val field1: String,
+    val field2: LeafTestClass
+)
 
-private class LeafTestClass(val innerField1: String,
-                            val innerField2: Int)
+private class LeafTestClass(
+    val innerField1: String,
+    val innerField2: Int
+)
 
 class CascadingValidationTest {
 
@@ -60,21 +64,24 @@ class CascadingValidationTest {
                 }
             }
         }
-        val dslTest = RootTestClass(field1 = "foobar",
-                field2 = LeafTestClass("", 10))
+        val dslTest = RootTestClass(
+            field1 = "foobar",
+            field2 = LeafTestClass("", 10)
+        )
 
         val validated = spec.validate(dslTest)
 
         assertThat(validated.isInvalid)
 
         validated.fold(
-                {
-                    assertThat(it).extracting("fieldName")
-                            .containsExactlyInAnyOrder(
-                                    "field2.innerField1",
-                                    "field2.innerField2")
-                },
-                { fail("The validation should not be valid") }
+            {
+                assertThat(it).extracting("fieldName")
+                    .containsExactlyInAnyOrder(
+                        "field2.innerField1",
+                        "field2.innerField2"
+                    )
+            },
+            { fail("The validation should not be valid") }
         )
     }
 }

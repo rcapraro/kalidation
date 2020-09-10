@@ -29,11 +29,12 @@ class InIso8601DateRangeValidator : ConstraintValidator<InIso8601DateRange, Stri
             val zonedDateTimeDate = ZonedDateTime.parse(date)
             return when {
                 zonedDateTimeDate.isEqual(zonedDateTimeStartDate) || zonedDateTimeDate.isEqual(zonedDateTimeStopDate) -> true
-                else -> zonedDateTimeDate.isAfter(zonedDateTimeStartDate) && zonedDateTimeDate.isBefore(zonedDateTimeStopDate)
+                else -> zonedDateTimeDate.isAfter(zonedDateTimeStartDate) && zonedDateTimeDate.isBefore(
+                    zonedDateTimeStopDate
+                )
             }
         } catch (e: DateTimeParseException) {
             false
         }
     } ?: true
-
 }

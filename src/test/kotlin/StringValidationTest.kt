@@ -1,4 +1,22 @@
-import com.capraro.kalidation.constraints.function.*
+import com.capraro.kalidation.constraints.function.decimalMax
+import com.capraro.kalidation.constraints.function.decimalMin
+import com.capraro.kalidation.constraints.function.digits
+import com.capraro.kalidation.constraints.function.email
+import com.capraro.kalidation.constraints.function.inIso8601DateRange
+import com.capraro.kalidation.constraints.function.inValues
+import com.capraro.kalidation.constraints.function.iso8601Date
+import com.capraro.kalidation.constraints.function.max
+import com.capraro.kalidation.constraints.function.min
+import com.capraro.kalidation.constraints.function.negative
+import com.capraro.kalidation.constraints.function.negativeOrZero
+import com.capraro.kalidation.constraints.function.notBlank
+import com.capraro.kalidation.constraints.function.notNull
+import com.capraro.kalidation.constraints.function.phoneNumber
+import com.capraro.kalidation.constraints.function.positive
+import com.capraro.kalidation.constraints.function.positiveOrZero
+import com.capraro.kalidation.constraints.function.range
+import com.capraro.kalidation.constraints.function.regexp
+import com.capraro.kalidation.constraints.function.size
 import com.capraro.kalidation.dsl.constraints
 import com.capraro.kalidation.dsl.property
 import com.capraro.kalidation.dsl.validationSpec
@@ -6,10 +24,12 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
 
-class StringTestClass(val field1: String?,
-                      val field2: String,
-                      val field3: String,
-                      val field4: String? = "0.0")
+class StringTestClass(
+    val field1: String?,
+    val field2: String,
+    val field3: String,
+    val field4: String? = "0.0"
+)
 
 class StringValidationTest {
 
@@ -35,26 +55,29 @@ class StringValidationTest {
                 }
             }
         }
-        val dslTest = StringTestClass(" ",
-                "richard.capraro#mail.com",
-                "(378) 400-1234")
+        val dslTest = StringTestClass(
+            " ",
+            "richard.capraro#mail.com",
+            "(378) 400-1234"
+        )
 
         val validated = spec.validate(dslTest)
 
         assertThat(validated.isInvalid)
 
         validated.fold(
-                {
-                    assertThat(it).extracting("fieldName")
-                            .containsExactlyInAnyOrder(
-                                    "field1",
-                                    "field1",
-                                    "field1",
-                                    "field2",
-                                    "field2",
-                                    "field3")
-                },
-                { fail("The validation should not be valid") }
+            {
+                assertThat(it).extracting("fieldName")
+                    .containsExactlyInAnyOrder(
+                        "field1",
+                        "field1",
+                        "field1",
+                        "field2",
+                        "field2",
+                        "field3"
+                    )
+            },
+            { fail("The validation should not be valid") }
         )
     }
 
@@ -84,32 +107,34 @@ class StringValidationTest {
                     negativeOrZero()
                 }
             }
-
         }
-        val dslTest = StringTestClass("234",
-                "36.85",
-                "-73.955")
+        val dslTest = StringTestClass(
+            "234",
+            "36.85",
+            "-73.955"
+        )
 
         val validated = spec.validate(dslTest)
 
         assertThat(validated.isInvalid)
 
         validated.fold(
-                {
-                    assertThat(it).extracting("fieldName")
-                            .containsExactlyInAnyOrder(
-                                    "field1",
-                                    "field1",
-                                    "field1",
-                                    "field2",
-                                    "field2",
-                                    "field2",
-                                    "field2",
-                                    "field3",
-                                    "field3",
-                                    "field3")
-                },
-                { fail("The validation should not be valid") }
+            {
+                assertThat(it).extracting("fieldName")
+                    .containsExactlyInAnyOrder(
+                        "field1",
+                        "field1",
+                        "field1",
+                        "field2",
+                        "field2",
+                        "field2",
+                        "field2",
+                        "field3",
+                        "field3",
+                        "field3"
+                    )
+            },
+            { fail("The validation should not be valid") }
         )
     }
 
@@ -161,10 +186,10 @@ class StringValidationTest {
         assertThat(validated.isInvalid).isTrue()
 
         validated.fold(
-                {
-                    assertThat(it).extracting("fieldName").containsExactly("field1")
-                },
-                { fail("The validation should not be valid") }
+            {
+                assertThat(it).extracting("fieldName").containsExactly("field1")
+            },
+            { fail("The validation should not be valid") }
         )
     }
 
@@ -182,10 +207,10 @@ class StringValidationTest {
         val validated = spec.validate(dslTest)
 
         validated.fold(
-                {
-                    assertThat(it).extracting("fieldName").containsExactly("field1")
-                },
-                { fail("The validation should not be valid") }
+            {
+                assertThat(it).extracting("fieldName").containsExactly("field1")
+            },
+            { fail("The validation should not be valid") }
         )
     }
 
@@ -251,11 +276,10 @@ class StringValidationTest {
         val validated = spec.validate(dslTest)
 
         validated.fold(
-                {
-                    assertThat(it).extracting("fieldName").containsExactly("field1")
-                },
-                { fail("The validation should not be valid") }
+            {
+                assertThat(it).extracting("fieldName").containsExactly("field1")
+            },
+            { fail("The validation should not be valid") }
         )
     }
 }
-

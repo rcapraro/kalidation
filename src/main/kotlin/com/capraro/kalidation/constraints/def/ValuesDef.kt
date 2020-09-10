@@ -38,5 +38,4 @@ class ValuesDef : ConstraintDef<ValuesDef, Values>(Values::class.java) {
         addParameter("values", values)
         return this
     }
-
 }

@@ -59,28 +59,41 @@ data class ValidationSpec(val constraints: MutableList<ClassConstraint<out Any>>
         constraints.forEach { constraint ->
             constraint.methodConstraints.forEach {
                 if (!constrainedClass.javaClass.methods.contains(it.constrainedMethod.javaMethod)) {
-                    throw KalidationException("method ${it.constrainedMethod} must belong to class $constrainedClass to be callable", null)
+                    throw KalidationException(
+                        "method ${it.constrainedMethod} must belong to class $constrainedClass to be callable",
+                        null
+                    )
                 }
                 if (it.alias != "None") {
-                    aliases.putIfAbsent(constrainedClass.javaClass.name to it.constrainedMethod.javaMethod!!.name, it.alias)
+                    aliases.putIfAbsent(
+                        constrainedClass.javaClass.name to it.constrainedMethod.javaMethod!!.name,
+                        it.alias
+                    )
                 }
 
-                validationResult.addAll(validator
+                validationResult.addAll(
+                    validator
                         .forExecutables()
-                        .validateReturnValue(constrainedClass, it.constrainedMethod.javaMethod, it.constrainedMethod.call(constrainedClass)))
+                        .validateReturnValue(
+                            constrainedClass,
+                            it.constrainedMethod.javaMethod,
+                            it.constrainedMethod.call(constrainedClass)
+                        )
+                )
             }
         }
 
         val validationSet = validationResult
-                .map {
-                    ValidationResult(
-                            fieldName = buildFieldName(it, aliases),
-                            invalidValue = it.invalidValue,
-                            messageTemplate = it.messageTemplate,
-                            message = it.message)
-                }
-                .sortedBy { it.fieldName }
-                .toSet()
+            .map {
+                ValidationResult(
+                    fieldName = buildFieldName(it, aliases),
+                    invalidValue = it.invalidValue,
+                    messageTemplate = it.messageTemplate,
+                    message = it.message
+                )
+            }
+            .sortedBy { it.fieldName }
+            .toSet()
 
         return if (validationSet.isEmpty()) {
             Valid(true)
@@ -91,7 +104,7 @@ data class ValidationSpec(val constraints: MutableList<ClassConstraint<out Any>>
 
     private fun buildFieldName(violation: ConstraintViolation<Any>, aliases: Map<Pair<Any, String>, String>): String {
         return aliases[violation.rootBeanClass.name to violation.propertyPath.toString().substringBefore(".")]
-                ?: violation.propertyPath.joinToString(".") { it.name }
+            ?: violation.propertyPath.joinToString(".") { it.name }
     }
 }
 
@@ -100,9 +113,10 @@ data class ValidationSpec(val constraints: MutableList<ClassConstraint<out Any>>
  * A Class constraint refers to a class and contains a list of [PropertyConstraint]
  * @see PropertyConstraint
  */
-data class ClassConstraint<T : Any>(val constrainedClass: KClass<T>,
-                                    val propertyConstraints: MutableList<PropertyConstraint<T, out Any?>> = mutableListOf(),
-                                    val methodConstraints: MutableList<MethodConstraint<T, out Any?>> = mutableListOf()
+data class ClassConstraint<T : Any>(
+    val constrainedClass: KClass<T>,
+    val propertyConstraints: MutableList<PropertyConstraint<T, out Any?>> = mutableListOf(),
+    val methodConstraints: MutableList<MethodConstraint<T, out Any?>> = mutableListOf()
 )
 
 open class Constraint<T : Any, P>(val constraintRules: MutableList<ConstraintRule> = mutableListOf())
@@ -112,14 +126,17 @@ open class Constraint<T : Any, P>(val constraintRules: MutableList<ConstraintRul
  * A Property constraint refers to a property and contains a list of [ConstraintRule] to apply to this property.
  * @see ConstraintRule
  */
-data class PropertyConstraint<T : Any, P : Any?>(val constrainedProperty: KProperty1<T, P>, val containerElementsTypes: MutableList<ContainerElementType<T, P, out Any>> = mutableListOf()) : Constraint<T, P>()
+data class PropertyConstraint<T : Any, P : Any?>(
+    val constrainedProperty: KProperty1<T, P>,
+    val containerElementsTypes: MutableList<ContainerElementType<T, P, out Any>> = mutableListOf()
+) : Constraint<T, P>()
 
 /**
  * ContainerElementType.
  */
 data class ContainerElementType<T : Any, P : Any?, U : Any?>(
-        val constrainedProperty: KProperty1<T, P>,
-        val indexes: NonEmptyList<Int>
+    val constrainedProperty: KProperty1<T, P>,
+    val indexes: NonEmptyList<Int>
 ) : Constraint<T, U>()
 
 /**
@@ -127,6 +144,15 @@ data class ContainerElementType<T : Any, P : Any?, U : Any?>(
  * A Method return value constraint refers to the return value of a method and contains a list of [ConstraintRule] to apply to this return value.
  * @see ConstraintRule
  */
-data class MethodConstraint<T : Any, R : Any?>(val constrainedClass: KClass<T>, val constrainedMethod: KFunction<R>, val alias: String) : Constraint<T, R>()
+data class MethodConstraint<T : Any, R : Any?>(
+    val constrainedClass: KClass<T>,
+    val constrainedMethod: KFunction<R>,
+    val alias: String
+) : Constraint<T, R>()
 
-data class ValidationResult(val fieldName: String, val invalidValue: Any?, val messageTemplate: String, val message: String)
+data class ValidationResult(
+    val fieldName: String,
+    val invalidValue: Any?,
+    val messageTemplate: String,
+    val message: String
+)

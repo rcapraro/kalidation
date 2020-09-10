@@ -31,10 +31,12 @@ import kotlin.reflect.KClass
 @MustBeDocumented
 @Constraint(validatedBy = [Iso8601DateValidator::class])
 @Target(
-        AnnotationTarget.FIELD,
-        AnnotationTarget.PROPERTY
+    AnnotationTarget.FIELD,
+    AnnotationTarget.PROPERTY
 )
 @Retention(AnnotationRetention.RUNTIME)
-annotation class Iso8601Date(val message: String = "{javax.validation.constraints.Iso8601Date.message}",
-                             val groups: Array<KClass<out Any>> = [],
-                             val payload: Array<KClass<out Any>> = [])
+annotation class Iso8601Date(
+    val message: String = "{javax.validation.constraints.Iso8601Date.message}",
+    val groups: Array<KClass<out Any>> = [],
+    val payload: Array<KClass<out Any>> = []
+)

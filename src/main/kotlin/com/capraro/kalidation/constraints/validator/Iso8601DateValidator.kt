@@ -45,5 +45,4 @@ class Iso8601DateValidator : ConstraintValidator<Iso8601Date, String> {
             false
         }
     } ?: true
-
 }
