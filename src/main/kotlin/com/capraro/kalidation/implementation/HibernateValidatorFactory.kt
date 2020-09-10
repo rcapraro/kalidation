@@ -34,8 +34,10 @@ import org.hibernate.validator.cfg.ConstraintMapping
 import org.hibernate.validator.cfg.context.PropertyConstraintMappingContext
 import org.hibernate.validator.cfg.defs.*
 import org.hibernate.validator.internal.cfg.context.DefaultConstraintMapping
+import org.hibernate.validator.internal.engine.DefaultPropertyNodeNameProvider
+import org.hibernate.validator.internal.properties.DefaultGetterPropertySelectionStrategy
+import org.hibernate.validator.internal.properties.javabean.JavaBeanHelper
 import org.hibernate.validator.resourceloading.AggregateResourceBundleLocator
-import java.lang.annotation.ElementType
 import java.util.*
 import javax.validation.Validation
 import javax.validation.Validator
@@ -54,11 +56,11 @@ class HibernateValidatorFactory(private val spec: ValidationSpec) {
 
     private fun createConstraintMapping(spec: ValidationSpec): ConstraintMapping {
         return with(spec) {
-            val constraintMapping = DefaultConstraintMapping()
+            val constraintMapping = DefaultConstraintMapping(JavaBeanHelper(DefaultGetterPropertySelectionStrategy(), DefaultPropertyNodeNameProvider()))
             constraints.forEach { constraint ->
                 val typeMapping = constraintMapping.type(constraint.constrainedClass.java)
                 constraint.propertyConstraints.forEach { propertyConstraint ->
-                    val propertyMapping = typeMapping.property(propertyConstraint.constrainedProperty.name, ElementType.FIELD)
+                    val propertyMapping = typeMapping.field(propertyConstraint.constrainedProperty.name)
 
                     createContainerConstraintMapping(propertyConstraint, propertyMapping)
 
@@ -66,6 +68,8 @@ class HibernateValidatorFactory(private val spec: ValidationSpec) {
                         val context = propertyMapping.constraint(translateConstraintDef(rule))
                         when (rule) {
                             is Valid -> context.valid()
+                            else -> {
+                            }
                         }
                     }
                 }
