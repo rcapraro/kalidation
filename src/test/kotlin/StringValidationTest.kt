@@ -151,7 +151,7 @@ class StringValidationTest {
         val dslTest = StringTestClass("2018-06-15T17:32:28.000Z", "EmptyNotUsedForTest", "EmptyNotUsedForTest")
         val validated = spec.validate(dslTest)
 
-        assertThat(validated.isValid).isTrue()
+        assertThat(validated.isValid).isTrue
     }
 
     @Test
@@ -167,7 +167,7 @@ class StringValidationTest {
         val dslTest = StringTestClass(null, "EmptyNotUsedForTest", "EmptyNotUsedForTest")
         val validated = spec.validate(dslTest)
 
-        assertThat(validated.isValid).isTrue()
+        assertThat(validated.isValid).isTrue
     }
 
     @Test
@@ -183,7 +183,7 @@ class StringValidationTest {
         val dslTest = StringTestClass("", "EmptyNotUsedForTest", "EmptyNotUsedForTest")
         val validated = spec.validate(dslTest)
 
-        assertThat(validated.isInvalid).isTrue()
+        assertThat(validated.isInvalid).isTrue
 
         validated.fold(
             {
@@ -227,7 +227,7 @@ class StringValidationTest {
         val dslTest = StringTestClass("2018-06-14T17:32:28.001Z", "EmptyNotUsedForTest", "EmptyNotUsedForTest")
         val validated = spec.validate(dslTest)
 
-        assertThat(validated.isValid).isTrue()
+        assertThat(validated.isValid).isTrue
     }
 
     @Test
@@ -243,7 +243,7 @@ class StringValidationTest {
         val dslTest = StringTestClass("2018-06-14T17:32:28.000Z", "EmptyNotUsedForTest", "EmptyNotUsedForTest")
         val validated = spec.validate(dslTest)
 
-        assertThat(validated.isValid).isTrue()
+        assertThat(validated.isValid).isTrue
     }
 
     @Test
@@ -259,7 +259,7 @@ class StringValidationTest {
         val dslTest = StringTestClass("2018-06-16T17:32:28.000Z", "EmptyNotUsedForTest", "EmptyNotUsedForTest")
         val validated = spec.validate(dslTest)
 
-        assertThat(validated.isValid).isTrue()
+        assertThat(validated.isValid).isTrue
     }
 
     @Test

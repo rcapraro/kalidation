@@ -1,5 +1,3 @@
-import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
-
 plugins {
     id "org.jetbrains.kotlin.jvm" version "1.4.10"
     id "org.jlleitschuh.gradle.ktlint" version "9.4.0"
@@ -74,15 +72,7 @@ test {
 }
 
 ktlint {
-    version.set("0.38.1")
-    debug.set(true)
-    verbose.set(true)
-    outputToConsole.set(true)
-    outputColorName.set("RED")
-    reporters {
-        reporter(ReporterType.PLAIN)
-        reporter(ReporterType.CHECKSTYLE)
-    }
+    version.set("0.39.0")
 }
 
 def pomConfig = {
@@ -97,7 +87,7 @@ def pomConfig = {
         developer {
             id "rcapraro"
             name "Richard Capraro"
-            email "richard.capraros@gmail.com"
+            email "richard.capraro@gmail.com"
         }
     }
 
