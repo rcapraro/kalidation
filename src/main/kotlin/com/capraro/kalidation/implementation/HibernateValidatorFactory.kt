@@ -181,9 +181,7 @@ class HibernateValidatorFactory(private val spec: ValidationSpec) {
                 )
                 containerElementType.constraintRules.forEach { rule: ConstraintRule ->
                     val context = hvContainerElementType.constraint(translateConstraintDef(rule))
-                    when (rule) {
-                        is Valid -> context.valid()
-                    }
+                    if (rule is Valid) context.valid()
                 }
             }
         }
