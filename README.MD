@@ -5,7 +5,6 @@
 ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/rcapraro/kalidation)
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/rcapraro/kalidation/Publish%20package%20to%20GitHub%20Packages)
 ![GitHub](https://img.shields.io/github/license/rcapraro/kalidation)
-![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/)
 
 **Objective**
 
