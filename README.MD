@@ -2,7 +2,7 @@
 
 *Kalidation = A Kotlin validation DSL*
 
-![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/rcapraro/kalidation)
+[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/rcapraro/kalidation)](https://github.com/rcapraro/kalidation/releases/latest)
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/rcapraro/kalidation/Publish%20package%20to%20GitHub%20Packages)
 ![GitHub](https://img.shields.io/github/license/rcapraro/kalidation)
 
