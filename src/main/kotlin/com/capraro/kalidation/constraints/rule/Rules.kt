@@ -24,86 +24,172 @@
 
 package com.capraro.kalidation.constraints.rule
 
+import com.capraro.kalidation.constraints.def.CsNegativeDef
+import com.capraro.kalidation.constraints.def.CsNegativeOrZeroDef
+import com.capraro.kalidation.constraints.def.CsPositiveDef
+import com.capraro.kalidation.constraints.def.CsPositiveOrZeroDef
+import com.capraro.kalidation.constraints.def.InIso8601DateRangeDef
+import com.capraro.kalidation.constraints.def.Iso8601DateDef
+import com.capraro.kalidation.constraints.def.MapHasKeysDef
+import com.capraro.kalidation.constraints.def.PhoneNumberDef
+import com.capraro.kalidation.constraints.def.SubSetDef
+import com.capraro.kalidation.constraints.def.ValuesDef
+import org.hibernate.validator.cfg.ConstraintDef
+import org.hibernate.validator.cfg.defs.AssertFalseDef
+import org.hibernate.validator.cfg.defs.AssertTrueDef
+import org.hibernate.validator.cfg.defs.DecimalMaxDef
+import org.hibernate.validator.cfg.defs.DecimalMinDef
+import org.hibernate.validator.cfg.defs.DigitsDef
+import org.hibernate.validator.cfg.defs.EmailDef
+import org.hibernate.validator.cfg.defs.FutureDef
+import org.hibernate.validator.cfg.defs.FutureOrPresentDef
+import org.hibernate.validator.cfg.defs.MaxDef
+import org.hibernate.validator.cfg.defs.MinDef
+import org.hibernate.validator.cfg.defs.NegativeDef
+import org.hibernate.validator.cfg.defs.NegativeOrZeroDef
+import org.hibernate.validator.cfg.defs.NotBlankDef
+import org.hibernate.validator.cfg.defs.NotEmptyDef
+import org.hibernate.validator.cfg.defs.NotNullDef
+import org.hibernate.validator.cfg.defs.NullDef
+import org.hibernate.validator.cfg.defs.PastDef
+import org.hibernate.validator.cfg.defs.PastOrPresentDef
+import org.hibernate.validator.cfg.defs.PatternDef
+import org.hibernate.validator.cfg.defs.PositiveDef
+import org.hibernate.validator.cfg.defs.PositiveOrZeroDef
+import org.hibernate.validator.cfg.defs.RangeDef
+import org.hibernate.validator.cfg.defs.ScriptAssertDef
+import org.hibernate.validator.cfg.defs.SizeDef
+
 /**
  * Interface for all the [ConstraintRule] implementations and their implementations.
  * @author Richard Capraro
  * @since 0.0.1
  */
-sealed class ConstraintRule(var customMessage: String?)
+sealed class ConstraintRule(open val message: String?, val constraintDef: ConstraintDef<*, *>) {
+    fun translate(): ConstraintDef<*, *> = constraintDef.customMessage(message)
+}
+
+fun ConstraintDef<*, *>.customMessage(message: String?): ConstraintDef<*, *> {
+    message?.let {
+        this.message(message)
+    }
+    return this
+}
 
 // All classes
 
-class NotNull(val message: String?) : ConstraintRule(message)
-class Null(val message: String?) : ConstraintRule(message)
-class Valid(val message: String?) : ConstraintRule(message)
+class NotNull(override val message: String?) : ConstraintRule(message, NotNullDef())
+
+class Null(override val message: String?) : ConstraintRule(message, NullDef())
+class Valid(override val message: String?) : ConstraintRule(message, NotNullDef())
 class ValidByScript(
-    val lang: String,
-    val script: String,
-    val alias: String,
-    val reportOn: String,
-    val message: String?
-) : ConstraintRule(message)
+    lang: String,
+    script: String,
+    alias: String,
+    reportOn: String,
+    override val message: String?
+) : ConstraintRule(
+    message,
+    ScriptAssertDef()
+        .lang(lang)
+        .script(script)
+        .alias(alias)
+        .reportOn(reportOn)
+        .customMessage(message)
+)
 
 // Array
 
-class ArraySize(val min: Int, val max: Int, val message: String?) : ConstraintRule(message)
-class ArrayNotEmpty(val message: String?) : ConstraintRule(message)
+class ArraySize(min: Int, max: Int, override val message: String?) :
+    ConstraintRule(message, SizeDef().min(min).max(max))
+
+class ArrayNotEmpty(override val message: String?) : ConstraintRule(message, NotEmptyDef())
 
 // Collection
 
-class ColSize(val min: Int, val max: Int, val message: String?) : ConstraintRule(message)
-class ColNotEmpty(val message: String?) : ConstraintRule(message)
-class SubSetOf(val values: List<String>, val message: String?) : ConstraintRule(message)
+class ColSize(min: Int, max: Int, override val message: String?) :
+    ConstraintRule(message, SizeDef().min(min).max(max))
+
+class ColNotEmpty(override val message: String?) : ConstraintRule(message, NotEmptyDef())
+class SubSetOf(values: List<String>, override val message: String?) :
+    ConstraintRule(message, SubSetDef().completeValues(values.toTypedArray()))
 
 // Map
 
-class MapSize(val min: Int, val max: Int, val message: String?) : ConstraintRule(message)
-class MapNotEmpty(val message: String?) : ConstraintRule(message)
-class MapHasKeys(val keys: List<String>, val message: String?) : ConstraintRule(message)
+class MapSize(min: Int, max: Int, override val message: String?) :
+    ConstraintRule(message, SizeDef().min(min).max(max))
+
+class MapNotEmpty(override val message: String?) : ConstraintRule(message, NotEmptyDef())
+class MapHasKeys(keys: List<String>, override val message: String?) :
+    ConstraintRule(message, MapHasKeysDef().mapKeys(keys.toTypedArray()))
 
 // Boolean
 
-class AssertTrue(val message: String?) : ConstraintRule(message)
-class AssertFalse(val message: String?) : ConstraintRule(message)
+class AssertTrue(override val message: String?) : ConstraintRule(message, AssertTrueDef())
+class AssertFalse(override val message: String?) : ConstraintRule(message, AssertFalseDef())
 
 // CharSequence
 
-class NotBlank(val message: String?) : ConstraintRule(message)
-class CsNotEmpty(val message: String?) : ConstraintRule(message)
-class CsSize(val min: Int, val max: Int, val message: String?) : ConstraintRule(message)
-class Regexp(val regexp: String, val message: String?) : ConstraintRule(message)
-class Email(val message: String?) : ConstraintRule(message)
-class PhoneNumber(val regionCode: String, val message: String?) : ConstraintRule(message)
-class Iso8601Date(val message: String?) : ConstraintRule(message)
-class InIso8601DateRange(val startDate: String, val stopDate: String, val message: String?) : ConstraintRule(message)
-class InValues(val values: List<String>, val message: String?) : ConstraintRule(message)
-class CsPositive(val message: String?) : ConstraintRule(message)
-class CsPositiveOrZero(val message: String?) : ConstraintRule(message)
-class CsNegative(val message: String?) : ConstraintRule(message)
-class CsNegativeOrZero(val message: String?) : ConstraintRule(message)
-class CsRange(val min: Long, val max: Long, val message: String?) : ConstraintRule(message)
-class CsMin(val value: Long, val message: String?) : ConstraintRule(message)
-class CsMax(val value: Long, val message: String?) : ConstraintRule(message)
-class CsDecimalMin(val value: String, val inclusive: Boolean, val message: String?) : ConstraintRule(message)
-class CsDecimalMax(val value: String, val inclusive: Boolean, val message: String?) : ConstraintRule(message)
-class CsDigits(val integer: Int, val fraction: Int, val message: String?) : ConstraintRule(message)
+class NotBlank(override val message: String?) : ConstraintRule(message, NotBlankDef())
+class CsNotEmpty(override val message: String?) : ConstraintRule(message, NotEmptyDef())
+class CsSize(min: Int, max: Int, override val message: String?) :
+    ConstraintRule(message, SizeDef().min(min).max(max))
+
+class Regexp(regexp: String, override val message: String?) :
+    ConstraintRule(message, PatternDef().regexp(regexp))
+
+class Email(override val message: String?) : ConstraintRule(message, EmailDef())
+class PhoneNumber(regionCode: String, override val message: String?) :
+    ConstraintRule(message, PhoneNumberDef().regionCode(regionCode))
+
+class Iso8601Date(override val message: String?) : ConstraintRule(message, Iso8601DateDef())
+class InIso8601DateRange(startDate: String, stopDate: String, override val message: String?) :
+    ConstraintRule(message, InIso8601DateRangeDef().startDate(startDate).stopDate(stopDate))
+
+class InValues(values: List<String>, override val message: String?) :
+    ConstraintRule(message, ValuesDef().values(values.toTypedArray()))
+
+class CsPositive(override val message: String?) : ConstraintRule(message, CsPositiveDef())
+class CsPositiveOrZero(override val message: String?) : ConstraintRule(message, CsPositiveOrZeroDef())
+class CsNegative(override val message: String?) : ConstraintRule(message, CsNegativeDef())
+class CsNegativeOrZero(override val message: String?) : ConstraintRule(message, CsNegativeOrZeroDef())
+class CsRange(min: Long, max: Long, override val message: String?) :
+    ConstraintRule(message, RangeDef().min(min).max(max))
+
+class CsMin(value: Long, override val message: String?) : ConstraintRule(message, MinDef().value(value))
+class CsMax(value: Long, override val message: String?) : ConstraintRule(message, MaxDef().value(value))
+class CsDecimalMin(value: String, inclusive: Boolean, override val message: String?) :
+    ConstraintRule(message, DecimalMinDef().value(value).inclusive(inclusive))
+
+class CsDecimalMax(value: String, inclusive: Boolean, override val message: String?) :
+    ConstraintRule(message, DecimalMaxDef().value(value).inclusive(inclusive))
+
+class CsDigits(integer: Int, fraction: Int, override val message: String?) :
+    ConstraintRule(message, DigitsDef().integer(integer).fraction(fraction))
 
 // Number
 
-class Range(val min: Long, val max: Long, val message: String?) : ConstraintRule(message)
-class NegativeOrZero(val message: String?) : ConstraintRule(message)
-class PositiveOrZero(val message: String?) : ConstraintRule(message)
-class Negative(val message: String?) : ConstraintRule(message)
-class Positive(val message: String?) : ConstraintRule(message)
-class Min(val value: Long, val message: String?) : ConstraintRule(message)
-class Max(val value: Long, val message: String?) : ConstraintRule(message)
-class DecimalMin(val value: String, val inclusive: Boolean, val message: String?) : ConstraintRule(message)
-class DecimalMax(val value: String, val inclusive: Boolean, val message: String?) : ConstraintRule(message)
-class Digits(val integer: Int, val fraction: Int, val message: String?) : ConstraintRule(message)
+class Range(min: Long, max: Long, override val message: String?) :
+    ConstraintRule(message, RangeDef().min(min).max(max))
+
+class NegativeOrZero(override val message: String?) : ConstraintRule(message, NegativeOrZeroDef())
+class PositiveOrZero(override val message: String?) : ConstraintRule(message, PositiveOrZeroDef())
+class Negative(override val message: String?) : ConstraintRule(message, NegativeDef())
+class Positive(override val message: String?) : ConstraintRule(message, PositiveDef())
+class Min(value: Long, override val message: String?) : ConstraintRule(message, MinDef().value(value))
+class Max(value: Long, override val message: String?) : ConstraintRule(message, MaxDef().value(value))
+class DecimalMin(value: String, inclusive: Boolean, override val message: String?) :
+    ConstraintRule(message, DecimalMinDef().value(value).inclusive(inclusive))
+
+class DecimalMax(value: String, inclusive: Boolean, override val message: String?) :
+    ConstraintRule(message, DecimalMaxDef().value(value).inclusive(inclusive))
+
+class Digits(integer: Int, fraction: Int, override val message: String?) :
+    ConstraintRule(message, DigitsDef().integer(integer).fraction(fraction))
 
 // Temporal
 
-class Future(val message: String?) : ConstraintRule(message)
-class Past(val message: String?) : ConstraintRule(message)
-class FutureOrPresent(val message: String?) : ConstraintRule(message)
-class PastOrPresent(val message: String?) : ConstraintRule(message)
+class Future(override val message: String?) : ConstraintRule(message, FutureDef())
+class Past(override val message: String?) : ConstraintRule(message, PastDef())
+class FutureOrPresent(override val message: String?) : ConstraintRule(message, FutureOrPresentDef())
+class PastOrPresent(override val message: String?) : ConstraintRule(message, PastOrPresentDef())
