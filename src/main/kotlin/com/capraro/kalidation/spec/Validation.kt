@@ -50,7 +50,7 @@ import kotlin.reflect.jvm.javaMethod
 data class ValidationSpec(val constraints: MutableList<ClassConstraint<out Any>> = mutableListOf()) {
     internal lateinit var validator: Validator
 
-    fun validate(constrainedClass: Any): Validated<Set<ValidationResult>, Boolean> {
+    fun <T> validate(constrainedClass: T): Validated<Set<ValidationResult>, T> where T : Any {
 
         val validationResult = validator.validate(constrainedClass).toMutableSet()
 
@@ -96,13 +96,13 @@ data class ValidationSpec(val constraints: MutableList<ClassConstraint<out Any>>
             .toSet()
 
         return if (validationSet.isEmpty()) {
-            Valid(true)
+            Valid(constrainedClass)
         } else {
             Invalid(validationSet)
         }
     }
 
-    private fun buildFieldName(violation: ConstraintViolation<Any>, aliases: Map<Pair<Any, String>, String>): String {
+    private fun <T> buildFieldName(violation: ConstraintViolation<T>, aliases: Map<Pair<Any, String>, String>): String {
         return aliases[violation.rootBeanClass.name to violation.propertyPath.toString().substringBefore(".")]
             ?: violation.propertyPath.joinToString(".") { it.name }
     }
