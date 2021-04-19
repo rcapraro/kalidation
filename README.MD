@@ -45,7 +45,7 @@ the [Clean Architecture](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clea
 
 **Usage**
 
- ```kotlin
+```kotlin
 val spec = validationSpec(messageBundle = "MyMessages", locale = Locale.FRENCH) {
     constraints<MyClass> {
         property(MyClass::color) {
@@ -92,7 +92,7 @@ See [Arrow Validated](https://arrow-kt.io/docs/datatypes/validated/#validated) f
 
 _Example with `fold`_:
 
- ```kotlin
+```kotlin
 val validated = spec.validate(myClass)
 validated.fold(
     { throw ValidationException(it) },
@@ -102,12 +102,22 @@ validated.fold(
 
 _Example with `when`_:
 
- ```kotlin
+```kotlin
 val validated = spec.validate(myClass)
 when (validated) {
     is Valid -> return validated.a
     is Invalid -> throw ValidationException(validated.e)
 }
+```
+
+_Monad comprehension_:
+
+You can also use the right side of the validated result to operate a monad comprehension on the validated class:
+  
+```kotlin
+val validated = spec.validate(myClass)
+                    .map { it.doSomething() } //it is myClass
+                    //etc
 ```
 
 _Structure of the validation result_:
