@@ -13,8 +13,7 @@ plugins {
 }
 
 group = "com.capraro"
-version = "1.6.1"
-java.sourceCompatibility = JavaVersion.VERSION_11
+version = "1.6.2"
 
 repositories {
     mavenCentral()
@@ -40,13 +39,13 @@ dependencies {
     implementation("io.arrow-kt:arrow-validation:$arrowVersion")
     testImplementation(platform("org.junit:junit-bom:$junitJupiterVersion"))
     testImplementation("org.junit.jupiter:junit-jupiter")
-    testCompile("org.assertj:assertj-core:$assertJVersion")
+    testImplementation("org.assertj:assertj-core:$assertJVersion")
 }
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "11"
+        jvmTarget = "1.8"
     }
 }
 
