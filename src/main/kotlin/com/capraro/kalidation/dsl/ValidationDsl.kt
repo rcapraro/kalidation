@@ -65,14 +65,14 @@ fun <T : Any, P : Any?> ClassConstraint<T>.property(
 
 fun <T : Any, P : Collection<U?>, U : Any> PropertyConstraint<T, P>.eachElement(block: (@ValidationSpecMarker ContainerElementType<T, P, U>).() -> Unit) =
     this.containerElementsTypes.add(
-        ContainerElementType<T, P, U>(this.constrainedProperty, NonEmptyList.of(0)).apply(
+        ContainerElementType<T, P, U>(this.constrainedProperty, NonEmptyList.fromListUnsafe(listOf(0))).apply(
             block
         )
     )
 
 fun <T : Any, P : Any?, U : Any> PropertyConstraint<T, P>.eachElement(
     type: KClass<U>,
-    indexes: NonEmptyList<Int> = NonEmptyList.of(0),
+    indexes: NonEmptyList<Int> = NonEmptyList.fromListUnsafe(listOf(0)),
     block: (@ValidationSpecMarker ContainerElementType<T, P, U>).() -> Unit
 ) =
     this.containerElementsTypes.add(ContainerElementType<T, P, U>(this.constrainedProperty, indexes).apply(block))

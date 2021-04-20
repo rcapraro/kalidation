@@ -1,7 +1,7 @@
 package com.capraro.kalidation.constraints.annotation
 
 import com.capraro.kalidation.constraints.validator.InIso8601DateRangeValidator
-import javax.validation.Constraint
+import jakarta.validation.Constraint
 import kotlin.reflect.KClass
 
 /*
@@ -36,7 +36,7 @@ import kotlin.reflect.KClass
 )
 @Retention(AnnotationRetention.RUNTIME)
 annotation class InIso8601DateRange(
-    val message: String = "{javax.validation.constraints.InDateRange.message}",
+    val message: String = "{jakarta.validation.constraints.InDateRange.message}",
     val groups: Array<KClass<out Any>> = [],
     val payload: Array<KClass<out Any>> = [],
     val startDate: String,

@@ -38,8 +38,8 @@ import org.hibernate.validator.internal.properties.DefaultGetterPropertySelectio
 import org.hibernate.validator.internal.properties.javabean.JavaBeanHelper
 import org.hibernate.validator.resourceloading.AggregateResourceBundleLocator
 import java.util.Locale
-import javax.validation.Validation
-import javax.validation.Validator
+import jakarta.validation.Validation
+import jakarta.validation.Validator
 
 /**
  * Transforms a [ValidationSpec] into an Hibernate validator spec.

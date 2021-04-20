@@ -26,8 +26,8 @@ package com.capraro.kalidation.constraints.validator
 
 import com.capraro.kalidation.constraints.annotation.CsPositiveOrZero
 import java.math.BigDecimal
-import javax.validation.ConstraintValidator
-import javax.validation.ConstraintValidatorContext
+import jakarta.validation.ConstraintValidator
+import jakarta.validation.ConstraintValidatorContext
 
 /**
  * CharSequence positiveOrZero number validator.

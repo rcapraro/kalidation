@@ -25,7 +25,7 @@
 package com.capraro.kalidation.constraints.annotation
 
 import com.capraro.kalidation.constraints.validator.Iso8601DateValidator
-import javax.validation.Constraint
+import jakarta.validation.Constraint
 import kotlin.reflect.KClass
 
 @MustBeDocumented
@@ -36,7 +36,7 @@ import kotlin.reflect.KClass
 )
 @Retention(AnnotationRetention.RUNTIME)
 annotation class Iso8601Date(
-    val message: String = "{javax.validation.constraints.Iso8601Date.message}",
+    val message: String = "{jakarta.validation.constraints.Iso8601Date.message}",
     val groups: Array<KClass<out Any>> = [],
     val payload: Array<KClass<out Any>> = []
 )
