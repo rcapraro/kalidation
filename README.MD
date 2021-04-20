@@ -234,7 +234,7 @@ In this example, if the method validate returns `false`, the `ValidationResult` 
 Invalid(e=[ValidationResult(
     fieldName=validate.<return value>, 
     invalidValue=false, 
-    messageTemplate={javax.validation.constraints.AssertTrue.message}, 
+    messageTemplate={jakarta.validation.constraints.AssertTrue.message}, 
     message=doit être vrai)]
 )
 ```

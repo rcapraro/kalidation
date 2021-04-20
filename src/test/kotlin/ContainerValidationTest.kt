@@ -51,7 +51,7 @@ class ContainerValidationTest {
             constraints<ContainerMapOfListClass> {
                 property(ContainerMapOfListClass::mapOfListField) {
                     notNull()
-                    eachElement(String::class, NonEmptyList(1, 0)) {
+                    eachElement(String::class, NonEmptyList(1, listOf(0))) {
                         notNull()
                         email()
                     }

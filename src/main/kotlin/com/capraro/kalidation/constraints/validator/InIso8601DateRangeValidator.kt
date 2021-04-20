@@ -3,8 +3,8 @@ package com.capraro.kalidation.constraints.validator
 import com.capraro.kalidation.constraints.annotation.InIso8601DateRange
 import java.time.ZonedDateTime
 import java.time.format.DateTimeParseException
-import javax.validation.ConstraintValidator
-import javax.validation.ConstraintValidatorContext
+import jakarta.validation.ConstraintValidator
+import jakarta.validation.ConstraintValidatorContext
 
 /**
  * InDateRangeValidator validator.

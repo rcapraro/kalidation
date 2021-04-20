@@ -25,8 +25,8 @@
 package com.capraro.kalidation.constraints.validator
 
 import com.capraro.kalidation.constraints.annotation.Values
-import javax.validation.ConstraintValidator
-import javax.validation.ConstraintValidatorContext
+import jakarta.validation.ConstraintValidator
+import jakarta.validation.ConstraintValidatorContext
 
 /**
  * Values list validator.

@@ -13,30 +13,33 @@ plugins {
 }
 
 group = "com.capraro"
-version = "1.6.2"
+version = "1.7.0"
 
 repositories {
     mavenCentral()
 }
 
 val junitJupiterVersion = "5.7.1"
-val arrowVersion = "0.11.0"
-val hibernateValidatorVersion = "6.2.0.Final"
-val javaxValidationVersion = "2.0.1.Final"
+val arrowVersion = "0.13.1"
+val jakartaBeanValidationVersion = "3.0.0"
+val jakartaElVersion = "4.0.0"
+val glassfishElVersion = "4.0.1"
+val hibernateValidatorVersion = "7.0.1.Final"
 val libPhoneNumberVersion = "8.12.21"
 val groovyVersion = "3.0.7"
 val assertJVersion = "3.19.0"
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("javax.validation:validation-api:$javaxValidationVersion")
+    implementation("jakarta.validation:jakarta.validation-api:$jakartaBeanValidationVersion")
+    implementation("jakarta.el:jakarta.el-api:$jakartaElVersion")
+    implementation("org.glassfish:jakarta.el:$glassfishElVersion")
     implementation("org.hibernate:hibernate-validator:$hibernateValidatorVersion")
     implementation("com.googlecode.libphonenumber:libphonenumber:$libPhoneNumberVersion")
     implementation("org.glassfish:javax.el:3.0.1-b12")
     implementation("org.apache.commons:commons-jexl3:3.1")
     implementation("org.codehaus.groovy:groovy-jsr223:$groovyVersion")
     implementation("io.arrow-kt:arrow-core:$arrowVersion")
-    implementation("io.arrow-kt:arrow-validation:$arrowVersion")
     testImplementation(platform("org.junit:junit-bom:$junitJupiterVersion"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.assertj:assertj-core:$assertJVersion")

@@ -30,8 +30,8 @@ import arrow.core.Valid
 import arrow.core.Validated
 import com.capraro.kalidation.constraints.rule.ConstraintRule
 import com.capraro.kalidation.exception.KalidationException
-import javax.validation.ConstraintViolation
-import javax.validation.Validator
+import jakarta.validation.ConstraintViolation
+import jakarta.validation.Validator
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction
 import kotlin.reflect.KProperty1
