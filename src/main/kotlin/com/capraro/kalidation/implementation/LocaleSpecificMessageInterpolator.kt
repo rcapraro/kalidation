@@ -24,10 +24,10 @@
 
 package com.capraro.kalidation.implementation
 
+import jakarta.validation.MessageInterpolator
 import org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator
 import org.hibernate.validator.resourceloading.AggregateResourceBundleLocator
 import java.util.Locale
-import jakarta.validation.MessageInterpolator
 
 /**
  * [MessageInterpolator] which handles the [Locale].
