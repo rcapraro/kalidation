@@ -24,10 +24,7 @@
 
 package com.capraro.kalidation.spec
 
-import arrow.core.Invalid
-import arrow.core.NonEmptyList
-import arrow.core.Valid
-import arrow.core.Validated
+import arrow.core.*
 import com.capraro.kalidation.constraints.rule.ConstraintRule
 import com.capraro.kalidation.exception.KalidationException
 import jakarta.validation.ConstraintViolation
@@ -50,7 +47,46 @@ import kotlin.reflect.jvm.javaMethod
 data class ValidationSpec(val constraints: MutableList<ClassConstraint<out Any>> = mutableListOf()) {
     internal lateinit var validator: Validator
 
+    fun <T> validateNel(constrainedClass: T): Validated<Nel<String>, T> where T : Any {
+        val (validationResult, aliases) = innerValidate(constrainedClass)
+
+        val list = validationResult.map {
+            with(it) {
+                val field = buildFieldName(it, aliases)
+                "$field has '$invalidValue': $message"
+            }
+        }
+
+        return if (list.isEmpty()) {
+            Valid(constrainedClass)
+        } else {
+            Invalid(Nel.fromListUnsafe(list))
+        }
+    }
+
     fun <T> validate(constrainedClass: T): Validated<Set<ValidationResult>, T> where T : Any {
+        val (validationResult, aliases) = innerValidate(constrainedClass)
+
+        val validationSet = validationResult
+            .map {
+                ValidationResult(
+                    fieldName = buildFieldName(it, aliases),
+                    invalidValue = it.invalidValue,
+                    messageTemplate = it.messageTemplate,
+                    message = it.message
+                )
+            }
+            .sortedBy { it.fieldName }
+            .toSet()
+
+        return if (validationSet.isEmpty()) {
+            Valid(constrainedClass)
+        } else {
+            Invalid(validationSet)
+        }
+    }
+
+    private fun <T> innerValidate(constrainedClass: T): Pair<MutableSet<ConstraintViolation<T>>, Map<Pair<Any, String>, String>> where T : Any {
 
         val validationResult = validator.validate(constrainedClass).toMutableSet()
 
@@ -83,23 +119,7 @@ data class ValidationSpec(val constraints: MutableList<ClassConstraint<out Any>>
             }
         }
 
-        val validationSet = validationResult
-            .map {
-                ValidationResult(
-                    fieldName = buildFieldName(it, aliases),
-                    invalidValue = it.invalidValue,
-                    messageTemplate = it.messageTemplate,
-                    message = it.message
-                )
-            }
-            .sortedBy { it.fieldName }
-            .toSet()
-
-        return if (validationSet.isEmpty()) {
-            Valid(constrainedClass)
-        } else {
-            Invalid(validationSet)
-        }
+        return Pair(validationResult, aliases)
     }
 
     private fun <T> buildFieldName(violation: ConstraintViolation<T>, aliases: Map<Pair<Any, String>, String>): String {
