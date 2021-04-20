@@ -28,6 +28,8 @@ import com.capraro.kalidation.constraints.rule.ConstraintRule
 import com.capraro.kalidation.constraints.rule.Valid
 import com.capraro.kalidation.spec.PropertyConstraint
 import com.capraro.kalidation.spec.ValidationSpec
+import jakarta.validation.Validation
+import jakarta.validation.Validator
 import org.hibernate.validator.HibernateValidator
 import org.hibernate.validator.cfg.ConstraintDef
 import org.hibernate.validator.cfg.ConstraintMapping
@@ -38,8 +40,6 @@ import org.hibernate.validator.internal.properties.DefaultGetterPropertySelectio
 import org.hibernate.validator.internal.properties.javabean.JavaBeanHelper
 import org.hibernate.validator.resourceloading.AggregateResourceBundleLocator
 import java.util.Locale
-import jakarta.validation.Validation
-import jakarta.validation.Validator
 
 /**
  * Transforms a [ValidationSpec] into an Hibernate validator spec.
