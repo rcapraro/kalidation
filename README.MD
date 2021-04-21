@@ -88,6 +88,9 @@ val validated = spec.validate(myClass)
 In this example, `validated` is an [Arrow](https://arrow-kt.io) `Validated` object, which we can transform through Arrow
 built-in functions: `when`, `fold`, `getOrElse`, `map`, etc.
 
+There is also another variant of `validated` called `validateNel`
+`validateNel` returns an Arrow type `NonEmptyList<String>` if you prefer that.
+
 See [Arrow Validated](https://arrow-kt.io/docs/datatypes/validated/#validated) for more documentation.
 
 _Example with `fold`_:
