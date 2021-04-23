@@ -36,7 +36,6 @@ dependencies {
     implementation("org.glassfish:jakarta.el:$glassfishElVersion")
     implementation("org.hibernate:hibernate-validator:$hibernateValidatorVersion")
     implementation("com.googlecode.libphonenumber:libphonenumber:$libPhoneNumberVersion")
-    implementation("org.glassfish:javax.el:3.0.1-b12")
     implementation("org.apache.commons:commons-jexl3:3.1")
     implementation("org.codehaus.groovy:groovy-jsr223:$groovyVersion")
     implementation("io.arrow-kt:arrow-core:$arrowVersion")
