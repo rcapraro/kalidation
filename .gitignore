@@ -3,3 +3,5 @@
 build
 *.iml
 out
+gradle.properties
+richard-capraro-sign.asc

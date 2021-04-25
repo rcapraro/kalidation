@@ -1,8 +1,8 @@
-name: Publish package to GitHub Packages
+name: Publish package
 on:
   workflow_dispatch:
   release:
-    types: [created]
+    types: [ created ]
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -12,8 +12,14 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
-      - name: Publish package
-        run: gradle publish
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Grant execute permission for deploy.sh
+        run: chmod +x .build/deploy.sh
+      - name: Publish release
+        run: .build/deploy.sh
         env:
+          GPG_SECRET: ${{ secrets.GPG_SECRET }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
         
