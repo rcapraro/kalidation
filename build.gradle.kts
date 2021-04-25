@@ -12,8 +12,8 @@ plugins {
     id("com.github.ben-manes.versions") version "0.38.0"
 }
 
-group = "com.capraro"
-version = "1.7.1"
+group = "io.github.rcapraro"
+version = "1.7.2"
 
 repositories {
     mavenCentral()
@@ -80,7 +80,7 @@ publishing {
     }
     publications {
         create<MavenPublication>("maven") {
-            groupId = "com.capraro"
+            groupId = "io.github.rcapraro"
             artifactId = "kalidation"
             version = project.version.toString()
 

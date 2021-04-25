@@ -1,8 +1,8 @@
-import com.capraro.kalidation.constraints.function.inValues
-import com.capraro.kalidation.constraints.function.notBlank
-import com.capraro.kalidation.dsl.constraints
-import com.capraro.kalidation.dsl.property
-import com.capraro.kalidation.dsl.validationSpec
+import io.github.rcapraro.kalidation.constraints.function.inValues
+import io.github.rcapraro.kalidation.constraints.function.notBlank
+import io.github.rcapraro.kalidation.dsl.constraints
+import io.github.rcapraro.kalidation.dsl.property
+import io.github.rcapraro.kalidation.dsl.validationSpec
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.tuple
 import org.junit.jupiter.api.Test
