@@ -7,13 +7,14 @@ plugins {
     id("com.jfrog.bintray") version "1.8.5"
     id("maven-publish")
     id("jacoco")
-    id("org.jetbrains.dokka") version "1.4.30"
+    id("org.jetbrains.dokka") version "1.4.32"
     id("se.patrikerdes.use-latest-versions") version "0.2.15"
     id("com.github.ben-manes.versions") version "0.38.0"
+    signing
 }
 
-group = "com.capraro"
-version = "1.7.1"
+group = "io.github.rcapraro"
+version = "1.8.0"
 
 repositories {
     mavenCentral()
@@ -67,6 +68,16 @@ ktlint {
     version.set("0.41.0")
 }
 
+java {
+    withSourcesJar()
+}
+
+tasks.register<Jar>("dokkaJar") {
+    archiveClassifier.set("javadoc")
+    dependsOn("dokkaJavadoc")
+    from("$buildDir/dokka/javadoc/")
+}
+
 publishing {
     repositories {
         maven {
@@ -77,23 +88,38 @@ publishing {
                 password = System.getenv("GITHUB_TOKEN")
             }
         }
+        maven {
+            name = "OSSRH"
+            url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+            credentials {
+                username =
+                    if (project.hasProperty("sonatype.username")) (project.property("sonatype.username") as String) else "N/A"
+                password =
+                    if (project.hasProperty("sonatype.password")) (project.property("sonatype.password") as String) else "N/A"
+            }
+        }
     }
+
     publications {
-        create<MavenPublication>("maven") {
-            groupId = "com.capraro"
+        create<MavenPublication>("main") {
+            groupId = "io.github.rcapraro"
             artifactId = "kalidation"
             version = project.version.toString()
 
             from(components["java"])
 
+            artifact(tasks["dokkaJar"])
+
             pom {
                 name.set("Kalidation")
                 description.set("JSR380 Validation DSL in Kotlin")
                 url.set("https://github.com/rcapraro/kalidation")
+                inceptionYear.set("2018")
                 licenses {
                     license {
                         name.set("The MIT license")
                         url.set("https://opensource.org/licenses/MIT")
+                        distribution.set("repo")
                     }
                 }
                 developers {
@@ -104,11 +130,16 @@ publishing {
                     }
                 }
                 scm {
+                    url.set("https://github.com/rcapraro/kalidation")
                     connection.set("scm:git:git@github.com:rcapraro/kalidation.git")
                     developerConnection.set("scm:git:git@github.com:rcapraro/kalidation.git")
-                    url.set("https://github.com/rcapraro/kalidation")
                 }
             }
         }
     }
+}
+
+signing {
+    useGpgCmd()
+    sign(publishing.publications["main"])
 }
