@@ -2,6 +2,7 @@
 
 *Kalidation = A Kotlin validation DSL*
 
+[![Maven artifact](https://img.shields.io/maven-central/v/io.github.rcapraro/kalidation)](https://search.maven.org/artifact/io.github.rcapraro/kalidation)
 [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/rcapraro/kalidation)](https://github.com/rcapraro/kalidation/releases/latest)
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/rcapraro/kalidation/Publish%20package%20to%20GitHub%20Packages)
 ![GitHub](https://img.shields.io/github/license/rcapraro/kalidation)
@@ -88,7 +89,8 @@ val validated = spec.validate(myClass)
 In this example, `validated` is an [Arrow](https://arrow-kt.io) `Validated` object, which we can transform through Arrow
 built-in functions: `when`, `fold`, `getOrElse`, `map`, etc.
 
-There is also an alternative validation-function called `validateNel`, which returns the Arrow type `NonEmptyList<ValidationResult>`.
+There is also an alternative validation-function called `validateNel`, which returns the Arrow
+type `NonEmptyList<ValidationResult>`.
 
 See [Arrow Validated](https://arrow-kt.io/docs/datatypes/validated/#validated) for more documentation.
 
@@ -115,11 +117,11 @@ when (validated) {
 _Monad comprehension_:
 
 You can also use the right side of the validated result to operate a monad comprehension on the validated class:
-  
+
 ```kotlin
 val validated = spec.validate(myClass)
-                    .map { it.doSomething() } //it is myClass
-                    //etc
+    .map { it.doSomething() } //it is myClass
+//etc
 ```
 
 _Structure of the validation result_:
