@@ -11,12 +11,10 @@ trap cleanup SIGINT SIGTERM ERR EXIT
 
 echo "🚀 Preparing to deploy..."
 
-echo "🔑 Decrypting 'richard-capraro-sign.asc'..."
+echo "🔑 Decrypting files..."
 
 gpg --quiet --batch --yes --decrypt --passphrase="${GPG_SECRET}" \
 --output richard-capraro-sign.asc .build/richard-capraro-sign.asc.gpg
-
-echo "🔑 Decrypting 'gradle.properties'..."
 
 gpg --quiet --batch --yes --decrypt --passphrase="${GPG_SECRET}" \
     --output gradle.properties .build/gradle.properties.gpg
