@@ -7,7 +7,7 @@ plugins {
     id("com.jfrog.bintray") version "1.8.5"
     id("maven-publish")
     id("jacoco")
-    id("org.jetbrains.dokka") version "1.4.30"
+    id("org.jetbrains.dokka") version "1.4.32"
     id("se.patrikerdes.use-latest-versions") version "0.2.15"
     id("com.github.ben-manes.versions") version "0.38.0"
     signing
@@ -68,6 +68,16 @@ ktlint {
     version.set("0.41.0")
 }
 
+java {
+    withSourcesJar()
+}
+
+tasks.register<Jar>("dokkaJar") {
+    archiveClassifier.set("javadoc")
+    dependsOn("dokkaJavadoc")
+    from("$buildDir/dokka/javadoc/")
+}
+
 publishing {
     repositories {
         maven {
@@ -97,6 +107,8 @@ publishing {
             version = project.version.toString()
 
             from(components["java"])
+
+            artifact(tasks["dokkaJar"])
 
             pom {
                 name.set("Kalidation")
