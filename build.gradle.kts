@@ -80,7 +80,7 @@ publishing {
         }
         maven {
             name = "OSSRH"
-            url = uri("https://s01.oss.sonatype.org")
+            url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
             credentials {
                 username =
                     if (project.hasProperty("sonatype.username")) (project.property("sonatype.username") as String) else "N/A"
