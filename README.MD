@@ -46,6 +46,17 @@ the [Clean Architecture](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clea
 
 **Usage**
 
+For **Kalidation** to work, you need to add the `jakarta-validation` and `jakarta-el` dependencies.
+
+Example for gradle:
+```
+implementation("io.github.rcapraro:kalidation:1.8.0")
+implementation("jakarta.validation:jakarta.validation-api:3.0.0")
+implementation("org.glassfish:jakarta.el:4.0.1")
+```
+
+You can then build a `validationSpec` object with the DSL:
+
 ```kotlin
 val spec = validationSpec(messageBundle = "MyMessages", locale = Locale.FRENCH) {
     constraints<MyClass> {
@@ -139,6 +150,12 @@ data class ValidationResult(
 
 The `ValidationResult` object contains the name and the value of the field in error, the message template and the i18n
 corresponding message.
+
+**Complete example**
+
+The following examples illustrates the use of **Kalidation** in a typical **Spring Boot** application, structured in a *Clean Architecture* way:
+
+https://github.com/rcapraro/cleanarch
 
 **Implemented validation functions on properties**
 
