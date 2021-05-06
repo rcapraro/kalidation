@@ -46,11 +46,12 @@ the [Clean Architecture](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clea
 
 **Usage**
 
-For **Kalidation** to work, you need to add the `jakarta-validation` and `jakarta-el` dependencies.
+For **Kalidation** to work, you need to add the `arrow-core`, `jakarta-validation` and `jakarta-el` dependencies.
 
 Example for gradle:
 ```
 implementation("io.github.rcapraro:kalidation:1.8.0")
+implementation("io.arrow-kt:arrow-core:0.13.1")
 implementation("jakarta.validation:jakarta.validation-api:3.0.0")
 implementation("org.glassfish:jakarta.el:4.0.1")
 ```
