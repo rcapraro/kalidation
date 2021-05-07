@@ -92,15 +92,16 @@ data class ValidationSpec(val constraints: MutableList<ClassConstraint<out Any>>
                     )
                 }
 
-                validationResult.addAll(
-                    validator
-                        .forExecutables()
-                        .validateReturnValue(
-                            constrainedClass,
-                            it.constrainedMethod.javaMethod,
-                            it.constrainedMethod.call(constrainedClass)
-                        )
-                )
+                validationResult
+                    .addAll(
+                        validator
+                            .forExecutables()
+                            .validateReturnValue(
+                                constrainedClass,
+                                it.constrainedMethod.javaMethod,
+                                it.constrainedMethod.call(constrainedClass)
+                            )
+                    )
             }
         }
 
@@ -117,7 +118,10 @@ data class ValidationSpec(val constraints: MutableList<ClassConstraint<out Any>>
     }
 
     private fun <T> buildFieldName(violation: ConstraintViolation<T>, aliases: Map<Pair<Any, String>, String>): String {
-        return aliases[violation.rootBeanClass.name to violation.propertyPath.toString().substringBefore(".")]
+        return aliases[
+            violation.rootBeanClass.name to violation.propertyPath.toString()
+                .substringBefore(".")
+        ]
             ?: violation.propertyPath.joinToString(".") { it.name }
     }
 }

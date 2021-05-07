@@ -16,6 +16,8 @@ plugins {
 group = "io.github.rcapraro"
 version = "1.8.0"
 
+extra["isReleaseVersion"] = !version.toString().endsWith("SNAPSHOT")
+
 repositories {
     mavenCentral()
 }
@@ -140,6 +142,9 @@ publishing {
 }
 
 signing {
+    setRequired({
+        (project.extra["isReleaseVersion"] as Boolean) && gradle.taskGraph.hasTask("publish")
+    })
     useGpgCmd()
     sign(publishing.publications["main"])
 }

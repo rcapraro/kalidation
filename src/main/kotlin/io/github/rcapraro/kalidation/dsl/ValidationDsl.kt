@@ -57,25 +57,17 @@ fun validationSpec(
 inline fun <reified T : Any> ValidationSpec.constraints(block: (@ValidationSpecMarker ClassConstraint<T>).() -> Unit) =
     this.constraints.add(ClassConstraint(T::class).apply(block))
 
-fun <T : Any, P : Any?> ClassConstraint<T>.property(
-    property: KProperty1<T, P>,
-    block: (@ValidationSpecMarker PropertyConstraint<T, P>).() -> Unit
-) =
+fun <T : Any, P : Any?> ClassConstraint<T>.property(property: KProperty1<T, P>, block: (@ValidationSpecMarker PropertyConstraint<T, P>).() -> Unit) =
     this.propertyConstraints.add(PropertyConstraint(property).apply(block))
 
 fun <T : Any, P : Collection<U?>, U : Any> PropertyConstraint<T, P>.eachElement(block: (@ValidationSpecMarker ContainerElementType<T, P, U>).() -> Unit) =
-    this.containerElementsTypes.add(
-        ContainerElementType<T, P, U>(this.constrainedProperty, NonEmptyList.fromListUnsafe(listOf(0))).apply(
-            block
-        )
-    )
+    this.containerElementsTypes.add(ContainerElementType<T, P, U>(this.constrainedProperty, NonEmptyList.fromListUnsafe(listOf(0))).apply(block))
 
 fun <T : Any, P : Any?, U : Any> PropertyConstraint<T, P>.eachElement(
     type: KClass<U>,
     indexes: NonEmptyList<Int> = NonEmptyList.fromListUnsafe(listOf(0)),
     block: (@ValidationSpecMarker ContainerElementType<T, P, U>).() -> Unit
-) =
-    this.containerElementsTypes.add(ContainerElementType<T, P, U>(this.constrainedProperty, indexes).apply(block))
+) = this.containerElementsTypes.add(ContainerElementType<T, P, U>(this.constrainedProperty, indexes).apply(block))
 
 inline fun <reified T : Any, R : Any?> ClassConstraint<T>.returnOf(
     method: KFunction<R>,

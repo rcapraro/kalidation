@@ -26,7 +26,7 @@ class ClassWithMethods(
         return field1 + field2
     }
 
-    fun methodWithArguments(arg1: Any): Any? {
+    fun methodWithArguments(arg1: Any): Any {
         return arg1
     }
 }

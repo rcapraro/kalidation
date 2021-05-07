@@ -49,10 +49,6 @@ import java.util.Locale
  */
 class HibernateValidatorFactory(private val spec: ValidationSpec) {
 
-    class ConstraintRuleTranslator<C : ConstraintRule>(private val block: (C) -> ConstraintDef<*, *>) {
-        fun translate(c: C): ConstraintDef<*, *> = block.invoke(c)
-    }
-
     private fun createConstraintMapping(spec: ValidationSpec): ConstraintMapping {
         return with(spec) {
             val constraintMapping = DefaultConstraintMapping(
@@ -68,7 +64,7 @@ class HibernateValidatorFactory(private val spec: ValidationSpec) {
 
                     createContainerConstraintMapping(propertyConstraint, propertyMapping)
 
-                    propertyConstraint.constraintRules.forEach { rule: ConstraintRule ->
+                    propertyConstraint.constraintRules.forEach { rule ->
                         val context = propertyMapping.constraint(translateConstraintDef(rule))
                         if (rule is Valid) context.valid()
                     }
@@ -76,7 +72,7 @@ class HibernateValidatorFactory(private val spec: ValidationSpec) {
 
                 constraint.methodConstraints.forEach { methodConstraint ->
                     val methodReturnValue = typeMapping.method(methodConstraint.constrainedMethod.name).returnValue()
-                    methodConstraint.constraintRules.forEach { rule: ConstraintRule ->
+                    methodConstraint.constraintRules.forEach { rule ->
                         methodReturnValue.constraint(translateConstraintDef(rule))
                     }
                 }
@@ -95,7 +91,7 @@ class HibernateValidatorFactory(private val spec: ValidationSpec) {
                     containerElementType.indexes.head,
                     *containerElementType.indexes.tail.toIntArray()
                 )
-                containerElementType.constraintRules.forEach { rule: ConstraintRule ->
+                containerElementType.constraintRules.forEach { rule ->
                     val context = hvContainerElementType.constraint(rule.translate())
                     if (rule is Valid) context.valid()
                 }
