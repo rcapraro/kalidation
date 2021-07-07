@@ -247,7 +247,7 @@ returnOf(Foo::validate) {
 }
 ```
 
-The method `returOf` accepts an optional `alias` parameter to report the violation on a specific property rather than
+The method `returnOf` accepts an optional `alias` parameter to report the violation on a specific property rather than
 the method.
 
 In this example, if the method validate returns `false`, the `ValidationResult` object will look like:
