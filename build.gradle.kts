@@ -14,7 +14,7 @@ plugins {
 }
 
 group = "io.github.rcapraro"
-version = "1.8.1"
+version = "1.9.0"
 
 extra["isReleaseVersion"] = !version.toString().endsWith("SNAPSHOT")
 
