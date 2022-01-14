@@ -195,6 +195,7 @@ https://github.com/rcapraro/cleanarch
 * notBlank()
 * notEmpty()
 * size(val min: Int, val max: Int)
+* size(size: Int)
 * regexp(val regexp: String)
 * email()
 * phoneNumber(val regionCode: String)

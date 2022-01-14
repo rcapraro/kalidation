@@ -28,7 +28,8 @@ class StringTestClass(
     val field1: String?,
     val field2: String,
     val field3: String,
-    val field4: String? = "0.0"
+    val field4: String? = "0.0",
+    val field5: String = "FOO"
 )
 
 class StringValidationTest {
@@ -52,6 +53,9 @@ class StringValidationTest {
                     notBlank()
                     phoneNumber("FR")
                     phoneNumber("US")
+                }
+                property(StringTestClass::field5) {
+                    size(3)
                 }
             }
         }

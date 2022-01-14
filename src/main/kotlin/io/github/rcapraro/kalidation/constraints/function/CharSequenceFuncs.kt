@@ -27,6 +27,7 @@ package io.github.rcapraro.kalidation.constraints.function
 import io.github.rcapraro.kalidation.constraints.rule.CsDecimalMax
 import io.github.rcapraro.kalidation.constraints.rule.CsDecimalMin
 import io.github.rcapraro.kalidation.constraints.rule.CsDigits
+import io.github.rcapraro.kalidation.constraints.rule.CsExactSize
 import io.github.rcapraro.kalidation.constraints.rule.CsMax
 import io.github.rcapraro.kalidation.constraints.rule.CsMin
 import io.github.rcapraro.kalidation.constraints.rule.CsNegative
@@ -60,6 +61,10 @@ fun Constraint<out Any, out CharSequence?>.notEmpty(message: String? = null) {
 
 fun Constraint<out Any, out CharSequence?>.size(min: Int = 0, max: Int = Int.MAX_VALUE, message: String? = null) {
     constraintRules.add(CsSize(min, max, message))
+}
+
+fun Constraint<out Any, out CharSequence?>.size(size: Int = 0, message: String? = null) {
+    constraintRules.add(CsExactSize(size, message))
 }
 
 fun Constraint<out Any, out CharSequence?>.regexp(regexp: String, message: String? = null) {

@@ -24,6 +24,7 @@
 
 package io.github.rcapraro.kalidation.constraints.rule
 
+import io.github.rcapraro.kalidation.constraints.def.CsExactSizeDef
 import io.github.rcapraro.kalidation.constraints.def.CsNegativeDef
 import io.github.rcapraro.kalidation.constraints.def.CsNegativeOrZeroDef
 import io.github.rcapraro.kalidation.constraints.def.CsPositiveDef
@@ -134,6 +135,8 @@ class NotBlank(override val message: String?) : ConstraintRule(message, NotBlank
 class CsNotEmpty(override val message: String?) : ConstraintRule(message, NotEmptyDef())
 class CsSize(min: Int, max: Int, override val message: String?) :
     ConstraintRule(message, SizeDef().min(min).max(max))
+class CsExactSize(size: Int, override val message: String?) :
+    ConstraintRule(message, CsExactSizeDef().size(size))
 
 class Regexp(regexp: String, override val message: String?) :
     ConstraintRule(message, PatternDef().regexp(regexp))
