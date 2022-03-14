@@ -2,19 +2,19 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.4.32"
-    id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
-    id("com.adarshr.test-logger") version "3.0.0"
+    id("org.jlleitschuh.gradle.ktlint") version "10.2.1"
+    id("com.adarshr.test-logger") version "3.2.0"
     id("com.jfrog.bintray") version "1.8.5"
     id("maven-publish")
     id("jacoco")
-    id("org.jetbrains.dokka") version "1.4.32"
-    id("se.patrikerdes.use-latest-versions") version "0.2.15"
-    id("com.github.ben-manes.versions") version "0.38.0"
+    id("org.jetbrains.dokka") version "1.6.10"
+    id("se.patrikerdes.use-latest-versions") version "0.2.18"
+    id("com.github.ben-manes.versions") version "0.42.0"
     signing
 }
 
 group = "io.github.rcapraro"
-version = "1.9.0"
+version = "1.9.1"
 
 extra["isReleaseVersion"] = !version.toString().endsWith("SNAPSHOT")
 
@@ -22,15 +22,15 @@ repositories {
     mavenCentral()
 }
 
-val junitJupiterVersion = "5.7.1"
-val arrowVersion = "0.13.1"
-val jakartaBeanValidationVersion = "3.0.0"
+val junitJupiterVersion = "5.8.2"
+val arrowVersion = "1.0.1"
+val jakartaBeanValidationVersion = "3.0.1"
 val jakartaElVersion = "4.0.0"
-val glassfishElVersion = "4.0.1"
+val glassfishElVersion = "4.0.2"
 val hibernateValidatorVersion = "7.0.1.Final"
-val libPhoneNumberVersion = "8.12.21"
-val groovyVersion = "3.0.7"
-val assertJVersion = "3.19.0"
+val libPhoneNumberVersion = "8.12.45"
+val groovyVersion = "3.0.10"
+val assertJVersion = "3.22.0"
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -39,7 +39,7 @@ dependencies {
     implementation("org.glassfish:jakarta.el:$glassfishElVersion")
     implementation("org.hibernate:hibernate-validator:$hibernateValidatorVersion")
     implementation("com.googlecode.libphonenumber:libphonenumber:$libPhoneNumberVersion")
-    implementation("org.apache.commons:commons-jexl3:3.1")
+    implementation("org.apache.commons:commons-jexl3:3.2.1")
     implementation("org.codehaus.groovy:groovy-jsr223:$groovyVersion")
     implementation("io.arrow-kt:arrow-core:$arrowVersion")
     testImplementation(platform("org.junit:junit-bom:$junitJupiterVersion"))
@@ -63,11 +63,11 @@ tasks.withType<Wrapper> {
 }
 
 jacoco {
-    toolVersion = "0.8.6"
+    toolVersion = "0.8.7"
 }
 
 ktlint {
-    version.set("0.41.0")
+    version.set("0.44.0")
 }
 
 java {

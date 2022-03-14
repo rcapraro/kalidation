@@ -50,10 +50,10 @@ For **Kalidation** to work, you need to add the `arrow-core`, `jakarta-validatio
 
 Example for gradle:
 ```
-implementation("io.github.rcapraro:kalidation:1.8.0")
-implementation("io.arrow-kt:arrow-core:0.13.1")
-implementation("jakarta.validation:jakarta.validation-api:3.0.0")
-implementation("org.glassfish:jakarta.el:4.0.1")
+implementation("io.github.rcapraro:kalidation:1.9.1")
+implementation("io.arrow-kt:arrow-core:1.0.1")
+implementation("jakarta.validation:jakarta.validation-api:3.0.1")
+implementation("org.glassfish:jakarta.el:4.0.2")
 ```
 
 You can then build a `validationSpec` object with the DSL:
