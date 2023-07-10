@@ -51,7 +51,7 @@ For **Kalidation** to work, you need to add the `arrow-core`, `jakarta-validatio
 Example for gradle:
 ```
 implementation("io.github.rcapraro:kalidation:1.9.1")
-implementation("io.arrow-kt:arrow-core:1.0.1")
+implementation("io.arrow-kt:arrow-core:1.2.0-RC")
 implementation("jakarta.validation:jakarta.validation-api:3.0.1")
 implementation("org.glassfish:jakarta.el:4.0.2")
 ```
@@ -98,13 +98,13 @@ val myClass = MyClass("BLUE", "foobar", LocalDateTime.parse("2017-12-03T10:15:30
 val validated = spec.validate(myClass) 
 ```
 
-In this example, `validated` is an [Arrow](https://arrow-kt.io) `Validated` object, which we can transform through Arrow
+In this example, `validated` is an [Arrow](https://arrow-kt.io) `Either` object, which we can transform through Arrow
 built-in functions: `when`, `fold`, `getOrElse`, `map`, etc.
 
 There is also an alternative validation-function called `validateNel`, which returns the Arrow
 type `NonEmptyList<ValidationResult>`.
 
-See [Arrow Validated](https://arrow-kt.io/docs/datatypes/validated/#validated) for more documentation.
+See [Arrow Validation](https://arrow-kt.io/learn/typed-errors/validation/) for more documentation.
 
 _Example with `fold`_:
 

@@ -25,6 +25,7 @@
 package io.github.rcapraro.kalidation.dsl
 
 import arrow.core.NonEmptyList
+import arrow.core.toNonEmptyListOrNull
 import io.github.rcapraro.kalidation.exception.KalidationException
 import io.github.rcapraro.kalidation.implementation.HibernateValidatorFactory
 import io.github.rcapraro.kalidation.spec.ClassConstraint
@@ -61,11 +62,11 @@ fun <T : Any, P : Any?> ClassConstraint<T>.property(property: KProperty1<T, P>, 
     this.propertyConstraints.add(PropertyConstraint(property).apply(block))
 
 fun <T : Any, P : Collection<U?>, U : Any> PropertyConstraint<T, P>.eachElement(block: (@ValidationSpecMarker ContainerElementType<T, P, U>).() -> Unit) =
-    this.containerElementsTypes.add(ContainerElementType<T, P, U>(this.constrainedProperty, NonEmptyList.fromListUnsafe(listOf(0))).apply(block))
+    this.containerElementsTypes.add(ContainerElementType<T, P, U>(this.constrainedProperty, listOf(0).toNonEmptyListOrNull()!!).apply(block))
 
 fun <T : Any, P : Any?, U : Any> PropertyConstraint<T, P>.eachElement(
     type: KClass<U>,
-    indexes: NonEmptyList<Int> = NonEmptyList.fromListUnsafe(listOf(0)),
+    indexes: NonEmptyList<Int> = listOf(0).toNonEmptyListOrNull()!!,
     block: (@ValidationSpecMarker ContainerElementType<T, P, U>).() -> Unit
 ) = this.containerElementsTypes.add(ContainerElementType<T, P, U>(this.constrainedProperty, indexes).apply(block))
 

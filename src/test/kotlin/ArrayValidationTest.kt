@@ -27,7 +27,7 @@ class ArrayValidationTest {
 
         val validated = spec.validate(dslTest)
 
-        assertThat(validated.isInvalid)
+        assertThat(validated.isLeft())
 
         validated.fold(
             {
