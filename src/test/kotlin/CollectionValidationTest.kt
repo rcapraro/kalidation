@@ -28,7 +28,7 @@ class CollectionValidationTest {
 
         val validated = spec.validate(dslTest)
 
-        assertThat(validated.isInvalid)
+        assertThat(validated.isLeft())
 
         validated.fold(
             {
@@ -52,7 +52,7 @@ class CollectionValidationTest {
 
         val validated = spec.validate(dslTest)
 
-        assertThat(validated.isInvalid)
+        assertThat(validated.isLeft())
 
         validated.fold(
             {
@@ -76,7 +76,7 @@ class CollectionValidationTest {
 
         val validated = spec.validate(dslTest)
 
-        assertThat(validated.isInvalid)
+        assertThat(validated.isLeft())
 
         validated.fold(
             {
@@ -100,7 +100,7 @@ class CollectionValidationTest {
 
         val validated = spec.validate(dslTest)
 
-        assertThat(validated.isValid)
+        assertThat(validated.isRight())
     }
 
     @Test
@@ -116,6 +116,6 @@ class CollectionValidationTest {
 
         val validated = spec.validate(dslTest)
 
-        assertThat(validated.isValid)
+        assertThat(validated.isRight())
     }
 }

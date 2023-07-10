@@ -27,7 +27,7 @@ class ValidationWithNonEmptyListTest {
 
         val validated = spec.validateNel(dslTest)
 
-        assertThat(validated.isInvalid)
+        assertThat(validated.isLeft())
 
         validated.fold(
             {

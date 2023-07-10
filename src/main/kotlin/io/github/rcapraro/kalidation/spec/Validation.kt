@@ -24,11 +24,12 @@
 
 package io.github.rcapraro.kalidation.spec
 
-import arrow.core.Invalid
+import arrow.core.Either
 import arrow.core.Nel
 import arrow.core.NonEmptyList
-import arrow.core.Valid
-import arrow.core.Validated
+import arrow.core.left
+import arrow.core.right
+import arrow.core.toNonEmptyListOrNull
 import io.github.rcapraro.kalidation.constraints.rule.ConstraintRule
 import io.github.rcapraro.kalidation.exception.KalidationException
 import jakarta.validation.ConstraintViolation
@@ -51,23 +52,18 @@ import kotlin.reflect.jvm.javaMethod
 data class ValidationSpec(val constraints: MutableList<ClassConstraint<out Any>> = mutableListOf()) {
     internal lateinit var validator: Validator
 
-    fun <T> validateNel(constrainedClass: T): Validated<Nel<ValidationResult>, T> where T : Any {
+    fun <T> validateNel(constrainedClass: T): Either<Nel<ValidationResult>, T> where T : Any {
         val validationResults = innerValidate(constrainedClass)
-
-        return if (validationResults.isEmpty()) {
-            Valid(constrainedClass)
-        } else {
-            Invalid(Nel.fromListUnsafe(validationResults))
-        }
+        return validationResults.toNonEmptyListOrNull()?.left() ?: constrainedClass.right()
     }
 
-    fun <T> validate(constrainedClass: T): Validated<Set<ValidationResult>, T> where T : Any {
+    fun <T> validate(constrainedClass: T): Either<Set<ValidationResult>, T> where T : Any {
         val validationResult = innerValidate(constrainedClass).toSet()
 
         return if (validationResult.isEmpty()) {
-            Valid(constrainedClass)
+            constrainedClass.right()
         } else {
-            Invalid(validationResult)
+            validationResult.left()
         }
     }
 

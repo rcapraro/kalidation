@@ -53,7 +53,7 @@ class ScriptValidationTest {
 
         val validated = spec.validate(dslTest)
 
-        assertThat(validated.isValid)
+        assertThat(validated.isRight())
     }
 
     @Test
@@ -71,7 +71,7 @@ class ScriptValidationTest {
 
         val validated = spec.validate(dslTest)
 
-        assertThat(validated.isValid)
+        assertThat(validated.isRight())
     }
 
     @Test
@@ -112,7 +112,7 @@ class ScriptValidationTest {
 
         val validated = spec.validate(dslTest)
 
-        assertThat(validated.isValid)
+        assertThat(validated.isRight())
     }
 
     @Test
@@ -153,6 +153,6 @@ class ScriptValidationTest {
 
         val validated = spec.validate(dslTest)
 
-        assertThat(validated.isValid)
+        assertThat(validated.isRight())
     }
 }
